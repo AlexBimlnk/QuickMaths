@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QuickMathsBL\QuickMathsBL.csproj">
+      <Project>{6e645a3f-bf22-4ed0-8af2-fe80e51076fa}</Project>
+      <Name>QuickMathsBL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
