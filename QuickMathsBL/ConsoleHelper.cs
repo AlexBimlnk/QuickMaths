@@ -16,7 +16,7 @@ namespace QuickMathsBL
             CREATE
         }
 
-        private static Dictionary<string, string> consoleCommand = new Dictionary<string, string>()
+        private static Dictionary<string, string> commandDict = new Dictionary<string, string>()
         {
             {"HELP", "Write all command in console." },
             {"EXIT", "Close ConsoleHelper." },
@@ -70,7 +70,7 @@ namespace QuickMathsBL
 
         private static void Help()
         {
-            foreach (var i in consoleCommand)
+            foreach (var i in commandDict)
             {
                 Console.WriteLine($"\tCommand {i.Key}");
                 Console.WriteLine($"\t\t{i.Value}\n");
