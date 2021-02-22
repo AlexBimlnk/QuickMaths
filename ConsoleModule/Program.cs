@@ -12,6 +12,7 @@ namespace ConsoleModule
         static void Main(string[] args)
         {
             //TODO
+            //text
             SimpleFunction mySimpleFunc = new SimpleFunction(1, SimpleFunction.TypeFuncion.LinearFunction);
             SimpleFunction mySimpleFunc2 = new SimpleFunction(2);
             SimpleFunction mySimpleFunc3 = new SimpleFunction(SimpleFunction.E);
