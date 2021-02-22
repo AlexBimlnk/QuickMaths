@@ -8,9 +8,10 @@ namespace QuickMathsBL
 {
     public class SimpleFunction
     {
-        public enum SimpleFunc
+        public enum TypeFuncion
         {
             Unkown,
+            NumberFunction,
             LinearFunction,
             PowerFunction
         }
@@ -20,13 +21,54 @@ namespace QuickMathsBL
 
         private double kof;
         private string typeFunction;
+        private string stringEquals = "1";
 
         //Contructor
-        public SimpleFunction(double _kof, SimpleFunc _typeSimpleFunc = SimpleFunc.Unkown)
+        public SimpleFunction(double _kof, TypeFuncion _typeSimpleFunc = TypeFuncion.Unkown)
         {
             kof = _kof;
             typeFunction = _typeSimpleFunc.ToString();
         }
+
+        #region Функции
+        private static List<SimpleFunction> SplitOnSimpleFunction(string function)
+        {
+            List<SimpleFunction> functionsList = new List<SimpleFunction>();
+            //TODO
+
+
+            return functionsList;
+        }
+
+
+        public override string ToString()
+        {
+            return stringEquals;
+        }
+
+        public static bool Equals(SimpleFunction obj1, SimpleFunction obj2)
+        {
+            if (obj1.ToString() == obj2.ToString())
+                return true;
+            return false;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ToString() == obj.ToString())
+                return true;
+            return false;
+        }
+
+        //?
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        #endregion
+
+        #region Свойства
 
         public double GetKofFunction
         {
@@ -46,5 +88,7 @@ namespace QuickMathsBL
         {
             get { return pi; }
         }
+
+        #endregion
     }
 }
