@@ -25,6 +25,8 @@ namespace ConsoleModule
             Console.WriteLine(SimpleFunction.Equals(mySimpleFunc, mySimpleFunc2));
             Function f = new Function(1);
             Console.WriteLine(f.GetTypeFunction);
+            ConsoleHelper.Start();
+            Console.ReadLine();
             Console.ReadKey();
         }
     }
