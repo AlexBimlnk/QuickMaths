@@ -72,9 +72,7 @@ namespace QuickMathsBL
         private static void ReturnVariable()
         {
             foreach(var i in variableDict)
-            {
                 Console.WriteLine($"\tVariable name: {i.Key} Class: {i.Value.GetType()}\n");
-            }
         }
 
         private static void Create()
@@ -94,26 +92,19 @@ namespace QuickMathsBL
             }
             if (find)
             {
-                switch (className.ToUpper())
-                {
-                    case "SF":
-                        Console.Write("\t\tWrite name of object class SF: ");
-                        string variableName = Console.ReadLine();
-                        Console.Write("\t\tWrite koef: ");
-                        int koef = Int32.Parse(Console.ReadLine());
-                        SimpleFunction itemSF = new SimpleFunction(koef);
-                        variableDict.Add(variableName, itemSF);
-                        break;
-                    case "F":
-                        Console.Write("\t\tWrite name of object class F: ");
-                        string variableName1 = Console.ReadLine();
-                        Console.Write("\t\tWrite koef: ");
-                        int koef1 = Int32.Parse(Console.ReadLine());
-                        Function itemF = new Function(koef1);
-                        variableDict.Add(variableName1, itemF);
-                        break;
-                }
+                Console.Write("\t\tWrite name of object class SF: ");
+                string variableName = Console.ReadLine();
+                Console.Write("\t\tWrite koef: ");
+                int koef = Int32.Parse(Console.ReadLine());
+                object item = default;
 
+                if (className.ToUpper() == "SF")
+                    item = new SimpleFunction(koef);
+
+                if (className.ToUpper() == "F")
+                    item = new Function(koef);
+
+                variableDict.Add(variableName, item);
             }
             else
                 Console.WriteLine($"\tKey {className} incorrect.\n");
