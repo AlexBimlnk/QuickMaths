@@ -95,14 +95,14 @@ namespace QuickMathsBL
                 Console.Write("\t\tWrite name of object class SF: ");
                 string variableName = Console.ReadLine();
                 Console.Write("\t\tWrite koef: ");
-                int koef = Int32.Parse(Console.ReadLine());
+                string functionName = Console.ReadLine();
                 object item = default;
 
                 if (className.ToUpper() == "SF")
-                    item = new SimpleFunction(koef);
+                    item = new SimpleFunction(functionName);
 
                 if (className.ToUpper() == "F")
-                    item = new Function(koef);
+                    item = new Function(functionName);
 
                 variableDict.Add(variableName, item);
             }

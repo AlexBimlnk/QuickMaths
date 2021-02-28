@@ -9,10 +9,10 @@ namespace QuickMathsBL
     public class Function : SimpleFunction
     {
         //TODO
-        private double koef;
-        public Function(double _kof) : base(_kof)
+        private string stringEquals = "1";
+        public Function(string _function) : base(_function)
         {
-            koef = _kof;
+            stringEquals = _function;
         }
         public static void DS()
         {
