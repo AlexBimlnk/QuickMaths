@@ -8,6 +8,7 @@ namespace QuickMathsBL
 {
     public class SimpleFunction
     {
+        //Расставить веса?
         public enum TypeFuncion
         {
             Unkown,
