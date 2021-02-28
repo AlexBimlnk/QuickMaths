@@ -8,12 +8,6 @@ namespace QuickMathsBL
 {
     public class Node
     {
-        public enum Branch
-        {
-            Left,
-            Right
-        }
-
         public SimpleFunction ThisNode { get; set; }
         public Node LeftNode { get; set; }
         public Node RightNode { get; set; }
