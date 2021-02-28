@@ -8,18 +8,17 @@ namespace QuickMathsBL
 {
     public class Node
     {
-        public SimpleFunction ThisNode { get; set; }
+
         public Node LeftNode { get; set; }
         public Node RightNode { get; set; }
-        public string Data { get; set; }
-
-        public Node(SimpleFunction _node)
+        public SimpleFunction Data { get; set; }
+        public Node(SimpleFunction _data)
         {
-            ThisNode = _node;
+            Data = _data;
         }
 
         //TODO
-        public void Add(SimpleFunction _node, string _data)
+        public void Add(SimpleFunction _data)
         {
             
         }

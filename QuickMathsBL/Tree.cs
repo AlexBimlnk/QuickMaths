@@ -10,17 +10,17 @@ namespace QuickMathsBL
     {
 
         public Node RootNode { get; set; }
-        public string DataRoot { get; set; }
+        public SimpleFunction DataRoot { get; set; }
 
-        public Tree(SimpleFunction _node)
+        public Tree(SimpleFunction _data)
         {
-            RootNode = new Node(_node);
-            DataRoot = _node.GetKofFunction.ToString();
+            RootNode = new Node(_data);
+            DataRoot = _data;
         }
 
-        public void Add(SimpleFunction _node, string _data)
+        public void Add(SimpleFunction _data)
         {
-            RootNode.Add(_node, _data);
+            RootNode.Add(_data);
         }
     }
 }
