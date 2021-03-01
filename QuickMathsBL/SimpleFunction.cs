@@ -65,22 +65,20 @@ namespace QuickMathsBL
         {
             int result;
             string name = function.ToString();
-            try
-            {
-                Convert.ToInt32(name);
+            if(int.TryParse(name, out result))
                 function.typeFunction = TypeFuncion.NumberFunction.ToString();
-                return;
-            }catch(FormatException) {};
 
-            if (name.Contains("^"))
+            else if (name.Contains("^"))
             {
                 if (int.TryParse(name[name.IndexOf("^") - 1].ToString(), out result))
                     function.typeFunction = TypeFuncion.ExponentialFunction.ToString();
                 else
                     function.typeFunction = TypeFuncion.PowerFunction.ToString();
             }
+
             else if (name.Contains("log"))
                 function.typeFunction = TypeFuncion.LogarithmicFunction.ToString();
+
             else
                 function.typeFunction = TypeFuncion.LinearFunction.ToString();
         }
