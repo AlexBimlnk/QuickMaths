@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace QuickMathsBL
 {
-    public class Function : SimpleFunction
+    public class Function
     {
         //TODO
         public string FunctionString { get; set; }
 
         private Tree functionTree;
 
-        public Function(string _function) : base(_function)
+        public Function(string _function)
         {
             FunctionString = _function;
             if (IsCorrect(ref _function))
@@ -22,13 +22,13 @@ namespace QuickMathsBL
 
         private static bool IsComplex(ref string s)
         {
-            int fsk = s.IndexOf('(');
-            int lsk = s.LastIndexOf(')');
+            int firstSk = s.IndexOf('(');
+            int lastSk = s.LastIndexOf(')');
 
-            if (fsk == -1 || lsk == -1)
+            if (firstSk == -1 || lastSk == -1)
                 return false;
 
-            s = s.Substring(fsk + 1, lsk - fsk - 1);
+            s = s.Substring(firstSk + 1, lastSk - firstSk - 1);
 
             return true;
         }
@@ -38,15 +38,15 @@ namespace QuickMathsBL
             s += c;
             int start = 0;
             List<string> ans = new List<string>();
-            int skobka_check = 0;
+            int skobkaCheck = 0;
             for (int i = 0; i < s.Length; i++)
             {
                 if (s[i] == '(')
-                    skobka_check++;
+                    skobkaCheck++;
                 if (s[i] == ')')
-                    skobka_check--;
+                    skobkaCheck--;
 
-                if (skobka_check == 0)
+                if (skobkaCheck == 0)
                 {
                     if (s[i] == c)
                     {
@@ -60,6 +60,7 @@ namespace QuickMathsBL
             return ans;
         }
 
+        //Заменять константы на чилса (е = 2.7 и т.д)
         private static bool IsCorrect(ref string s)
         {
             for (int i = 0; i < s.Length; i++)

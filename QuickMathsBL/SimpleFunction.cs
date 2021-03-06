@@ -19,12 +19,10 @@ namespace QuickMathsBL
             LogarithmicFunction     //Логарифмическая
         }
 
-        private static double e = Math.E;
-        private static double pi = Math.PI;
-
-
 
         public string functionString = "";
+
+        private double digit; 
 
         private TypeFuncion typeFunction;
 
@@ -33,58 +31,10 @@ namespace QuickMathsBL
         {
             functionString = function;
             SetTypeFunction();
+            SetDigit();
         }
 
         #region Функции
-        //public static List<SimpleFunction> SplitOnSimpleFunction(Function function)
-        //{
-        //    List<SimpleFunction> functionsList = new List<SimpleFunction>();
-        //    //TODO
-
-        //    //a = function.ToString().Split();
-
-        //    SimpleFunction sim = new SimpleFunction("x");       //(a[i])
-        //    SimpleFunction sim2 = new SimpleFunction("4");
-        //    SimpleFunction sim3 = new SimpleFunction("x^2");
-        //    SimpleFunction sim4 = new SimpleFunction("32^x");
-        //    SimpleFunction sim5 = new SimpleFunction("log_2_x");
-
-        //    SimpleFunction.SetTypeFunction(sim);
-        //    SimpleFunction.SetTypeFunction(sim2);
-        //    SimpleFunction.SetTypeFunction(sim3);
-        //    SimpleFunction.SetTypeFunction(sim4);
-        //    SimpleFunction.SetTypeFunction(sim5);
-
-        //    Console.WriteLine($"Type sim = {sim.GetTypeFunction}");
-        //    Console.WriteLine($"Type sim2 = {sim2.GetTypeFunction}");
-        //    Console.WriteLine($"Type sim3 = {sim3.GetTypeFunction}");
-        //    Console.WriteLine($"Type sim4 = {sim4.GetTypeFunction}");
-        //    Console.WriteLine($"Type sim5 = {sim5.GetTypeFunction}");
-
-        //    return functionsList;
-        //}
-
-        //private static void SetTypeFunction(SimpleFunction function)
-        //{
-        //    int result;
-        //    string name = function.ToString();
-        //    if(int.TryParse(name, out result))
-        //        function.typeFunction = TypeFuncion.NumberFunction.ToString();
-
-        //    else if (name.Contains("^"))
-        //    {
-        //        if (int.TryParse(name[name.IndexOf("^") - 1].ToString(), out result))
-        //            function.typeFunction = TypeFuncion.ExponentialFunction.ToString();
-        //        else
-        //            function.typeFunction = TypeFuncion.PowerFunction.ToString();
-        //    }
-
-        //    else if (name.Contains("log"))
-        //        function.typeFunction = TypeFuncion.LogarithmicFunction.ToString();
-
-        //    else
-        //        function.typeFunction = TypeFuncion.LinearFunction.ToString();
-        //}
 
         public void SetTypeFunction()
         {
@@ -109,6 +59,29 @@ namespace QuickMathsBL
 
             else
                 this.typeFunction = TypeFuncion.Unkown;
+        }
+
+        private void SetDigit()
+        {
+            switch (typeFunction)
+            {
+                case TypeFuncion.NumberFunction:
+                    digit = Convert.ToDouble(functionString);
+                    break;
+                case TypeFuncion.LinearFunction:
+                    digit = 1;
+                    break;
+                case TypeFuncion.PowerFunction:
+                    string[] arr = functionString.Split('^');
+                    digit = Convert.ToDouble(arr[arr.Length-1]);
+                    break;
+                case TypeFuncion.ExponentialFunction:
+                    digit = Convert.ToDouble(functionString.Split('^')[0]);
+                    break;
+                case TypeFuncion.LogarithmicFunction:
+                    digit = Convert.ToDouble(functionString.Substring(3, functionString.IndexOf('(') - 3));
+                    break;
+            }
         }
 
         public override string ToString()
