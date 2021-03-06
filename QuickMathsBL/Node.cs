@@ -9,8 +9,9 @@ namespace QuickMathsBL
     public class Node
     {
 
-        public Node LeftNode { get; set; }
-        public Node RightNode { get; set; }
+        public Node MultyWay { get; set; }
+        public Node PlusWay { get; set; }
+        public Tree SubFuncTree { get; set; }
         public SimpleFunction Data { get; set; }
         public Node(SimpleFunction _data)
         {
@@ -18,9 +19,22 @@ namespace QuickMathsBL
         }
 
         //TODO
-        public void Add(SimpleFunction _data)
+        public void Add(SimpleFunction _data, bool forMultyWay)
         {
-            
+            if (forMultyWay)
+            {
+                if (MultyWay == null)
+                    MultyWay = new Node(_data);
+                else
+                    MultyWay.Add(_data, forMultyWay);
+            }
+            else
+            {
+                if (PlusWay == null)
+                    PlusWay = new Node(_data);
+                else
+                    PlusWay.Add(_data, forMultyWay);
+            }
         }
     }
 }

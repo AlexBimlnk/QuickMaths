@@ -9,18 +9,11 @@ namespace QuickMathsBL
     public class Tree //where T : IComparable
     {
 
-        public Node RootNode { get; set; }
-        public SimpleFunction DataRoot { get; set; }
+        public Node Head { get; set; }
 
-        public Tree(SimpleFunction _data)
+        public Tree(Node _head)
         {
-            RootNode = new Node(_data);
-            DataRoot = _data;
-        }
-
-        public void Add(SimpleFunction _data)
-        {
-            RootNode.Add(_data);
+            Head = _head;
         }
     }
 }
