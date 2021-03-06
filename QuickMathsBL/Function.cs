@@ -73,7 +73,7 @@ namespace QuickMathsBL
             }
             return true;
         }
-   
+        
         private static Tree BuildTree(string s)
         {
             List<string> a = Split(s, '+');

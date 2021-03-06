@@ -13,6 +13,8 @@ namespace QuickMathsBL
         public Node PlusWay { get; set; }
         public Tree SubFuncTree { get; set; }
         public SimpleFunction Data { get; set; }
+
+
         public Node(SimpleFunction _data)
         {
             Data = _data;
@@ -24,9 +26,7 @@ namespace QuickMathsBL
             if (forMultyWay)
             {
                 if (MultyWay == null)
-                {
                     MultyWay = _data;
-                }
                 else
                     MultyWay.Add(_data, forMultyWay);
             }
