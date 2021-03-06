@@ -14,8 +14,7 @@ namespace ConsoleModule
             //TODO
             //text
 
-            Function sm = new Function("1");
-            SimpleFunction.SplitOnSimpleFunction(sm);
+            Function sm = new Function("3*x^2 + 4*x + 5*(x+3)*log(x)");
             //Tree tree = new Tree(test);
             //Console.WriteLine($"Data root: {tree.DataRoot}");
             //Console.WriteLine($"Root node: {tree.RootNode}");

@@ -19,19 +19,21 @@ namespace QuickMathsBL
         }
 
         //TODO
-        public void Add(SimpleFunction _data, bool forMultyWay)
+        public void Add(Node _data, bool forMultyWay)
         {
             if (forMultyWay)
             {
                 if (MultyWay == null)
-                    MultyWay = new Node(_data);
+                {
+                    MultyWay = _data;
+                }
                 else
                     MultyWay.Add(_data, forMultyWay);
             }
             else
             {
                 if (PlusWay == null)
-                    PlusWay = new Node(_data);
+                    PlusWay = _data;
                 else
                     PlusWay.Add(_data, forMultyWay);
             }

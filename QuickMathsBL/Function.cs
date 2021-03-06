@@ -9,16 +9,18 @@ namespace QuickMathsBL
     public class Function : SimpleFunction
     {
         //TODO
-        private string stringEquals = "1";
+        public string FunctionString { get; set; }
+
+        private Tree functionTree;
+
         public Function(string _function) : base(_function)
         {
-            stringEquals = _function;
+            FunctionString = _function;
+            if (IsCorrect(ref _function))
+                functionTree = BuildTree(_function);
         }
-        public static void DS()
-        {
-            Console.WriteLine("REQ");
-        }
-        static bool is_complex(ref string s)
+
+        private static bool IsComplex(ref string s)
         {
             int fsk = s.IndexOf('(');
             int lsk = s.LastIndexOf(')');
@@ -30,7 +32,8 @@ namespace QuickMathsBL
 
             return true;
         }
-        static List<string> split(string s, char c)
+
+        private static List<string> Split(string s, char c)
         {
             s += c;
             int start = 0;
@@ -57,7 +60,7 @@ namespace QuickMathsBL
             return ans;
         }
 
-        static bool is_correct(ref string s)
+        private static bool IsCorrect(ref string s)
         {
             for (int i = 0; i < s.Length; i++)
             {
@@ -65,99 +68,45 @@ namespace QuickMathsBL
                 {
                     s = s.Remove(i, 1);
                     i--;
-
                 }
             }
             return true;
         }
-
-        static TypeFuncion _GetType(string s)
+   
+        private static Tree BuildTree(string s)
         {
-            if (s[s.Length - 1] == ')')
-            {
-                if (s[0] == '(')
-                    return TypeFuncion.LinearFunction;
-            }
-            if (s.Length >= 3 && s.Substring(0, 3) == "log")
-                return TypeFuncion.LogarithmicFunction;
-
-            if (s[0] == 'e')
-                return TypeFuncion.ExponentialFunction;
-
-            if (s.Contains('^') == true)
-                return TypeFuncion.PowerFunction;
-
-            if (s[0] >= '0' && s[0] <= '9')
-                return TypeFuncion.NumberFunction;
-
-            if (s[0] == 'x')
-                return TypeFuncion.LinearFunction;
-            return TypeFuncion.Unkown;
-        }
-
-        static Tree f(string s)
-        {
-            List<string> a = split(s, '+');
+            List<string> a = Split(s, '+');
 
             List<List<string>> b = new List<List<string>>();
 
+            //Делим слагаемые по умножению
             foreach (string func in a)
             {
-                List<string> tmp = split(func, '*');
+                List<string> tmp = Split(func, '*');
                 b.Add(tmp);
-
-                foreach (string test in tmp)
-                {
-                    string ttp = "";
-                    switch (_GetType(test))
-                    {
-                        case TypeFuncion.Unkown:
-                            ttp = "Hz";
-                            break;
-                        case TypeFuncion.ExponentialFunction:
-                            ttp = "E^X";
-                            break;
-                        case TypeFuncion.LogarithmicFunction:
-                            ttp = "Log X";
-                            break;
-                        case TypeFuncion.NumberFunction:
-                            ttp = "C";
-                            break;
-                        case TypeFuncion.PowerFunction:
-                            ttp = "x^n";
-                            break;
-                        case TypeFuncion.LinearFunction:
-                            ttp = "x";
-                            break;
-                    }
-                    Console.WriteLine($"{test} - {ttp}");
-                }
             }
+
             Node head = null;
 
-
-            int n = 0;
             foreach (var slog in b)
             {
-                Node Line = null;
+                Node Line = new Node(new SimpleFunction(slog[0]));
 
-                foreach (var str in slog)
+                for (int i = 1; i <slog.Count; i++)
                 {
-                    Node t = new Node();
-                    string tmpp = str;
+                    Node node = new Node(new SimpleFunction(slog[i]));
 
-                    t.Data = str;
-                    t.Type = _GetType(str);
-                    if (Line == null)
-                        Line = t;
-                    else
-                        Line.Add(t, '+');
+                    //Если фун-ция сложная, строим для нее дерево
+                    string tmpp = slog[i];
+                    if(IsComplex(ref tmpp))
+                        node.SubFuncTree = BuildTree(tmpp);
 
+                    Line.Add(node, true);
                 }
                 if (head == null)
                     head = Line;
                 else
-                    Line.Add(Line, '*');
+                    head.Add(Line, false);
             }
             return new Tree(head);
         }

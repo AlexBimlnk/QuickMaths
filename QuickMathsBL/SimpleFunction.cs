@@ -22,70 +22,98 @@ namespace QuickMathsBL
         private static double e = Math.E;
         private static double pi = Math.PI;
 
-        private string typeFunction;
-        private string stringEquals = "";
+
+
+        public string functionString = "";
+
+        private TypeFuncion typeFunction;
 
         //Contructor
         public SimpleFunction(string function, TypeFuncion _typeSimpleFunc = TypeFuncion.Unkown)
         {
-            stringEquals = function;
-            typeFunction = _typeSimpleFunc.ToString();
+            functionString = function;
+            SetTypeFunction();
         }
 
         #region Функции
-        public static List<SimpleFunction> SplitOnSimpleFunction(Function function)
+        //public static List<SimpleFunction> SplitOnSimpleFunction(Function function)
+        //{
+        //    List<SimpleFunction> functionsList = new List<SimpleFunction>();
+        //    //TODO
+
+        //    //a = function.ToString().Split();
+
+        //    SimpleFunction sim = new SimpleFunction("x");       //(a[i])
+        //    SimpleFunction sim2 = new SimpleFunction("4");
+        //    SimpleFunction sim3 = new SimpleFunction("x^2");
+        //    SimpleFunction sim4 = new SimpleFunction("32^x");
+        //    SimpleFunction sim5 = new SimpleFunction("log_2_x");
+
+        //    SimpleFunction.SetTypeFunction(sim);
+        //    SimpleFunction.SetTypeFunction(sim2);
+        //    SimpleFunction.SetTypeFunction(sim3);
+        //    SimpleFunction.SetTypeFunction(sim4);
+        //    SimpleFunction.SetTypeFunction(sim5);
+
+        //    Console.WriteLine($"Type sim = {sim.GetTypeFunction}");
+        //    Console.WriteLine($"Type sim2 = {sim2.GetTypeFunction}");
+        //    Console.WriteLine($"Type sim3 = {sim3.GetTypeFunction}");
+        //    Console.WriteLine($"Type sim4 = {sim4.GetTypeFunction}");
+        //    Console.WriteLine($"Type sim5 = {sim5.GetTypeFunction}");
+
+        //    return functionsList;
+        //}
+
+        //private static void SetTypeFunction(SimpleFunction function)
+        //{
+        //    int result;
+        //    string name = function.ToString();
+        //    if(int.TryParse(name, out result))
+        //        function.typeFunction = TypeFuncion.NumberFunction.ToString();
+
+        //    else if (name.Contains("^"))
+        //    {
+        //        if (int.TryParse(name[name.IndexOf("^") - 1].ToString(), out result))
+        //            function.typeFunction = TypeFuncion.ExponentialFunction.ToString();
+        //        else
+        //            function.typeFunction = TypeFuncion.PowerFunction.ToString();
+        //    }
+
+        //    else if (name.Contains("log"))
+        //        function.typeFunction = TypeFuncion.LogarithmicFunction.ToString();
+
+        //    else
+        //        function.typeFunction = TypeFuncion.LinearFunction.ToString();
+        //}
+
+        public void SetTypeFunction()
         {
-            List<SimpleFunction> functionsList = new List<SimpleFunction>();
-            //TODO
+            
+            if (functionString[functionString.Length - 1] == ')' && functionString[0] == '(')
+                this.typeFunction = TypeFuncion.LinearFunction;
 
-            //a = function.ToString().Split();
+            else if (functionString.Length >= 3 && functionString.Substring(0, 3) == "log")
+                this.typeFunction = TypeFuncion.LogarithmicFunction;
 
-            SimpleFunction sim = new SimpleFunction("x");       //(a[i])
-            SimpleFunction sim2 = new SimpleFunction("4");
-            SimpleFunction sim3 = new SimpleFunction("x^2");
-            SimpleFunction sim4 = new SimpleFunction("32^x");
-            SimpleFunction sim5 = new SimpleFunction("log_2_x");
+            else if (functionString[0] == 'e')
+                this.typeFunction = TypeFuncion.ExponentialFunction;
 
-            SimpleFunction.SetTypeFunction(sim);
-            SimpleFunction.SetTypeFunction(sim2);
-            SimpleFunction.SetTypeFunction(sim3);
-            SimpleFunction.SetTypeFunction(sim4);
-            SimpleFunction.SetTypeFunction(sim5);
+            else if (functionString.Contains('^') == true)
+                this.typeFunction = TypeFuncion.PowerFunction;
 
-            Console.WriteLine($"Type sim = {sim.GetTypeFunction}");
-            Console.WriteLine($"Type sim2 = {sim2.GetTypeFunction}");
-            Console.WriteLine($"Type sim3 = {sim3.GetTypeFunction}");
-            Console.WriteLine($"Type sim4 = {sim4.GetTypeFunction}");
-            Console.WriteLine($"Type sim5 = {sim5.GetTypeFunction}");
+            else if (functionString[0] >= '0' && functionString[0] <= '9')
+                this.typeFunction = TypeFuncion.NumberFunction;
 
-            return functionsList;
-        }
-
-        private static void SetTypeFunction(SimpleFunction function)
-        {
-            int result;
-            string name = function.ToString();
-            if(int.TryParse(name, out result))
-                function.typeFunction = TypeFuncion.NumberFunction.ToString();
-
-            else if (name.Contains("^"))
-            {
-                if (int.TryParse(name[name.IndexOf("^") - 1].ToString(), out result))
-                    function.typeFunction = TypeFuncion.ExponentialFunction.ToString();
-                else
-                    function.typeFunction = TypeFuncion.PowerFunction.ToString();
-            }
-
-            else if (name.Contains("log"))
-                function.typeFunction = TypeFuncion.LogarithmicFunction.ToString();
+            else if (functionString[0] == 'x')
+                this.typeFunction = TypeFuncion.LinearFunction;
 
             else
-                function.typeFunction = TypeFuncion.LinearFunction.ToString();
+                this.typeFunction = TypeFuncion.Unkown;
         }
 
         public override string ToString()
         {
-            return stringEquals;
+            return functionString;
         }
 
         public static bool Equals(SimpleFunction obj1, SimpleFunction obj2)
@@ -112,19 +140,11 @@ namespace QuickMathsBL
 
         #region Свойства
 
-        public string GetTypeFunction
+        public TypeFuncion GetTypeFunction
         {
             get { return typeFunction; }
         }
 
-        public static double E
-        {
-            get { return e; }
-        }
-        public static double Pi
-        {
-            get { return pi; }
-        }
 
         #endregion
     }
