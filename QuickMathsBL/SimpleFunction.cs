@@ -20,7 +20,7 @@ namespace QuickMathsBL
         }
 
 
-        public string functionString = "";
+        public string functionString;
 
         private double digit; 
 
@@ -84,21 +84,20 @@ namespace QuickMathsBL
             }
         }
 
-        public override string ToString()
-        {
-            return functionString;
-        }
 
+        //Сравнение объектов (возможно будет не нужен)
+        //Наверное такое сравнение лучше реализовать в классе function
+        #region Сравнение
         public static bool Equals(SimpleFunction obj1, SimpleFunction obj2)
         {
-            if (obj1.ToString() == obj2.ToString())
+            if (obj1.GetFunctionString == obj2.GetFunctionString)
                 return true;
             return false;
         }
 
         public override bool Equals(object obj)
         {
-            if (ToString() == obj.ToString())
+            if (functionString == obj.ToString())
                 return true;
             return false;
         }
@@ -108,7 +107,8 @@ namespace QuickMathsBL
         {
             return base.GetHashCode();
         }
-
+        #endregion 
+        
         #endregion
 
         #region Свойства
@@ -118,6 +118,10 @@ namespace QuickMathsBL
             get { return typeFunction; }
         }
 
+        public string GetFunctionString
+        {
+            get { return functionString; }
+        }
 
         #endregion
     }

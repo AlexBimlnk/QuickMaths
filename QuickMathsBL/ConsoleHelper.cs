@@ -15,7 +15,8 @@ namespace QuickMathsBL
             {"EXIT|Close ConsoleHelper.", Exit },
             {"CLEAR|Clear console.", (Action)(()=>Console.Clear()) },
             {"CREATE|This function can create different object of classes.", Create },
-            {"RETURN VARIABLE|Write list of all created variable", ReturnVariable}
+            {"RETURN VARIABLE|Write list of all created variable", ReturnVariable},
+            {"TAKE VARIABLE|This function allows you to work with the selected variable", TakeVariable}
         };
 
         private static Dictionary<string, string> classesDict = new Dictionary<string, string>()
@@ -75,6 +76,27 @@ namespace QuickMathsBL
                 Console.WriteLine($"\tVariable name: {i.Key} Class: {i.Value.GetType()}\n");
         }
 
+        private static void TakeVariable()
+        {
+            Console.Write("\t\tWrite variable name: ");
+            string variableName = Console.ReadLine();
+            bool find = false;
+            foreach(var i in variableDict)
+            {
+                if(i.Key == variableName)
+                {
+                    find = true;
+                    break;
+                }
+            }
+            if (find)
+            {
+                //TODO
+            }
+            else
+                Console.WriteLine($"\tName {variableName} incorrect.\n");
+        }
+
         private static void Create()
         {
             foreach (var i in classesDict)
@@ -92,9 +114,9 @@ namespace QuickMathsBL
             }
             if (find)
             {
-                Console.Write("\t\tWrite name of object class SF: ");
+                Console.Write("\t\tWrite name of object class: ");
                 string variableName = Console.ReadLine();
-                Console.Write("\t\tWrite koef: ");
+                Console.Write("\t\tWrite function: ");
                 string functionName = Console.ReadLine();
                 object item = default;
 
