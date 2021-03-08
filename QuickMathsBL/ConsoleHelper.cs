@@ -15,8 +15,8 @@ namespace QuickMathsBL
             {"EXIT|Close ConsoleHelper.", Exit },
             {"CLEAR|Clear console.", (Action)(()=>Console.Clear()) },
             {"CREATE|This function can create different object of classes.", Create },
-            {"RETURN VARIABLE|Write list of all created variable", ReturnVariable},
-            {"TAKE VARIABLE|This function allows you to work with the selected variable", TakeVariable}
+            {"RETURN VARIABLE|Write list of all created variable.", ReturnVariable},
+            {"TAKE VARIABLE|This function allows you to work with the selected variable.", TakeVariable}
         };
 
         private static Dictionary<string, string> classesDict = new Dictionary<string, string>()

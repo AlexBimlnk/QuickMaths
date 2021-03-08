@@ -20,7 +20,7 @@ namespace QuickMathsBL
         }
 
 
-        public string functionString;
+        private string functionString;
 
         private double digit; 
 
@@ -36,6 +36,7 @@ namespace QuickMathsBL
 
         #region Функции
 
+        //Переделать определение показательной функции
         public void SetTypeFunction()
         {
             
@@ -48,7 +49,7 @@ namespace QuickMathsBL
             else if (functionString[0] == 'e')
                 this.typeFunction = TypeFuncion.ExponentialFunction;
 
-            else if (functionString.Contains('^') == true)
+            else if (functionString.Contains('^'))
                 this.typeFunction = TypeFuncion.PowerFunction;
 
             else if (functionString[0] >= '0' && functionString[0] <= '9')
