@@ -9,11 +9,16 @@ namespace QuickMathsBL
     public class Tree //where T : IComparable
     {
 
-        public Node Head { get; set; }
+        private Node head;
 
         public Tree(Node _head)
         {
-            Head = _head;
+            head = _head;
+        }
+
+        public Node Head
+        {
+            get { return head; }
         }
 
         /// <summary>
