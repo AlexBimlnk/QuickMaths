@@ -9,15 +9,15 @@ namespace QuickMathsBL
     public class Function
     {
         //TODO
-        private string functionString;
+        public string FunctionString { get; private set; }
 
-        private Tree functionTree;
+        public Tree FunctionTree { get; private set; }
 
         public Function(string _function)
         {            
-            functionString = _function;
+            FunctionString = _function;
             if (IsCorrect(ref _function))
-                functionTree = TreeBuilder.BuildTree(_function);
+                FunctionTree = TreeBuilder.BuildTree(_function);
         }
 
         /*
@@ -42,9 +42,5 @@ namespace QuickMathsBL
             return true;
         }
 
-        public string GetFunctionString
-        {
-            get { return functionString; }
-        }
     }
 }

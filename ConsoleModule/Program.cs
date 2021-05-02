@@ -16,9 +16,14 @@ namespace ConsoleModule
 
 
             Function sm = new Function("3*x^2 + 4*x + 5*(x+3)*log2(x)");
-            //Tree tree = new Tree(test);
-            //Console.WriteLine($"Data root: {tree.DataRoot}");
-            //Console.WriteLine($"Root node: {tree.RootNode}");
+            Function sm2 = new Function("3*x^2*5 + 4*x + x");
+
+            foreach(var i in sm.FunctionTree.CreatePlusWayList())
+            {
+                Console.WriteLine(i.Data.FunctionString);
+            }
+
+            Console.WriteLine(Derivative.GetDerivative(sm2));
 
             ConsoleHelper.Start();
 

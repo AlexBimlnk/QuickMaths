@@ -20,66 +20,66 @@ namespace QuickMathsBL
         }
 
 
-        public string functionString;
+        public string FunctionString { get; private set; }
 
-        private double digit; 
+        public double Digit { get; private set; } 
 
-        private TypeFuncion typeFunction;
+        public TypeFuncion TypeFunction { get; private set; }
 
         //Contructor
         public SimpleFunction(string function, TypeFuncion _typeSimpleFunc = TypeFuncion.Unkown)
         {
-            functionString = function;
+            FunctionString = function;
             SetTypeFunction();
             SetDigit();
         }
 
         #region Функции
 
-        public void SetTypeFunction()
+        private void SetTypeFunction()
         {
             
-            if (functionString[functionString.Length - 1] == ')' && functionString[0] == '(')
-                this.typeFunction = TypeFuncion.LinearFunction;
+            if (FunctionString[FunctionString.Length - 1] == ')' && FunctionString[0] == '(')
+                this.TypeFunction = TypeFuncion.LinearFunction;
 
-            else if (functionString.Length >= 3 && functionString.Substring(0, 3) == "log")
-                this.typeFunction = TypeFuncion.LogarithmicFunction;
+            else if (FunctionString.Length >= 3 && FunctionString.Substring(0, 3) == "log")
+                this.TypeFunction = TypeFuncion.LogarithmicFunction;
 
-            else if (functionString[0] == 'e')
-                this.typeFunction = TypeFuncion.ExponentialFunction;
+            else if (FunctionString[0] == 'e')
+                this.TypeFunction = TypeFuncion.ExponentialFunction;
 
-            else if (functionString.Contains('^') == true)
-                this.typeFunction = TypeFuncion.PowerFunction;
+            else if (FunctionString.Contains('^') == true)
+                this.TypeFunction = TypeFuncion.PowerFunction;
 
-            else if (functionString[0] >= '0' && functionString[0] <= '9')
-                this.typeFunction = TypeFuncion.NumberFunction;
+            else if (FunctionString[0] >= '0' && FunctionString[0] <= '9')
+                this.TypeFunction = TypeFuncion.NumberFunction;
 
-            else if (functionString[0] == 'x')
-                this.typeFunction = TypeFuncion.LinearFunction;
+            else if (FunctionString[0] == 'x')
+                this.TypeFunction = TypeFuncion.LinearFunction;
 
             else
-                this.typeFunction = TypeFuncion.Unkown;
+                this.TypeFunction = TypeFuncion.Unkown;
         }
 
         private void SetDigit()
         {
-            switch (typeFunction)
+            switch (TypeFunction)
             {
                 case TypeFuncion.NumberFunction:
-                    digit = Convert.ToDouble(functionString);
+                    Digit = Convert.ToDouble(FunctionString);
                     break;
                 case TypeFuncion.LinearFunction:
-                    digit = 1;
+                    Digit = 1;
                     break;
                 case TypeFuncion.PowerFunction:
-                    string[] arr = functionString.Split('^');
-                    digit = Convert.ToDouble(arr[arr.Length-1]);
+                    string[] arr = FunctionString.Split('^');
+                    Digit = Convert.ToDouble(arr[arr.Length-1]);
                     break;
                 case TypeFuncion.ExponentialFunction:
-                    digit = Convert.ToDouble(functionString.Split('^')[0]);
+                    Digit = Convert.ToDouble(FunctionString.Split('^')[0]);
                     break;
                 case TypeFuncion.LogarithmicFunction:
-                    digit = Convert.ToDouble(functionString.Substring(3, functionString.IndexOf('(') - 3));
+                    Digit = Convert.ToDouble(FunctionString.Substring(3, FunctionString.IndexOf('(') - 3));
                     break;
             }
         }
@@ -90,14 +90,14 @@ namespace QuickMathsBL
         #region Сравнение
         public static bool Equals(SimpleFunction obj1, SimpleFunction obj2)
         {
-            if (obj1.GetFunctionString == obj2.GetFunctionString)
+            if (obj1.FunctionString == obj2.FunctionString)
                 return true;
             return false;
         }
 
         public override bool Equals(object obj)
         {
-            if (functionString == obj.ToString())
+            if (FunctionString == obj.ToString())
                 return true;
             return false;
         }
@@ -113,15 +113,6 @@ namespace QuickMathsBL
 
         #region Свойства
 
-        public TypeFuncion GetTypeFunction
-        {
-            get { return typeFunction; }
-        }
-
-        public string GetFunctionString
-        {
-            get { return functionString; }
-        }
 
         #endregion
     }
