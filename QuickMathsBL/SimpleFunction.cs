@@ -36,6 +36,7 @@ namespace QuickMathsBL
 
         #region Функции
 
+        //ДОДЕЛАТЬ ПОКАЗТЕЛЬНУЮ
         private void SetTypeFunction()
         {
             

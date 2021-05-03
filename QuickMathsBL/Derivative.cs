@@ -9,33 +9,34 @@ namespace QuickMathsBL
     public static class Derivative  //Производная
     {
         /// <summary>
-        /// Возвращает производную от функции.
+        /// Возвращает производную от простой функции в виде строки.
         /// </summary>
         /// <param name="simpleFunction"> Простая функция, от которой нужно найти производную. </param>
         /// <returns> Возвращает производную функции. </returns>
-        public static SimpleFunction GetDerivative(SimpleFunction simpleFunction)
+        public static string GetDerivative(SimpleFunction simpleFunction)
         {
-            SimpleFunction answer = null;
+            string answer = "";
             switch (simpleFunction.TypeFunction)
             {
                 case SimpleFunction.TypeFuncion.NumberFunction:
-                    answer = new SimpleFunction("0", SimpleFunction.TypeFuncion.NumberFunction);
+                    answer = "0";
                     break;
 
                 case SimpleFunction.TypeFuncion.LinearFunction:
-                    answer = new SimpleFunction($"{simpleFunction.Digit}", SimpleFunction.TypeFuncion.NumberFunction);
+                    answer = $"{simpleFunction.Digit}";
                     break;
 
                 case SimpleFunction.TypeFuncion.PowerFunction:
-                    answer = new SimpleFunction($"{simpleFunction.Digit}*{simpleFunction.FunctionString.Split('^')[0]}^{simpleFunction.Digit-1}", SimpleFunction.TypeFuncion.NumberFunction);
+                    answer = $"{simpleFunction.Digit}*{simpleFunction.FunctionString.Split('^')[0]}^{simpleFunction.Digit-1}";
                     break;
 
-                //Не помню
                 case SimpleFunction.TypeFuncion.ExponentialFunction:
+                    answer = $"{simpleFunction.Digit}^{simpleFunction.FunctionString.Split('^')[1]}*ln({simpleFunction.Digit})";
                     break;
 
-                //Мы знаем производную только от натурального логарифма...
                 case SimpleFunction.TypeFuncion.LogarithmicFunction:
+                    answer = $"({simpleFunction.FunctionString.Substring(5, simpleFunction.FunctionString.IndexOf(')') - 5)}" +
+                             $"*loge({simpleFunction.Digit}))^(-1)";
                     break;
             }
 
@@ -71,7 +72,7 @@ namespace QuickMathsBL
                     List<Node> temp = new List<Node>();
                     for (int j = 0; j < multyWayList.Count; j++)
                     {
-                        string derivativeFunction = GetDerivative(multyWayList[j].Data).FunctionString;
+                        string derivativeFunction = GetDerivative(multyWayList[j].Data);
                         
                         if (derivativeFunction == "0")
                         {
@@ -93,7 +94,7 @@ namespace QuickMathsBL
                 }
 
                 if (node.MultyWay == null)
-                    stringBuilder.Append($"({GetDerivative(node.Data).FunctionString})");
+                    stringBuilder.Append($"({GetDerivative(node.Data)})");
 
                 if (i != plusWayList.Count - 1)
                     stringBuilder.Append("+");
