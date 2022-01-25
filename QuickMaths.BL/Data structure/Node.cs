@@ -3,39 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuickMaths.BL.Functions;
+using QuickMaths.BL.Enums;
 
-namespace QuickMaths.BL
+namespace QuickMaths.BL.DataStructure
 {
     public class Node
     {
-
-        public Node MultyWay { get; set; }
+        public Node MultiplyWay { get; set; }
         public Node PlusWay { get; set; }
-        public Tree SubFuncTree { get; set; }
-        public SimpleFunction Data { get; set; }
+        public IFunction Data { get; set; }
 
 
-        public Node(SimpleFunction _data)
+        public Node(IFunction data)
         {
-            Data = _data;
+            Data = data;
         }
 
         //TODO: Доделать "узел" дерева, уже не помню что тут делать надо, но метка стояла
-        public void Add(Node _data, bool forMultyWay)
+        public void Add(Node _data, NodeWayType wayType)
         {
-            if (forMultyWay)
+            if (wayType == NodeWayType.MultiplyWay)
             {
-                if (MultyWay == null)
-                    MultyWay = _data;
+                if (MultiplyWay == null)
+                    MultiplyWay = _data;
                 else
-                    MultyWay.Add(_data, forMultyWay);
+                    MultiplyWay.Add(_data, NodeWayType.MultiplyWay);
             }
             else
             {
                 if (PlusWay == null)
                     PlusWay = _data;
                 else
-                    PlusWay.Add(_data, forMultyWay);
+                    PlusWay.Add(_data, NodeWayType.PlusWay);
             }
         }
     }

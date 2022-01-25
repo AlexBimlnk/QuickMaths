@@ -14,4 +14,10 @@ namespace QuickMaths.BL.Enums
         Divide = '/',
         Power = '^'
     }
+
+    public enum NodeWayType
+    {
+        PlusWay,
+        MultiplyWay
+    }
 }

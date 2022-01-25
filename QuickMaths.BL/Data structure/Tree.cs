@@ -4,21 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickMaths.BL
+namespace QuickMaths.BL.DataStructure
 {
     public class Tree //where T : IComparable
     {
+        public Node Head { get; private set; }
 
-        private Node head;
 
-        public Tree(Node _head)
+        public Tree(Node head)
         {
-            head = _head;
-        }
-
-        public Node Head
-        {
-            get { return head; }
+            Head = head;
         }
 
         /// <summary>
@@ -54,7 +49,7 @@ namespace QuickMaths.BL
             while(temp != null)
             {
                 nodes.Add(temp);
-                temp = temp.MultyWay;
+                temp = temp.MultiplyWay;
             }
 
             return nodes;

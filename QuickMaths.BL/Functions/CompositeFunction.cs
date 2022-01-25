@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuickMaths.BL.DataStructure;
 
 namespace QuickMaths.BL.Functions
 {
     //TODO: Класс "Функция"
-    public class Function : IFunction, IDerivativable
+    public class CompositeFunction : IFunction
     {
+        private string _functionToString;
 
-        public string FunctionString { get; private set; }
+        public Tree SubFunctionTree { get; set; }
 
-        public Tree FunctionTree { get; private set; }
-
-        public Function(string _function)
-        {            
-            FunctionString = _function;
-            if (IsCorrect(ref _function))
-                FunctionTree = TreeBuilder.BuildTree(_function);
+        public CompositeFunction(string function)
+        {
+            _functionToString = function;
+            if (IsCorrect(ref function))
+                SubFunctionTree = TreeBuilder.BuildTree(function);
         }
 
         /*

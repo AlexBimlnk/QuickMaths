@@ -19,15 +19,15 @@ namespace QuickMaths.BL.Functions
     ///     </item>
     /// </list>
     /// </summary>
-    internal class ExponentialFunction : SimpleFunction, IDerivativable
+    internal class ExponentialFunction : SimpleFunction
     {
         public ExponentialFunction() { }
 
         public ExponentialFunction(long digit) : base(digit) { }
 
-        public IFunction Derivative()
+        public override IFunction Derivative()
         {
-            return new Function($"{Digit}^{Variable}*loge({Digit})");
+            return new CompositeFunction($"{Digit}^{Variable}*loge({Digit})");
         }
     }
 }

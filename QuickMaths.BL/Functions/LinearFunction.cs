@@ -19,9 +19,9 @@ namespace QuickMaths.BL.Functions
     ///     </item>
     /// </list>
     /// </summary>
-    internal class LinearFunction : SimpleFunction, IDerivativable
+    internal class LinearFunction : SimpleFunction
     {
-        public IFunction Derivative()
+        public override IFunction Derivative()
         {
             return new NumberFunction(Digit);
         }

@@ -29,5 +29,10 @@ namespace QuickMaths.BL.Functions
         public NumberFunction() { }
 
         public NumberFunction(long digit) : base(digit) { }
+
+        public override IFunction Derivative()
+        {
+            return null;
+        }
     }
 }

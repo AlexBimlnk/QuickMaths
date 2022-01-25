@@ -19,7 +19,7 @@ namespace QuickMaths.BL.Functions
     ///     </item>
     /// </list>
     /// </summary>
-    internal class LogarithmicFunction : SimpleFunction, IDerivativable
+    internal class LogarithmicFunction : SimpleFunction
     {
         /// <summary>
         /// Основание логарифма.
@@ -31,9 +31,9 @@ namespace QuickMaths.BL.Functions
         public LogarithmicFunction(long digit) : base(digit) { }
         public LogarithmicFunction(long digit, long @base) : base(digit) { Base = @base; }
 
-        public IFunction Derivative()
+        public override IFunction Derivative()
         {
-            return new Function($"({Variable}*log{Base}({Digit}))^(-1)");
+            return new CompositeFunction($"({Variable}*log{Base}({Digit}))^(-1)");
         }
     }
 }

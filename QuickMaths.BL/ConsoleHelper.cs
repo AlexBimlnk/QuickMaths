@@ -122,10 +122,10 @@ namespace QuickMaths.BL
                 object item = default;
 
                 if (className.ToUpper() == "SF")
-                    item = new SimpleFunction(functionName);
+                    //item = new SimpleFunction(functionName);
 
                 if (className.ToUpper() == "F")
-                    item = new Function(functionName);
+                    item = new CompositeFunction(functionName);
 
                 variableDict.Add(variableName, item);
             }

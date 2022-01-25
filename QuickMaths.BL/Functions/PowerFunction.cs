@@ -19,15 +19,15 @@ namespace QuickMaths.BL.Functions
     ///     </item>
     /// </list>
     /// </summary>
-    internal class PowerFunction : SimpleFunction, IDerivativable
+    internal class PowerFunction : SimpleFunction
     {
         public PowerFunction() { }
 
         public PowerFunction(long digit) : base(digit) { }
 
-        public IFunction Derivative()
+        public override IFunction Derivative()
         {
-            return new Function($"{Digit}*{Variable}^{Digit - 1}");
+            return new CompositeFunction($"{Digit}*{Variable}^{Digit - 1}");
         }
     }
 }

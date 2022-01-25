@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuickMaths.BL.Functions;
+using QuickMaths.BL.Enums;
+using QuickMaths.BL.Validation;
 
-namespace QuickMaths.BL
+namespace QuickMaths.BL.DataStructure
 {
+    //ToDo: Заменить + и прочие символы на флаги из перечисления
     public static class TreeBuilder
     {
         public static Tree BuildTree(string s)
@@ -36,12 +40,12 @@ namespace QuickMaths.BL
                     if (IsComplex(ref tmpp))
                         node.SubFuncTree = BuildTree(tmpp);
 
-                    Line.Add(node, true);
+                    Line.Add(node, NodeWayType.MultiplyWay);
                 }
                 if (head == null)
                     head = Line;
                 else
-                    head.Add(Line, false);
+                    head.Add(Line, NodeWayType.PlusWay);
             }
             return new Tree(head);
         }
