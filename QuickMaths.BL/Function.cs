@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickMathsBL
+namespace QuickMaths.BL
 {
     public class Function
     {

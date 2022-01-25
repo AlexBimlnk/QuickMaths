@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickMathsBL
+namespace QuickMaths.BL
 {
     public class SimpleFunction
     {
@@ -36,7 +36,8 @@ namespace QuickMathsBL
 
         #region Функции
 
-        //ДОДЕЛАТЬ ПОКАЗТЕЛЬНУЮ
+        //TODO:
+        //ДОДЕЛАТЬ ПОКАЗТЕЛЬНУЮ Неправильно парсит степенную и показательную функции
         private void SetTypeFunction()
         {
             
