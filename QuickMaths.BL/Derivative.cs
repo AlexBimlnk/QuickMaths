@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuickMaths.BL.Functions;
 
 namespace QuickMaths.BL
 {
+    //TODO: Отсюда можно будет взять какую то логику а потом удалить
     public static class Derivative  //Производная
     {
         /// <summary>

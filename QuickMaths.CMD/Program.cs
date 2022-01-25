@@ -1,5 +1,6 @@
 ﻿using System;
 using QuickMaths.BL;
+using QuickMaths.BL.Functions;
 
 namespace QuickMaths.CMD
 {
@@ -19,7 +20,7 @@ namespace QuickMaths.CMD
                 Console.WriteLine(i.Data.FunctionString);
             }
 
-            Console.WriteLine(Derivative.GetDerivative(sm2));
+            //Console.WriteLine(Derivative.GetDerivative(sm2));
 
             ConsoleHelper.Start();
 

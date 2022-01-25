@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuickMaths.BL
 {
+    //TODO: Взять отсудя логику парса, перенести в отдельный класс
     public class SimpleFunction
     {
         //Расставить веса?
@@ -34,10 +35,8 @@ namespace QuickMaths.BL
             SetDigit();
         }
 
-        #region Функции
-
-        //TODO:
-        //ДОДЕЛАТЬ ПОКАЗТЕЛЬНУЮ Неправильно парсит степенную и показательную функции
+        //TODO: Парс функций, логика, взять основу, переделать, исправить показательную
+        //Неправильно парсит степенную и показательную функции
         private void SetTypeFunction()
         {
             
@@ -85,37 +84,5 @@ namespace QuickMaths.BL
                     break;
             }
         }
-
-
-        //Сравнение объектов (возможно будет не нужен)
-        //Наверное такое сравнение лучше реализовать в классе function
-        #region Сравнение
-        public static bool Equals(SimpleFunction obj1, SimpleFunction obj2)
-        {
-            if (obj1.FunctionString == obj2.FunctionString)
-                return true;
-            return false;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (FunctionString == obj.ToString())
-                return true;
-            return false;
-        }
-
-        //?
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-        #endregion 
-        
-        #endregion
-
-        #region Свойства
-
-
-        #endregion
     }
 }

@@ -20,7 +20,7 @@ namespace QuickMaths.BL
             Data = _data;
         }
 
-        //TODO
+        //TODO: Доделать "узел" дерева, уже не помню что тут делать надо, но метка стояла
         public void Add(Node _data, bool forMultyWay)
         {
             if (forMultyWay)
