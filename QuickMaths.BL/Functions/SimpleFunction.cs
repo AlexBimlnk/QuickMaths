@@ -7,7 +7,7 @@ using QuickMaths.BL.DataStructure;
 
 namespace QuickMaths.BL.Functions
 {
-    internal abstract class SimpleFunction : IFunction
+    public abstract class SimpleFunction : IFunction
     {
         protected Tree subFunctionTree;
 

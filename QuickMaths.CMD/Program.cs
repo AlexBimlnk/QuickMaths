@@ -1,6 +1,7 @@
 ﻿using System;
 using QuickMaths.BL;
 using QuickMaths.BL.Functions;
+using QuickMaths.BL.Matrix;
 
 namespace QuickMaths.CMD
 {
@@ -22,7 +23,9 @@ namespace QuickMaths.CMD
 
             //Console.WriteLine(Derivative.GetDerivative(sm2));
 
-            ConsoleHelper.Start();
+            //ConsoleHelper.Start();
+
+            
 
             Console.ReadKey();
         }

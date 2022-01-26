@@ -20,7 +20,7 @@ namespace QuickMaths.BL.Functions
     ///     </item>
     /// </list>
     /// </summary>
-    internal class LinearFunction : SimpleFunction
+    public class LinearFunction : SimpleFunction
     {
         public LinearFunction(string _FuncString) : base(_FuncString)
         {
