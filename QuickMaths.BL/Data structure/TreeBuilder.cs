@@ -25,43 +25,22 @@ namespace QuickMaths.BL.DataStructure
                 b.Add(tmp);
             }
 
-            Node head = null;
-
+            Tree tree = new Tree();
+            b.Reverse();
             foreach (var slog in b)
             {
-                Node Line = new Node(new SimpleFunction(slog[0]));
-
+                IFunction newFunc = GetFunc(slog[0]);
+                tree.AddNewSummand(newFunc);
                 for (int i = 1; i < slog.Count; i++)
                 {
-                    Node node = new Node(new SimpleFunction(slog[i]));
-
-                    //Если фун-ция сложная, строим для нее дерево
-                    string tmpp = slog[i];
-                    if (IsComplex(ref tmpp))
-                        node.SubFuncTree = BuildTree(tmpp);
-
-                    Line.Add(node, NodeWayType.MultiplyWay);
+                    newFunc = GetFunc(slog[i]);
+                    tree.AddNewMultiplier(newFunc);
                 }
-                if (head == null)
-                    head = Line;
-                else
-                    head.Add(Line, NodeWayType.PlusWay);
             }
-            return new Tree(head);
+            return tree;
         }
 
-        private static bool IsComplex(ref string s)
-        {
-            int firstSk = s.IndexOf('(');
-            int lastSk = s.LastIndexOf(')');
-
-            if (firstSk == -1 || lastSk == -1)
-                return false;
-
-            s = s.Substring(firstSk + 1, lastSk - firstSk - 1);
-
-            return true;
-        }
+       
 
         private static List<string> Split(string s, char c)
         {
@@ -88,6 +67,45 @@ namespace QuickMaths.BL.DataStructure
             }
 
             return ans;
+        }
+
+        public static IFunction GetFunc(string FunctionString)
+        {
+            SimpleFunction function;
+            
+            if (FunctionString[FunctionString.Length - 1] == ')' && FunctionString[0] == '(')
+                function = new LinearFunction(FunctionString);
+
+            else if (FunctionString.Length >= 3 && FunctionString.Substring(0, 3) == "log")
+                function = new LogarithmicFunction(FunctionString);
+
+            else if (FunctionString[0] == 'e')
+                function = new ExponentialFunction(FunctionString);
+
+
+            else if (FunctionString.Contains('^') == true)
+                function = new PowerFunction(FunctionString);
+
+            else if (FunctionString[0] >= '0' && FunctionString[0] <= '9')
+                function = new NumberFunction(FunctionString);
+
+            else //if (FunctionString[0] == 'x')
+                function = new LinearFunction(FunctionString);
+
+            return function;           
+        }
+
+        public static bool IsComplex(ref string s)
+        {
+            int firstSk = s.IndexOf('(');
+            int lastSk = s.LastIndexOf(')');
+
+            if (firstSk == -1 || lastSk == -1)
+                return false;
+
+            s = s.Substring(firstSk + 1, lastSk - firstSk - 1);
+
+            return true;
         }
 
     }

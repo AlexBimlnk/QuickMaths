@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuickMaths.BL.DataStructure;
 
 namespace QuickMaths.BL.Functions
 {
@@ -23,7 +24,14 @@ namespace QuickMaths.BL.Functions
     {
         public PowerFunction() { }
 
-        public PowerFunction(long digit) : base(digit) { }
+        public PowerFunction(double digit) : base(digit) { }
+
+        public PowerFunction(string _FuncString) : base(_FuncString)
+        {
+            string[] arr = _FuncString.Split('^');
+            Digit = Convert.ToDouble(arr[arr.Length - 1]);
+            
+        }
 
         public override IFunction Derivative()
         {

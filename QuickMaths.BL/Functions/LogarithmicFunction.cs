@@ -24,12 +24,17 @@ namespace QuickMaths.BL.Functions
         /// <summary>
         /// Основание логарифма.
         /// </summary>
-        public long Base { get; private set; }
+        public double Base { get; private set; }
 
         public LogarithmicFunction() { }
 
-        public LogarithmicFunction(long digit) : base(digit) { }
-        public LogarithmicFunction(long digit, long @base) : base(digit) { Base = @base; }
+        public LogarithmicFunction(double digit) : base(digit) { }
+        public LogarithmicFunction(double digit, double @base) : base(digit) { Base = @base; }
+
+        public LogarithmicFunction(string _FuncString) : base(_FuncString)
+        {
+            Digit = Convert.ToDouble(_FuncString.Substring(3, _FuncString.IndexOf('(') - 3));
+        }
 
         public override IFunction Derivative()
         {

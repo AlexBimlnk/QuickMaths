@@ -10,13 +10,13 @@ namespace QuickMaths.BL.Functions
     //TODO: Класс "Функция"
     public class CompositeFunction : IFunction
     {
-        private string _functionToString;
+        public string StringFunction { get; protected set; }
 
         public Tree SubFunctionTree { get; set; }
 
         public CompositeFunction(string function)
         {
-            _functionToString = function;
+            StringFunction = function;
             if (IsCorrect(ref function))
                 SubFunctionTree = TreeBuilder.BuildTree(function);
         }

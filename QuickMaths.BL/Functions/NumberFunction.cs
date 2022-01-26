@@ -28,7 +28,12 @@ namespace QuickMaths.BL.Functions
     {
         public NumberFunction() { }
 
-        public NumberFunction(long digit) : base(digit) { }
+        public NumberFunction(double digit) : base(digit) { }
+
+        public NumberFunction(string _FuncString):base(_FuncString)
+        {
+            Digit = Convert.ToDouble(_FuncString);
+        }
 
         public override IFunction Derivative()
         {

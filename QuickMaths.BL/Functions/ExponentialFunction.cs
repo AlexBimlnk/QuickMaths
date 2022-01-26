@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuickMaths.BL.DataStructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,12 @@ namespace QuickMaths.BL.Functions
     {
         public ExponentialFunction() { }
 
-        public ExponentialFunction(long digit) : base(digit) { }
+        public ExponentialFunction(double digit) : base(digit) { }
+
+        public ExponentialFunction(string _FuncString): base(_FuncString)
+        {
+            Digit = Convert.ToDouble(_FuncString.Split('^')[0]);
+        }
 
         public override IFunction Derivative()
         {

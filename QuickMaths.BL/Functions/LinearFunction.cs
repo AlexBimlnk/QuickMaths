@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuickMaths.BL.DataStructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,11 @@ namespace QuickMaths.BL.Functions
     /// </summary>
     internal class LinearFunction : SimpleFunction
     {
+        public LinearFunction(string _FuncString) : base(_FuncString)
+        {
+           
+        }
+
         public override IFunction Derivative()
         {
             return new NumberFunction(Digit);
