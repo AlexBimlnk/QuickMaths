@@ -25,7 +25,15 @@ namespace QuickMaths.CMD
 
             //ConsoleHelper.Start();
 
-            
+            double[,] tb = { { 1, 2, 3},
+                             { 4, 5, 6},
+                             { 7, 8, 9}};
+
+            Matrix matrix1 = new Matrix(tb);
+            Matrix matrix2 = new Matrix(tb);
+            Matrix matrix3 = matrix1 + matrix2*-1;
+
+            Console.WriteLine(matrix3[0,0]);
 
             Console.ReadKey();
         }

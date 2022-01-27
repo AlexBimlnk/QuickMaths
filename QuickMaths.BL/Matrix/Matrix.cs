@@ -19,9 +19,9 @@ namespace QuickMaths.BL.Matrix
         public long ColumnCount => Table.GetLength(1);
 
 
-        public Matrix(long row, long column)
+        public Matrix(long rows, long columns)
         {
-            Table = new double[row, column];
+            Table = new double[rows, columns];
         }
 
         public Matrix(double[,] table)
@@ -43,6 +43,38 @@ namespace QuickMaths.BL.Matrix
         //            Table[i, j] = linearFunctions[i, j].Digit;
         //    }
         //}
+
+
+        public double this[long rowIndex, long columnIndex]
+        {
+            get { return Table[rowIndex, columnIndex]; }
+            set { Table[rowIndex, columnIndex] = value; }
+        }
+
+
+        public Matrix GetRow(long indexRow)
+        {
+            Matrix matrix = new Matrix(1, ColumnCount);
+
+            for(int i = 0; i < ColumnCount; i++)
+            {
+                matrix[0, i] = Table[indexRow, i];
+            }
+
+            return matrix;
+        }
+
+        public Matrix GetColumn(long indexColumn)
+        {
+            Matrix matrix = new Matrix(RowCount, 1);
+
+            for (int i = 0; i < RowCount; i++)
+            {
+                matrix[i, 0] = Table[i, indexColumn];
+            }
+
+            return matrix;
+        }
 
 
         #region Статические функции
@@ -73,7 +105,7 @@ namespace QuickMaths.BL.Matrix
 
                 for (int i = 0; i < matrix1.RowCount; i++)
                     for (int j = 0; j < matrix1.ColumnCount; j++)
-                        table[i, j] = matrix1.Table[i, j] + matrix2.Table[i, j];
+                        table[i, j] = matrix1.Table[i, j] - matrix2.Table[i, j];
 
                 return new Matrix(table);
             }
