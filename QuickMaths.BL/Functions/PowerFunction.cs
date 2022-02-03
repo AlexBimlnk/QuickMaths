@@ -42,15 +42,34 @@ namespace QuickMaths.BL.Functions
             Tree _Tree = new Tree();
 
             NumberFunction digit = new NumberFunction(Digit);
-            PowerFunction power = new PowerFunction(Digit - 1, this.SubFunctionTree);
+            IFunction power = (Digit - 1 == 1) ? new LinearFunction() : new PowerFunction(Digit - 1, this.SubFunctionTree);
 
             _Tree.AddNewMultiplier(digit);
             _Tree.AddNewMultiplier(power);
 
             if (subFunctionTree != null)
-                Tree.Merge(_Tree, subFunctionTree.GetDerivative());
+                Tree.MergeMult(_Tree, subFunctionTree.GetDerivative());
 
             return new CompositeFunction(_Tree);
+        }
+
+        public override string ToString()
+        {
+            if (StringFunction == "")
+            {
+                StringBuilder BuildFuncStr = new StringBuilder();
+
+                
+                if (subFunctionTree == null)
+                    BuildFuncStr.Append("x");
+                else
+                    BuildFuncStr.Append($"({SubFunctionTree})");
+
+                BuildFuncStr.Append($"^{Digit}");
+                StringFunction = BuildFuncStr.ToString();
+            }
+
+            return StringFunction;
         }
     }
 }

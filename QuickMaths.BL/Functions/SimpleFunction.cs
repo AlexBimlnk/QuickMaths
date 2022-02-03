@@ -17,7 +17,7 @@ namespace QuickMaths.BL.Functions
 
         public Tree SubFunctionTree { get; protected set; }
 
-        protected string StringFunction;
+        protected string StringFunction = "";
 
         public SimpleFunction() { }
 

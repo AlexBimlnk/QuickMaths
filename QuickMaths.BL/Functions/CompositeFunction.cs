@@ -10,7 +10,7 @@ namespace QuickMaths.BL.Functions
     //TODO: Класс "Функция"
     public class CompositeFunction : IFunction
     {
-        private string StringFunction;
+        private string StringFunction = "";
 
         public Tree SubFunctionTree { get; set; }
         
@@ -39,59 +39,20 @@ namespace QuickMaths.BL.Functions
         //ToDo: Реализовать алгоритм нахождения сложной функции.
         public IFunction Derivative()
         {
-            //List<Node> plusWayList = FunctionTree.CreatePlusWayList();
+            if (SubFunctionTree != null)
+            { 
+                return new CompositeFunction(SubFunctionTree.GetDerivative());
+            }
+            return null;
+        }
 
-            //StringBuilder stringBuilder = new StringBuilder();
-
-            //for (int i = 0; i < plusWayList.Count; i++)
-            //{
-            //    //(x*y*z)' =  x'yz+xy'z+xyz'
-            //    //(x*y*z*k)' = x'yzk+xy'zk+xyz'k + xyzk'
-            //    //Что делать с суб. деревом у функции, как его диф?
-            //    Node node = plusWayList[i];
-
-            //    //ToDo: Расчет производной суб дерева.
-            //    if (node.SubFuncTree != null)
-            //        //stringBuilder.Append($"({GetDerivative(node.SubFuncTree)})");
-
-            //    if (node.MultyWay != null)
-            //    {
-            //        stringBuilder.Append("(");
-            //        List<Node> multyWayList = FunctionTree.CreateMultyWayList(node);
-            //        List<Node> temp = new List<Node>();
-            //        for (int j = 0; j < multyWayList.Count; j++)
-            //        {
-            //            string derivativeFunction = GetDerivative(multyWayList[j].Data);
-
-            //            if (derivativeFunction == "0")
-            //            {
-            //                if (stringBuilder[stringBuilder.Length - 1] == '+')
-            //                    stringBuilder.Remove(stringBuilder.Length - 1, 1);
-            //                continue;
-            //            }
-
-            //            stringBuilder.Append($"{derivativeFunction}");
-            //            temp = multyWayList.Where((k) => multyWayList.IndexOf(k) != j).ToList();
-            //            foreach (var nodes in temp)
-            //            {
-            //                stringBuilder.Append($"*{nodes.Data.FunctionString}");
-            //            }
-            //            if (j != multyWayList.Count - 1)
-            //                stringBuilder.Append("+");
-            //        }
-            //        stringBuilder.Append(")");
-            //    }
-
-            //    if (node.MultyWay == null)
-            //        stringBuilder.Append($"({GetDerivative(node.Data)})");
-
-            //    if (i != plusWayList.Count - 1)
-            //        stringBuilder.Append("+");
-            //}
-
-            //return new Function(stringBuilder.ToString());
-
-            throw new NotImplementedException();
+        public override string ToString()
+        {
+            if (StringFunction == "")
+            {
+                StringFunction = (SubFunctionTree != null) ? SubFunctionTree.ToString() : StringFunction;
+            }
+            return StringFunction;
         }
     }
 }

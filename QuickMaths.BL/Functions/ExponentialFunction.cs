@@ -51,9 +51,26 @@ namespace QuickMaths.BL.Functions
                 _Tree.AddNewMultiplier(logarithmicFunction);
             }
             if (SubFunctionTree != null)
-                Tree.Merge(_Tree, SubFunctionTree.GetDerivative());
+                Tree.MergeMult(_Tree, SubFunctionTree.GetDerivative());
             
             return new CompositeFunction(_Tree);
+        }
+
+        public override string ToString()
+        {
+            if (StringFunction == "")
+            {
+                StringBuilder BuildFuncStr = new StringBuilder();
+
+                BuildFuncStr.Append($"{Digit}^");
+                if (subFunctionTree == null)
+                    BuildFuncStr.Append("x");
+                else
+                    BuildFuncStr.Append(SubFunctionTree.ToString());
+                StringFunction = BuildFuncStr.ToString();
+            }
+
+            return StringFunction;
         }
     }
 }

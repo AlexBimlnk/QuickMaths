@@ -39,5 +39,10 @@ namespace QuickMaths.BL.Functions
         {
             return null;
         }
+
+        public override string ToString()
+        {
+            return Digit.ToString();
+        }
     }
 }

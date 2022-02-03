@@ -92,19 +92,18 @@ namespace QuickMaths.BL.DataStructure
             return nodes;
         }
 
-        //TODO: доделать
+        //TODO: доделать производную
         public Tree GetDerivative()
         {
             // x*y*z => x'*y*z + x*y'*z + x*y*z'
-            Tree _Derivative = new Tree();
+            Node tHead = Head;
 
-            Node tmp = Head;
+            Node der = null;
 
-            while (tmp != null)
+            while (tHead != null)
             {
-                Node elem = tmp;
-                Node summ;
-
+                Node elem = tHead;
+                
                 List <Node> nodes = new List<Node>();
 
                 while (elem != null)
@@ -113,17 +112,73 @@ namespace QuickMaths.BL.DataStructure
                     elem = elem.MultiplyWay;
                 }
 
-                Node ttmp;
-
                 for (int i = 0;i < nodes.Count;i++)
                 {
-                    
+                    Node summ = null;
+                    for (int y = 0;y < nodes.Count;y++)
+                    {
+                        if (i == y)
+                        {
+                            Node tder = new Node(nodes[y].Data.Derivative());
+                            if (tder.Data == null)
+                            {
+                                summ = null;
+                                break;
+                            }
+                            if (summ == null)
+                                summ = tder;
+                            else
+                                summ.Add(tder, Enums.NodeWayType.MultiplyWay);
+                        }
+                        else
+                        {
+                            if (summ == null)
+                                summ = new Node(nodes[y].Data);
+                            else
+                                summ.Add(new Node(nodes[y].Data), Enums.NodeWayType.MultiplyWay);
+                        }
+                    }
+                    if (summ != null)
+                        if (der == null)
+                            der = summ;
+                        else
+                            der.Add(summ, Enums.NodeWayType.PlusWay);
                 }
 
-                tmp = tmp.PlusWay;
+                tHead = tHead.PlusWay;
             }
 
-            return this;
+            return new Tree(der);
+        }
+
+        //TODO: доделать преобразование в строку
+        public override string ToString()
+        {
+            StringBuilder builtreestr = new StringBuilder();
+
+            Node tHead = Head;
+
+            while (tHead != null)
+            {
+                if (builtreestr.Length != 0)
+                    builtreestr.Append("|  +  |");
+
+                Node summ = tHead;
+
+                while (summ != null)
+                {
+                    if (summ != tHead)
+                        builtreestr.Append('*');
+
+                    builtreestr.Append(summ.Data.ToString());
+
+                    summ = summ.MultiplyWay;
+                }
+
+                tHead = tHead.PlusWay;
+            }
+
+            return builtreestr.ToString();
         }
 
         /// <summary>
@@ -133,7 +188,7 @@ namespace QuickMaths.BL.DataStructure
         /// </summary>
         /// <param name="_Result"></param>
         /// <param name="_Add"></param>
-        static public void Merge(Tree _Result, Tree _Add)
+        static public void MergeMult(Tree _Result, Tree _Add)
         {
             if (_Add == null)
                 return;
@@ -154,5 +209,7 @@ namespace QuickMaths.BL.DataStructure
             }
             _Result.Head.Add(_Add.Head, Enums.NodeWayType.MultiplyWay);
         }
+
+        
     }
 }

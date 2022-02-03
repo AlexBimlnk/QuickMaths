@@ -27,7 +27,7 @@ namespace QuickMaths.BL.Functions
 
         public LinearFunction(string _StringFunction) : base(_StringFunction)
         {
-           
+            Digit = 1;
         }
 
         public override IFunction Derivative()
@@ -42,9 +42,22 @@ namespace QuickMaths.BL.Functions
             _Tree.AddNewMultiplier(new NumberFunction(Digit));
             
 
-            Tree.Merge(_Tree, SubFunctionTree.GetDerivative());
+            Tree.MergeMult(_Tree, SubFunctionTree.GetDerivative());
 
             return new CompositeFunction(_Tree);
+        }
+
+        public override string ToString()
+        {
+            if (StringFunction == "")
+            {
+                if (subFunctionTree == null)
+                    StringFunction = "x";
+                else
+                    StringFunction = $"({SubFunctionTree})";
+            }
+
+            return StringFunction;
         }
     }
 }

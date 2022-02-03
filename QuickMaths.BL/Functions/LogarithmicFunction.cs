@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuickMaths.BL.DataStructure
+using QuickMaths.BL.DataStructure;
 
 namespace QuickMaths.BL.Functions
 {
@@ -55,9 +55,26 @@ namespace QuickMaths.BL.Functions
             }
             
             if (SubFunctionTree != null)
-                Tree.Merge(_Tree, SubFunctionTree.GetDerivative());
+                Tree.MergeMult(_Tree, SubFunctionTree.GetDerivative());
             
             return new PowerFunction(-1, _Tree);
+        }
+
+        public override string ToString()
+        {
+            if (StringFunction == "")
+            {
+                StringBuilder BuildFuncStr = new StringBuilder("log");
+
+                BuildFuncStr.Append($" {Digit}(");
+                if (subFunctionTree == null)
+                    BuildFuncStr.Append("x)");
+                else
+                    BuildFuncStr.Append($"{SubFunctionTree})");
+                StringFunction = BuildFuncStr.ToString();
+            }
+
+            return StringFunction;
         }
     }
 }
