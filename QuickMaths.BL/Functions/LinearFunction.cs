@@ -22,14 +22,29 @@ namespace QuickMaths.BL.Functions
     /// </summary>
     public class LinearFunction : SimpleFunction
     {
-        public LinearFunction(string _FuncString) : base(_FuncString)
+        public LinearFunction()
+        { }
+
+        public LinearFunction(string _StringFunction) : base(_StringFunction)
         {
            
         }
 
         public override IFunction Derivative()
         {
-            return new NumberFunction(Digit);
+            if (SubFunctionTree == null)
+                return new NumberFunction(Digit);
+            if (Digit == 1)
+                return new CompositeFunction(SubFunctionTree.GetDerivative());
+
+            Tree _Tree = new Tree();
+
+            _Tree.AddNewMultiplier(new NumberFunction(Digit));
+            
+
+            Tree.Merge(_Tree, SubFunctionTree.GetDerivative());
+
+            return new CompositeFunction(_Tree);
         }
     }
 }

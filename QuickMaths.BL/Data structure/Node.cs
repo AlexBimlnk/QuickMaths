@@ -20,7 +20,6 @@ namespace QuickMaths.BL.DataStructure
             Data = data;
         }
 
-        //TODO: Доделать "узел" дерева, уже не помню что тут делать надо, но метка стояла
         public void Add(Node _data, NodeWayType wayType)
         {
             if (wayType == NodeWayType.MultiplyWay)

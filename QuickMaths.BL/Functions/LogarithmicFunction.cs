@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuickMaths.BL.DataStructure
 
 namespace QuickMaths.BL.Functions
 {
@@ -28,17 +29,35 @@ namespace QuickMaths.BL.Functions
 
         public LogarithmicFunction() { }
 
-        public LogarithmicFunction(double digit) : base(digit) { }
-        public LogarithmicFunction(double digit, double @base) : base(digit) { Base = @base; }
+        public LogarithmicFunction(double digit,Tree subtree = null) : base(digit,subtree) { }
+        public LogarithmicFunction(double digit, double @base,Tree subtree = null ) : base(digit,subtree) { Base = @base; }
 
-        public LogarithmicFunction(string _FuncString) : base(_FuncString)
+        public LogarithmicFunction(string _StringFunction) : base(_StringFunction)
         {
-            Digit = Convert.ToDouble(_FuncString.Substring(3, _FuncString.IndexOf('(') - 3));
+            Digit = Convert.ToDouble(_StringFunction.Substring(3, _StringFunction.IndexOf('(') - 3));
         }
-
+        /// <summary>
+        /// 1 / (x * ln a)
+        /// </summary>
+        /// <returns></returns>
         public override IFunction Derivative()
         {
-            return new CompositeFunction($"({Variable}*log{Base}({Digit}))^(-1)");
+            //return new CompositeFunction($"({Variable}*log{Base}({Digit}))^(-1
+            Tree _Tree = new Tree();
+
+            if (Digit != Math.E)
+            {
+                NumberFunction digit = new NumberFunction(Digit);
+                Tree _SubTree = new Tree();
+                _SubTree.AddNewMultiplier(digit);
+                LogarithmicFunction logarithmicFunction = new LogarithmicFunction(Math.E, _SubTree);
+                _Tree.AddNewMultiplier(logarithmicFunction);
+            }
+            
+            if (SubFunctionTree != null)
+                Tree.Merge(_Tree, SubFunctionTree.GetDerivative());
+            
+            return new PowerFunction(-1, _Tree);
         }
     }
 }

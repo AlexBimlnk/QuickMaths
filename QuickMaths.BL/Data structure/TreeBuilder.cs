@@ -30,7 +30,7 @@ namespace QuickMaths.BL.DataStructure
             foreach (var slog in b)
             {
                 IFunction newFunc = GetFunc(slog[0]);
-                tree.AddNewSummand(newFunc);
+                tree.AddNewSummandRev(newFunc);
                 for (int i = 1; i < slog.Count; i++)
                 {
                     newFunc = GetFunc(slog[i]);
@@ -70,29 +70,24 @@ namespace QuickMaths.BL.DataStructure
         }
 
         public static IFunction GetFunc(string FunctionString)
-        {
-            SimpleFunction function;
-            
+        { 
             if (FunctionString[FunctionString.Length - 1] == ')' && FunctionString[0] == '(')
-                function = new LinearFunction(FunctionString);
+                return new LinearFunction(FunctionString);
 
-            else if (FunctionString.Length >= 3 && FunctionString.Substring(0, 3) == "log")
-                function = new LogarithmicFunction(FunctionString);
+            if (FunctionString.Length >= 3 && FunctionString.Substring(0, 3) == "log")
+                return new LogarithmicFunction(FunctionString);
 
-            else if (FunctionString[0] == 'e')
-                function = new ExponentialFunction(FunctionString);
+            if (FunctionString[0] == 'e')
+                return new ExponentialFunction(FunctionString);
 
 
-            else if (FunctionString.Contains('^') == true)
-                function = new PowerFunction(FunctionString);
+            if (FunctionString.Contains('^') == true)
+                return new PowerFunction(FunctionString);
 
-            else if (FunctionString[0] >= '0' && FunctionString[0] <= '9')
-                function = new NumberFunction(FunctionString);
+            if (FunctionString[0] >= '0' && FunctionString[0] <= '9')
+                return new NumberFunction(FunctionString);
 
-            else //if (FunctionString[0] == 'x')
-                function = new LinearFunction(FunctionString);
-
-            return function;           
+            return new LinearFunction(FunctionString);
         }
 
         public static bool IsComplex(ref string s)
@@ -108,5 +103,17 @@ namespace QuickMaths.BL.DataStructure
             return true;
         }
 
+        public static bool IsCorrect(ref string s)
+        {
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == ' ')
+                {
+                    s = s.Remove(i, 1);
+                    i--;
+                }
+            }
+            return true;
+        }
     }
 }

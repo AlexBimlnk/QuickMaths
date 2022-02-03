@@ -24,16 +24,36 @@ namespace QuickMaths.BL.Functions
     {
         public ExponentialFunction() { }
 
-        public ExponentialFunction(double digit) : base(digit) { }
+        public ExponentialFunction(double digit,Tree subtree = null) : base(digit,subtree) { }
 
-        public ExponentialFunction(string _FuncString): base(_FuncString)
+        public ExponentialFunction(string _StringFunction) : base(_StringFunction)
         {
-            Digit = Convert.ToDouble(_FuncString.Split('^')[0]);
+            Digit = Convert.ToDouble(_StringFunction.Split('^')[0]);
         }
 
+        /// <summary>
+        /// a^x*log e(a)
+        /// e^x
+        /// </summary>
+        /// <returns></returns>
         public override IFunction Derivative()
-        {
-            return new CompositeFunction($"{Digit}^{Variable}*loge({Digit})");
+        { 
+            Tree _Tree = new Tree();
+
+            _Tree.AddNewMultiplier(this);
+
+            if (Digit != Math.E)
+            {
+                Tree _SubTree = new Tree();
+                NumberFunction digit = new NumberFunction(Digit);
+                _SubTree.AddNewMultiplier(digit);
+                LogarithmicFunction logarithmicFunction = new LogarithmicFunction(Math.E, _SubTree);
+                _Tree.AddNewMultiplier(logarithmicFunction);
+            }
+            if (SubFunctionTree != null)
+                Tree.Merge(_Tree, SubFunctionTree.GetDerivative());
+            
+            return new CompositeFunction(_Tree);
         }
     }
 }

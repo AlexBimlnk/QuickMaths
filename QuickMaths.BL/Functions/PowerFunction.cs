@@ -24,18 +24,33 @@ namespace QuickMaths.BL.Functions
     {
         public PowerFunction() { }
 
-        public PowerFunction(double digit) : base(digit) { }
+        public PowerFunction(double digit,Tree subtree = null) : base(digit,subtree) { }
 
-        public PowerFunction(string _FuncString) : base(_FuncString)
+        public PowerFunction(string _StringFunction) : base(_StringFunction)
         {
-            string[] arr = _FuncString.Split('^');
+            string[] arr = _StringFunction.Split('^');
             Digit = Convert.ToDouble(arr[arr.Length - 1]);
             
         }
-
+        /// <summary>
+        /// n*x^(n-1)
+        /// </summary>
+        /// <returns></returns>
         public override IFunction Derivative()
         {
-            return new CompositeFunction($"{Digit}*{Variable}^{Digit - 1}");
+            //return new CompositeFunction($"{Digit}*{Variable}^{Digit - 1}");
+            Tree _Tree = new Tree();
+
+            NumberFunction digit = new NumberFunction(Digit);
+            PowerFunction power = new PowerFunction(Digit - 1, this.SubFunctionTree);
+
+            _Tree.AddNewMultiplier(digit);
+            _Tree.AddNewMultiplier(power);
+
+            if (subFunctionTree != null)
+                Tree.Merge(_Tree, subFunctionTree.GetDerivative());
+
+            return new CompositeFunction(_Tree);
         }
     }
 }

@@ -34,6 +34,17 @@ namespace QuickMaths.BL.DataStructure
         {
             Node newNode = new Node(newSumm);
             if (Head == null)
+                Head = newNode;
+            else
+            {
+                Head.Add(newNode, Enums.NodeWayType.PlusWay);
+            }
+        }
+
+        public void AddNewSummandRev(IFunction newSumm)
+        {
+            Node newNode = new Node(newSumm);
+            if (Head == null)
                 Head= newNode;
             else
             {
@@ -79,6 +90,69 @@ namespace QuickMaths.BL.DataStructure
             }
 
             return nodes;
+        }
+
+        //TODO: доделать
+        public Tree GetDerivative()
+        {
+            // x*y*z => x'*y*z + x*y'*z + x*y*z'
+            Tree _Derivative = new Tree();
+
+            Node tmp = Head;
+
+            while (tmp != null)
+            {
+                Node elem = tmp;
+                Node summ;
+
+                List <Node> nodes = new List<Node>();
+
+                while (elem != null)
+                {
+                    nodes.Add(elem);
+                    elem = elem.MultiplyWay;
+                }
+
+                Node ttmp;
+
+                for (int i = 0;i < nodes.Count;i++)
+                {
+                    
+                }
+
+                tmp = tmp.PlusWay;
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// (a*b*c) * (d*e*f) => a*b*c*d*e*f
+        /// 
+        /// (a*b*c) * (d+e+f) => a*b*c*(d+e+f)
+        /// </summary>
+        /// <param name="_Result"></param>
+        /// <param name="_Add"></param>
+        static public void Merge(Tree _Result, Tree _Add)
+        {
+            if (_Add == null)
+                return;
+            if (_Result == null)
+            {
+                _Result = _Add;
+                return;
+            }
+            if (_Result.Head.PlusWay != null)
+            {
+                return;
+            }
+            if (_Add.Head.PlusWay != null)
+            {
+                CompositeFunction _newnode = new CompositeFunction(_Add);
+                _Result.AddNewMultiplier(_newnode);
+                return;
+            }
+            _Result.Head.Add(_Add.Head, Enums.NodeWayType.MultiplyWay);
         }
     }
 }

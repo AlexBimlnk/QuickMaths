@@ -11,9 +11,6 @@ namespace QuickMaths.BL.Functions
     {
         public Tree SubFunctionTree { get; }
 
-        public string StringFunction { get; }
-
-
         /// <summary>
         /// Рассчитать производную.
         /// </summary>

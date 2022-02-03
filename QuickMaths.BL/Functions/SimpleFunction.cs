@@ -17,22 +17,23 @@ namespace QuickMaths.BL.Functions
 
         public Tree SubFunctionTree { get; protected set; }
 
-        public string StringFunction { get; protected set; }
+        protected string StringFunction;
 
         public SimpleFunction() { }
 
-        public SimpleFunction(double digit)
+        public SimpleFunction(double digit,Tree _SubTree = null)
         {
             Digit = digit;
+            SubFunctionTree = _SubTree;
         }
 
-        public SimpleFunction(string _FuncString)
+        public SimpleFunction(string _StringFunction)
         {
-            StringFunction = _FuncString;
+            StringFunction = _StringFunction;
 
-            if (TreeBuilder.IsComplex(ref _FuncString))
+            if (TreeBuilder.IsComplex(ref _StringFunction))
             {
-                SubFunctionTree = TreeBuilder.BuildTree(_FuncString);
+                SubFunctionTree = TreeBuilder.BuildTree(_StringFunction);
             }
         }
 

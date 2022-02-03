@@ -10,15 +10,19 @@ namespace QuickMaths.BL.Functions
     //TODO: Класс "Функция"
     public class CompositeFunction : IFunction
     {
-        public string StringFunction { get; protected set; }
+        private string StringFunction;
 
         public Tree SubFunctionTree { get; set; }
+        
+        public CompositeFunction(Tree _Tree)
+        {
+            SubFunctionTree = _Tree;
+        }
 
         public CompositeFunction(string function)
         {
             StringFunction = function;
-            if (IsCorrect(ref function))
-                SubFunctionTree = TreeBuilder.BuildTree(function);
+            SubFunctionTree = TreeBuilder.BuildTree(function);
         }
 
         /*
@@ -30,18 +34,7 @@ namespace QuickMaths.BL.Functions
          * А затем вызывать построение дерева
          * Уберем лишнюю проверку и сигнатуру метода
         */
-        private static bool IsCorrect(ref string s)
-        {
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (s[i] == ' ')
-                {
-                    s = s.Remove(i, 1);
-                    i--;
-                }
-            }
-            return true;
-        }
+        
 
         //ToDo: Реализовать алгоритм нахождения сложной функции.
         public IFunction Derivative()
