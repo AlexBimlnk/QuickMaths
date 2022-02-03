@@ -9,7 +9,7 @@ namespace QuickMaths.BL.Functions
 {
     public abstract class SimpleFunction : IFunction
     {
-        protected Tree subFunctionTree;
+        protected string stringFunction = String.Empty;
 
         public double Digit { get; protected set; }
 
@@ -17,23 +17,21 @@ namespace QuickMaths.BL.Functions
 
         public Tree SubFunctionTree { get; protected set; }
 
-        protected string StringFunction = "";
-
         public SimpleFunction() { }
 
-        public SimpleFunction(double digit,Tree _SubTree = null)
+        public SimpleFunction(double digit, Tree subTree = null)
         {
             Digit = digit;
-            SubFunctionTree = _SubTree;
+            SubFunctionTree = subTree;
         }
 
-        public SimpleFunction(string _StringFunction)
+        public SimpleFunction(string strFunction)
         {
-            StringFunction = _StringFunction;
+            stringFunction = strFunction;
 
-            if (TreeBuilder.IsComplex(ref _StringFunction))
+            if (TreeBuilder.IsComplex(ref strFunction))
             {
-                SubFunctionTree = TreeBuilder.BuildTree(_StringFunction);
+                SubFunctionTree = TreeBuilder.BuildTree(strFunction);
             }
         }
 

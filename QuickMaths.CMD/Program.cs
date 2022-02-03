@@ -26,6 +26,7 @@ namespace QuickMaths.CMD
 
             Console.WriteLine(der_sm2.ToString());
             Console.WriteLine(sm.ToString());
+            Console.WriteLine(sm.SubFunctionTree.ToString());
             //Console.WriteLine(Derivative.GetDerivative(sm2));
 
             //ConsoleHelper.Start();

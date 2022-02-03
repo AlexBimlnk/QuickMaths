@@ -10,18 +10,18 @@ namespace QuickMaths.BL.Functions
     //TODO: Класс "Функция"
     public class CompositeFunction : IFunction
     {
-        private string StringFunction = "";
+        private string _stringFunction = String.Empty;
 
         public Tree SubFunctionTree { get; set; }
         
-        public CompositeFunction(Tree _Tree)
+        public CompositeFunction(Tree tree)
         {
-            SubFunctionTree = _Tree;
+            SubFunctionTree = tree;
         }
 
         public CompositeFunction(string function)
         {
-            StringFunction = function;
+            _stringFunction = function;
             SubFunctionTree = TreeBuilder.BuildTree(function);
         }
 
@@ -48,11 +48,11 @@ namespace QuickMaths.BL.Functions
 
         public override string ToString()
         {
-            if (StringFunction == "")
+            if (_stringFunction == String.Empty)
             {
-                StringFunction = (SubFunctionTree != null) ? SubFunctionTree.ToString() : StringFunction;
+                _stringFunction = (SubFunctionTree != null) ? SubFunctionTree.ToString() : _stringFunction;
             }
-            return StringFunction;
+            return _stringFunction;
         }
     }
 }

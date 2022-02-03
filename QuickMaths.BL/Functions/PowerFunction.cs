@@ -24,11 +24,11 @@ namespace QuickMaths.BL.Functions
     {
         public PowerFunction() { }
 
-        public PowerFunction(double digit,Tree subtree = null) : base(digit,subtree) { }
+        public PowerFunction(double digit, Tree subTree = null) : base(digit, subTree) { }
 
-        public PowerFunction(string _StringFunction) : base(_StringFunction)
+        public PowerFunction(string stringFunction) : base(stringFunction)
         {
-            string[] arr = _StringFunction.Split('^');
+            string[] arr = stringFunction.Split('^');
             Digit = Convert.ToDouble(arr[arr.Length - 1]);
             
         }
@@ -39,37 +39,37 @@ namespace QuickMaths.BL.Functions
         public override IFunction Derivative()
         {
             //return new CompositeFunction($"{Digit}*{Variable}^{Digit - 1}");
-            Tree _Tree = new Tree();
+            Tree tree = new Tree();
 
             NumberFunction digit = new NumberFunction(Digit);
-            IFunction power = (Digit - 1 == 1) ? new LinearFunction() : new PowerFunction(Digit - 1, this.SubFunctionTree);
+            IFunction power = (Digit - 1 == 1) ? new LinearFunction() : new PowerFunction(Digit - 1, SubFunctionTree);
 
-            _Tree.AddNewMultiplier(digit);
-            _Tree.AddNewMultiplier(power);
+            tree.AddNewMultiplier(digit);
+            tree.AddNewMultiplier(power);
 
-            if (subFunctionTree != null)
-                Tree.MergeMult(_Tree, subFunctionTree.GetDerivative());
+            if (SubFunctionTree != null)
+                Tree.MergeMult(tree, SubFunctionTree.GetDerivative());
 
-            return new CompositeFunction(_Tree);
+            return new CompositeFunction(tree);
         }
 
         public override string ToString()
         {
-            if (StringFunction == "")
+            if (stringFunction == String.Empty)
             {
-                StringBuilder BuildFuncStr = new StringBuilder();
+                StringBuilder buildFuncStr = new StringBuilder();
 
                 
-                if (subFunctionTree == null)
-                    BuildFuncStr.Append("x");
+                if (SubFunctionTree == null)
+                    buildFuncStr.Append('x');
                 else
-                    BuildFuncStr.Append($"({SubFunctionTree})");
+                    buildFuncStr.Append($"({SubFunctionTree})");
 
-                BuildFuncStr.Append($"^{Digit}");
-                StringFunction = BuildFuncStr.ToString();
+                buildFuncStr.Append($"^{Digit}");
+                stringFunction = buildFuncStr.ToString();
             }
 
-            return StringFunction;
+            return stringFunction;
         }
     }
 }

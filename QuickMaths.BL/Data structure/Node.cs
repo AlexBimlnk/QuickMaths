@@ -20,21 +20,21 @@ namespace QuickMaths.BL.DataStructure
             Data = data;
         }
 
-        public void Add(Node _data, NodeWayType wayType)
+        public void Add(Node data, NodeWayType wayType)
         {
             if (wayType == NodeWayType.MultiplyWay)
             {
                 if (MultiplyWay == null)
-                    MultiplyWay = _data;
+                    MultiplyWay = data;
                 else
-                    MultiplyWay.Add(_data, NodeWayType.MultiplyWay);
+                    MultiplyWay.Add(data, NodeWayType.MultiplyWay);
             }
             else
             {
                 if (PlusWay == null)
-                    PlusWay = _data;
+                    PlusWay = data;
                 else
-                    PlusWay.Add(_data, NodeWayType.PlusWay);
+                    PlusWay.Add(data, NodeWayType.PlusWay);
             }
         }
     }

@@ -29,13 +29,15 @@ namespace QuickMaths.BL.Functions
 
         public LogarithmicFunction() { }
 
-        public LogarithmicFunction(double digit,Tree subtree = null) : base(digit,subtree) { }
-        public LogarithmicFunction(double digit, double @base,Tree subtree = null ) : base(digit,subtree) { Base = @base; }
+        public LogarithmicFunction(double digit, Tree subTree = null) : base(digit, subTree) { }
+        public LogarithmicFunction(double digit, double @base, Tree subTree = null ) 
+            : base(digit,subTree) { Base = @base; }
 
-        public LogarithmicFunction(string _StringFunction) : base(_StringFunction)
+        public LogarithmicFunction(string stringFunction) : base(stringFunction)
         {
-            Digit = Convert.ToDouble(_StringFunction.Substring(3, _StringFunction.IndexOf('(') - 3));
+            Digit = Convert.ToDouble(stringFunction.Substring(3, stringFunction.IndexOf('(') - 3));
         }
+
         /// <summary>
         /// 1 / (x * ln a)
         /// </summary>
@@ -43,38 +45,38 @@ namespace QuickMaths.BL.Functions
         public override IFunction Derivative()
         {
             //return new CompositeFunction($"({Variable}*log{Base}({Digit}))^(-1
-            Tree _Tree = new Tree();
+            Tree tree = new Tree();
 
             if (Digit != Math.E)
             {
                 NumberFunction digit = new NumberFunction(Digit);
-                Tree _SubTree = new Tree();
-                _SubTree.AddNewMultiplier(digit);
-                LogarithmicFunction logarithmicFunction = new LogarithmicFunction(Math.E, _SubTree);
-                _Tree.AddNewMultiplier(logarithmicFunction);
+                Tree subTree = new Tree();
+                subTree.AddNewMultiplier(digit);
+                LogarithmicFunction logarithmicFunction = new LogarithmicFunction(Math.E, subTree);
+                tree.AddNewMultiplier(logarithmicFunction);
             }
             
             if (SubFunctionTree != null)
-                Tree.MergeMult(_Tree, SubFunctionTree.GetDerivative());
+                Tree.MergeMult(tree, SubFunctionTree.GetDerivative());
             
-            return new PowerFunction(-1, _Tree);
+            return new PowerFunction(-1, tree);
         }
 
         public override string ToString()
         {
-            if (StringFunction == "")
+            if (stringFunction == String.Empty)
             {
-                StringBuilder BuildFuncStr = new StringBuilder("log");
+                StringBuilder buildFuncStr = new StringBuilder("log");
 
-                BuildFuncStr.Append($" {Digit}(");
-                if (subFunctionTree == null)
-                    BuildFuncStr.Append("x)");
+                buildFuncStr.Append($" {Digit}(");
+                if (SubFunctionTree == null)
+                    buildFuncStr.Append("x)");
                 else
-                    BuildFuncStr.Append($"{SubFunctionTree})");
-                StringFunction = BuildFuncStr.ToString();
+                    buildFuncStr.Append($"{SubFunctionTree})");
+                stringFunction = buildFuncStr.ToString();
             }
 
-            return StringFunction;
+            return stringFunction;
         }
     }
 }

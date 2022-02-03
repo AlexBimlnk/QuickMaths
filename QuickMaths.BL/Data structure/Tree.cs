@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QuickMaths.BL.Functions;
+using QuickMaths.BL.Enums;
 
 namespace QuickMaths.BL.DataStructure
 {
@@ -21,15 +22,23 @@ namespace QuickMaths.BL.DataStructure
             Head = head;
         }
 
+        /// <summary>
+        /// Добавляет в дерево узел-множитель.
+        /// </summary>
+        /// <param name="newMult"> Функция-множитель. </param>
         public void AddNewMultiplier(IFunction newMult)
         {
             Node newNode = new Node(newMult);
             if (Head == null)
                 Head = newNode;
             else
-                Head.Add(newNode, Enums.NodeWayType.MultiplyWay);
+                Head.Add(newNode, NodeWayType.MultiplyWay);
         }
 
+        /// <summary>
+        /// Добавляет в дерево узел-слагаемое.
+        /// </summary>
+        /// <param name="newSumm"> Функция-слагаемое. </param>
         public void AddNewSummand(IFunction newSumm)
         {
             Node newNode = new Node(newSumm);
@@ -37,18 +46,22 @@ namespace QuickMaths.BL.DataStructure
                 Head = newNode;
             else
             {
-                Head.Add(newNode, Enums.NodeWayType.PlusWay);
+                Head.Add(newNode, NodeWayType.PlusWay);
             }
         }
 
-        public void AddNewSummandRev(IFunction newSumm)
+        /// <summary>
+        /// Добавляет в дерево узел-слагаемое и устанавливает его в качестве корня дерева.
+        /// </summary>
+        /// <param name="newSumm"> Фугкция-слагаемое. </param>
+        public void AddNewSummandInRoot(IFunction newSumm)
         {
             Node newNode = new Node(newSumm);
             if (Head == null)
                 Head= newNode;
             else
             {
-                newNode.Add(Head, Enums.NodeWayType.PlusWay);
+                newNode.Add(Head, NodeWayType.PlusWay);
                 Head = newNode;
             }
         }
@@ -93,121 +106,120 @@ namespace QuickMaths.BL.DataStructure
         }
 
         //TODO: доделать производную
-        public Tree GetDerivative()
+        /// <summary>
+        /// Возвращает дерево производных, если это возможно.
+        /// </summary>
+        /// <returns> Дерево производных или null. </returns>
+        public Tree? GetDerivative()
         {
-            // x*y*z => x'*y*z + x*y'*z + x*y*z'
-            Node tHead = Head;
+            // (x*y*z)' => x'*y*z + x*y'*z + x*y*z'
 
-            Node der = null;
+            Node treeHead = Head;
+            Node derivativeNode = null;
 
-            while (tHead != null)
+            //Перебираем узлы-слагаемые
+            while (treeHead != null)
             {
-                Node elem = tHead;
-                
-                List <Node> nodes = new List<Node>();
+                List<Node> nodes = CreateMultyWayList(treeHead);
 
-                while (elem != null)
+                //Перебираем список узлов-множителей
+                for (int i = 0; i < nodes.Count; i++)
                 {
-                    nodes.Add(elem);
-                    elem = elem.MultiplyWay;
-                }
-
-                for (int i = 0;i < nodes.Count;i++)
-                {
-                    Node summ = null;
-                    for (int y = 0;y < nodes.Count;y++)
+                    Node summand = null;
+                    for (int y = 0; y < nodes.Count; y++)
                     {
+                        //Если мы достигли множителя, от которого следует взять производную
                         if (i == y)
                         {
-                            Node tder = new Node(nodes[y].Data.Derivative());
-                            if (tder.Data == null)
+                            Node tempDerivativeNode = new Node(nodes[y].Data.Derivative());
+                            if (tempDerivativeNode.Data == null)
                             {
-                                summ = null;
+                                summand = null;
                                 break;
                             }
-                            if (summ == null)
-                                summ = tder;
+                            if (summand == null)
+                                summand = tempDerivativeNode;
                             else
-                                summ.Add(tder, Enums.NodeWayType.MultiplyWay);
+                                summand.Add(tempDerivativeNode, NodeWayType.MultiplyWay);
                         }
+                        else if (summand == null)
+                            summand = new Node(nodes[y].Data);
                         else
-                        {
-                            if (summ == null)
-                                summ = new Node(nodes[y].Data);
-                            else
-                                summ.Add(new Node(nodes[y].Data), Enums.NodeWayType.MultiplyWay);
-                        }
+                            summand.Add(new Node(nodes[y].Data), NodeWayType.MultiplyWay);
                     }
-                    if (summ != null)
-                        if (der == null)
-                            der = summ;
+                    if (summand != null)
+                    {
+                        if (derivativeNode == null)
+                            derivativeNode = summand;
                         else
-                            der.Add(summ, Enums.NodeWayType.PlusWay);
+                            derivativeNode.Add(summand, NodeWayType.PlusWay);
+                    }
                 }
 
-                tHead = tHead.PlusWay;
+                treeHead = treeHead.PlusWay;
             }
 
-            return new Tree(der);
+            return derivativeNode == null ? null : new Tree(derivativeNode);
         }
 
         //TODO: доделать преобразование в строку
         public override string ToString()
         {
-            StringBuilder builtreestr = new StringBuilder();
+            StringBuilder builTreeStr = new StringBuilder();
 
-            Node tHead = Head;
+            Node treeHead = Head;
 
-            while (tHead != null)
+            while (treeHead != null)
             {
-                if (builtreestr.Length != 0)
-                    builtreestr.Append("|  +  |");
+                if (builTreeStr.Length != 0)
+                    builTreeStr.Append('+');
 
-                Node summ = tHead;
+                Node multiplier = treeHead;
 
-                while (summ != null)
+                while (multiplier != null)
                 {
-                    if (summ != tHead)
-                        builtreestr.Append('*');
+                    if (multiplier != treeHead)
+                        builTreeStr.Append('*');
 
-                    builtreestr.Append(summ.Data.ToString());
+                    builTreeStr.Append(multiplier.Data.ToString());
 
-                    summ = summ.MultiplyWay;
+                    multiplier = multiplier.MultiplyWay;
                 }
 
-                tHead = tHead.PlusWay;
+                treeHead = treeHead.PlusWay;
             }
 
-            return builtreestr.ToString();
+            return builTreeStr.ToString();
         }
 
         /// <summary>
+        /// Производит слияние двух деревьев, связанных умножением в одно.
         /// (a*b*c) * (d*e*f) => a*b*c*d*e*f
-        /// 
+        /// <br/>
         /// (a*b*c) * (d+e+f) => a*b*c*(d+e+f)
         /// </summary>
-        /// <param name="_Result"></param>
-        /// <param name="_Add"></param>
-        static public void MergeMult(Tree _Result, Tree _Add)
+        /// <param name="toMerge"> Дерево, являющееся результатом слияния. </param>
+        /// <param name="fromMerge"> Дерево, из которого нужно достать узлы для слияния. </param>
+        static public void MergeMult(Tree fromMerge, Tree toMerge)
         {
-            if (_Add == null)
+            if (fromMerge == null)
                 return;
-            if (_Result == null)
+            if (toMerge == null)
             {
-                _Result = _Add;
+                toMerge = fromMerge;
                 return;
             }
-            if (_Result.Head.PlusWay != null)
+            if (toMerge.Head.PlusWay != null)
             {
                 return;
             }
-            if (_Add.Head.PlusWay != null)
+            if (fromMerge.Head.PlusWay != null)
             {
-                CompositeFunction _newnode = new CompositeFunction(_Add);
-                _Result.AddNewMultiplier(_newnode);
+                CompositeFunction newNode = new CompositeFunction(fromMerge);
+                toMerge.AddNewMultiplier(newNode);
                 return;
             }
-            _Result.Head.Add(_Add.Head, Enums.NodeWayType.MultiplyWay);
+            toMerge.Head.Add(fromMerge.Head, NodeWayType.MultiplyWay);
         }
 
         

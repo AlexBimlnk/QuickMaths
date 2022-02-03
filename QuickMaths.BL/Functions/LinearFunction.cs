@@ -25,7 +25,7 @@ namespace QuickMaths.BL.Functions
         public LinearFunction()
         { }
 
-        public LinearFunction(string _StringFunction) : base(_StringFunction)
+        public LinearFunction(string stringFunction) : base(stringFunction)
         {
             Digit = 1;
         }
@@ -37,27 +37,27 @@ namespace QuickMaths.BL.Functions
             if (Digit == 1)
                 return new CompositeFunction(SubFunctionTree.GetDerivative());
 
-            Tree _Tree = new Tree();
+            Tree tree = new Tree();
 
-            _Tree.AddNewMultiplier(new NumberFunction(Digit));
+            tree.AddNewMultiplier(new NumberFunction(Digit));
             
 
-            Tree.MergeMult(_Tree, SubFunctionTree.GetDerivative());
+            Tree.MergeMult(tree, SubFunctionTree.GetDerivative());
 
-            return new CompositeFunction(_Tree);
+            return new CompositeFunction(tree);
         }
 
         public override string ToString()
         {
-            if (StringFunction == "")
+            if (stringFunction == String.Empty)
             {
-                if (subFunctionTree == null)
-                    StringFunction = "x";
+                if (SubFunctionTree == null)
+                    stringFunction = "x";
                 else
-                    StringFunction = $"({SubFunctionTree})";
+                    stringFunction = $"({SubFunctionTree})";
             }
 
-            return StringFunction;
+            return stringFunction;
         }
     }
 }

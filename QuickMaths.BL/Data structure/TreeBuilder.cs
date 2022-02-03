@@ -9,9 +9,9 @@ using QuickMaths.BL.Validation;
 
 namespace QuickMaths.BL.DataStructure
 {
-    //ToDo: Заменить + и прочие символы на флаги из перечисления
     public static class TreeBuilder
     {
+        //ToDo: Найс нейминг - с, а, б еще не хватает п. Исправь во всем классе.
         public static Tree BuildTree(string s)
         {
             List<string> a = Split(s, '+');
@@ -30,7 +30,7 @@ namespace QuickMaths.BL.DataStructure
             foreach (var slog in b)
             {
                 IFunction newFunc = GetFunc(slog[0]);
-                tree.AddNewSummandRev(newFunc);
+                tree.AddNewSummandInRoot(newFunc);
                 for (int i = 1; i < slog.Count; i++)
                 {
                     newFunc = GetFunc(slog[i]);

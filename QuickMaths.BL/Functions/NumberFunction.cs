@@ -30,9 +30,9 @@ namespace QuickMaths.BL.Functions
 
         public NumberFunction(double digit) : base(digit) { }
 
-        public NumberFunction(string _StringFunction):base(_StringFunction)
+        public NumberFunction(string stringFunction) : base(stringFunction)
         {
-            Digit = Convert.ToDouble(_StringFunction);
+            Digit = Convert.ToDouble(stringFunction);
         }
 
         public override IFunction Derivative()

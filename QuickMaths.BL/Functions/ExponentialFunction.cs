@@ -24,11 +24,11 @@ namespace QuickMaths.BL.Functions
     {
         public ExponentialFunction() { }
 
-        public ExponentialFunction(double digit,Tree subtree = null) : base(digit,subtree) { }
+        public ExponentialFunction(double digit, Tree subTree = null) : base(digit, subTree) { }
 
-        public ExponentialFunction(string _StringFunction) : base(_StringFunction)
+        public ExponentialFunction(string stringFunction) : base(stringFunction)
         {
-            Digit = Convert.ToDouble(_StringFunction.Split('^')[0]);
+            Digit = Convert.ToDouble(stringFunction.Split('^')[0]);
         }
 
         /// <summary>
@@ -38,39 +38,39 @@ namespace QuickMaths.BL.Functions
         /// <returns></returns>
         public override IFunction Derivative()
         { 
-            Tree _Tree = new Tree();
+            Tree tree = new Tree();
 
-            _Tree.AddNewMultiplier(this);
+            tree.AddNewMultiplier(this);
 
             if (Digit != Math.E)
             {
-                Tree _SubTree = new Tree();
+                Tree subTree = new Tree();
                 NumberFunction digit = new NumberFunction(Digit);
-                _SubTree.AddNewMultiplier(digit);
-                LogarithmicFunction logarithmicFunction = new LogarithmicFunction(Math.E, _SubTree);
-                _Tree.AddNewMultiplier(logarithmicFunction);
+                subTree.AddNewMultiplier(digit);
+                LogarithmicFunction logarithmicFunction = new LogarithmicFunction(Math.E, subTree);
+                tree.AddNewMultiplier(logarithmicFunction);
             }
             if (SubFunctionTree != null)
-                Tree.MergeMult(_Tree, SubFunctionTree.GetDerivative());
+                Tree.MergeMult(tree, SubFunctionTree.GetDerivative());
             
-            return new CompositeFunction(_Tree);
+            return new CompositeFunction(tree);
         }
 
         public override string ToString()
         {
-            if (StringFunction == "")
+            if (stringFunction == String.Empty)
             {
-                StringBuilder BuildFuncStr = new StringBuilder();
+                StringBuilder buildFuncStr = new StringBuilder();
 
-                BuildFuncStr.Append($"{Digit}^");
-                if (subFunctionTree == null)
-                    BuildFuncStr.Append("x");
+                buildFuncStr.Append($"{Digit}^");
+                if (SubFunctionTree == null)
+                    buildFuncStr.Append('x');
                 else
-                    BuildFuncStr.Append(SubFunctionTree.ToString());
-                StringFunction = BuildFuncStr.ToString();
+                    buildFuncStr.Append(SubFunctionTree.ToString());
+                stringFunction = buildFuncStr.ToString();
             }
 
-            return StringFunction;
+            return stringFunction;
         }
     }
 }

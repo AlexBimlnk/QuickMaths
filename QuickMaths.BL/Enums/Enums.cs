@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuickMaths.BL.Enums
 {
-    public enum MathOperator
+    public enum MathOperation
     {
         Plus = '+',
         Minus = '-',
