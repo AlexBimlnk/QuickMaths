@@ -12,6 +12,8 @@ namespace QuickMaths.BL.DataStructure
     {
         public Node Head { get; private set; }
 
+        public int Size { get { return (Head == null) ? 0 : Head.Size; } }
+
         public Tree()
         {
             Head = null;
@@ -20,6 +22,12 @@ namespace QuickMaths.BL.DataStructure
         public Tree(Node head)
         {
             Head = head;
+        }
+
+        public Tree(IFunction head)
+        {
+            if (head != null)
+                Head = new Node(head);
         }
 
         /// <summary>
@@ -172,14 +180,14 @@ namespace QuickMaths.BL.DataStructure
             while (treeHead != null)
             {
                 if (builTreeStr.Length != 0)
-                    builTreeStr.Append('+');
+                    builTreeStr.Append(" + ");
 
                 Node multiplier = treeHead;
 
                 while (multiplier != null)
                 {
                     if (multiplier != treeHead)
-                        builTreeStr.Append('*');
+                        builTreeStr.Append("*");
 
                     builTreeStr.Append(multiplier.Data.ToString());
 
@@ -200,7 +208,7 @@ namespace QuickMaths.BL.DataStructure
         /// </summary>
         /// <param name="toMerge"> Дерево, являющееся результатом слияния. </param>
         /// <param name="fromMerge"> Дерево, из которого нужно достать узлы для слияния. </param>
-        static public void MergeMult(Tree fromMerge, Tree toMerge)
+        static public void MergeMult(Tree toMerge, Tree fromMerge)
         {
             if (fromMerge == null)
                 return;

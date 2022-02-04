@@ -12,21 +12,24 @@ namespace QuickMaths.CMD
 
             Console.WriteLine("Hello World!");
 
-            CompositeFunction sm = new CompositeFunction("3*x^2 + 4*x + 5*(x+3)*log2(x)");
-            CompositeFunction sm2 = new CompositeFunction("3*x^2*5 + 4*x + x");
+            CompositeFunction sm2 = new CompositeFunction("15*x^2+4*x+x");
+            Console.WriteLine(sm2.SubFunctionTree.ToString());
+            CompositeFunction sm = new CompositeFunction("3*x^2+4*x+5*(x+3)*log2(9)");
+            Console.WriteLine(sm.SubFunctionTree.ToString());
             //Function sm3 = new Function("3^x+x");
 
 
             IFunction der_sm2 = sm.Derivative();
-            foreach (var i in sm.SubFunctionTree.CreateMultyWayList(sm.SubFunctionTree.Head))
-            {
-                Console.WriteLine(i.Data.ToString());
-            }
-
-
             Console.WriteLine(der_sm2.ToString());
-            Console.WriteLine(sm.ToString());
-            Console.WriteLine(sm.SubFunctionTree.ToString());
+            //foreach (var i in sm.SubFunctionTree.CreateMultyWayList(sm.SubFunctionTree.Head))
+            //{
+            //    Console.WriteLine(i.Data.ToString());
+            //}
+
+
+            //Console.WriteLine(der_sm2.ToString());
+            
+            
             //Console.WriteLine(Derivative.GetDerivative(sm2));
 
             //ConsoleHelper.Start();

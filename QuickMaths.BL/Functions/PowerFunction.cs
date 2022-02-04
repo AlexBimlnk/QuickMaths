@@ -39,18 +39,20 @@ namespace QuickMaths.BL.Functions
         public override IFunction Derivative()
         {
             //return new CompositeFunction($"{Digit}*{Variable}^{Digit - 1}");
-            Tree tree = new Tree();
 
-            NumberFunction digit = new NumberFunction(Digit);
-            IFunction power = (Digit - 1 == 1) ? new LinearFunction() : new PowerFunction(Digit - 1, SubFunctionTree);
+            Tree SubTree = new Tree();
 
-            tree.AddNewMultiplier(digit);
-            tree.AddNewMultiplier(power);
+            IFunction ThisDer;
+            if (Digit == 2)
+                ThisDer = new LinearFunction(Digit, SubFunctionTree);
+            else
+                ThisDer = new LinearFunction(Digit, new Tree(new PowerFunction(Digit - 1, SubFunctionTree)));
+            SubTree.AddNewMultiplier(ThisDer);
 
             if (SubFunctionTree != null)
-                Tree.MergeMult(tree, SubFunctionTree.GetDerivative());
+                Tree.MergeMult(SubTree, SubFunctionTree.GetDerivative());
 
-            return new CompositeFunction(tree);
+            return new CompositeFunction(SubTree);
         }
 
         public override string ToString()

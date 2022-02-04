@@ -14,27 +14,58 @@ namespace QuickMaths.BL.DataStructure
         //ToDo: Найс нейминг - с, а, б еще не хватает п. Исправь во всем классе.
         public static Tree BuildTree(string s)
         {
-            List<string> a = Split(s, '+');
+            List<string> SummList = Split(s, '+');
 
-            List<List<string>> b = new List<List<string>>();
+            List<List<string>> MultipList = new List<List<string>>();
 
             //Делим слагаемые по умножению
-            foreach (string func in a)
+            foreach (string func in SummList)
             {
                 List<string> tmp = Split(func, '*');
-                b.Add(tmp);
+                MultipList.Add(tmp);
             }
-
             Tree tree = new Tree();
-            b.Reverse();
-            foreach (var slog in b)
+            MultipList.Reverse();
+
+            bool MergeCheck = false;
+            foreach (var slog in MultipList)
             {
-                IFunction newFunc = GetFunc(slog[0]);
-                tree.AddNewSummandInRoot(newFunc);
-                for (int i = 1; i < slog.Count; i++)
+                for (int i = 0;i < slog.Count; i++)
                 {
-                    newFunc = GetFunc(slog[i]);
-                    tree.AddNewMultiplier(newFunc);
+                    IFunction newFunc = GetFunc(slog[i]);
+
+                    if (newFunc is NumberFunction)
+                    {
+                        if (i + 1 < slog.Count)
+                        {
+                            MergeCheck = true;
+                            IFunction subFunc = GetFunc(slog[i + 1]);
+                            NumberFunction oldFunc = (NumberFunction)newFunc;
+
+                            if (subFunc is SimpleFunction)
+                            {
+                                if (subFunc is LinearFunction)
+                                    newFunc = new LinearFunction(oldFunc.Digit);
+                                else
+                                    newFunc = new LinearFunction(oldFunc.Digit,new Tree(subFunc));
+                            }
+                            else
+                            {
+                                newFunc = new LinearFunction(oldFunc.Digit, subFunc.SubFunctionTree);
+                            }
+                        }
+                    }
+
+                    if (i == 0)
+                        tree.AddNewSummandInRoot(newFunc);
+                    else
+                        tree.AddNewMultiplier(newFunc);
+
+                    if (MergeCheck)
+                    {
+                        MergeCheck = false;
+                        i++;
+                    }
                 }
             }
             return tree;
@@ -69,25 +100,28 @@ namespace QuickMaths.BL.DataStructure
             return ans;
         }
 
-        public static IFunction GetFunc(string FunctionString)
-        { 
-            if (FunctionString[FunctionString.Length - 1] == ')' && FunctionString[0] == '(')
-                return new LinearFunction(FunctionString);
+        public static IFunction GetFunc(string functionString)
+        {
+            if (functionString[0] == '(' && functionString[functionString.Length - 1] == ')')
+            {
+                IsComplex(ref functionString);
+                return new CompositeFunction(functionString);
+            }
+                
+            if (functionString.Length >= 3 && functionString.Substring(0, 3) == "log")
+                return new LogarithmicFunction(functionString);
 
-            if (FunctionString.Length >= 3 && FunctionString.Substring(0, 3) == "log")
-                return new LogarithmicFunction(FunctionString);
-
-            if (FunctionString[0] == 'e')
-                return new ExponentialFunction(FunctionString);
+            if (functionString[0] == 'e')
+                return new ExponentialFunction(functionString);
 
 
-            if (FunctionString.Contains('^') == true)
-                return new PowerFunction(FunctionString);
+            if (functionString.Contains('^') == true)
+                return new PowerFunction(functionString);
 
-            if (FunctionString[0] >= '0' && FunctionString[0] <= '9')
-                return new NumberFunction(FunctionString);
+            if (functionString[0] >= '0' && functionString[0] <= '9')
+                return new NumberFunction(functionString);
 
-            return new LinearFunction(FunctionString);
+            return new LinearFunction(functionString);
         }
 
         public static bool IsComplex(ref string s)
@@ -99,6 +133,9 @@ namespace QuickMaths.BL.DataStructure
                 return false;
 
             s = s.Substring(firstSk + 1, lastSk - firstSk - 1);
+
+            if (!(s[0] >= '0' && s[0] <= '9') || !s.Contains('(') || !s.Contains('+') || !s.Contains('*') || !s.Contains('^'))
+                return false;
 
             return true;
         }

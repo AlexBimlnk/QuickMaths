@@ -13,11 +13,11 @@ namespace QuickMaths.BL.DataStructure
         public Node MultiplyWay { get; set; }
         public Node PlusWay { get; set; }
         public IFunction Data { get; set; }
-
-
+        public int Size { get; private set; }
         public Node(IFunction data)
         {
             Data = data;
+            Size = 1;
         }
 
         public void Add(Node data, NodeWayType wayType)
@@ -36,6 +36,7 @@ namespace QuickMaths.BL.DataStructure
                 else
                     PlusWay.Add(data, NodeWayType.PlusWay);
             }
+            Size = 1 + ((MultiplyWay == null)? 0: MultiplyWay.Size) + ((PlusWay == null)? 0: PlusWay.Size);
         }
     }
 }

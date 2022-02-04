@@ -30,6 +30,11 @@ namespace QuickMaths.BL.Functions
             Digit = 1;
         }
 
+        public LinearFunction(double digit, Tree subTree = null):base(digit, subTree)
+        {
+
+        }
+
         public override IFunction Derivative()
         {
             if (SubFunctionTree == null)
@@ -51,10 +56,22 @@ namespace QuickMaths.BL.Functions
         {
             if (stringFunction == String.Empty)
             {
+                StringBuilder StrFuncBuilder = new StringBuilder();
+
+                if (Digit != 1)
+                    StrFuncBuilder.Append($"{Digit}*");
+
                 if (SubFunctionTree == null)
-                    stringFunction = "x";
+                    StrFuncBuilder.Append('x');
                 else
-                    stringFunction = $"({SubFunctionTree})";
+                { 
+                    if (SubFunctionTree.Size == 1)
+                        StrFuncBuilder.Append($"{SubFunctionTree}");
+                    else
+                        StrFuncBuilder.Append($"({SubFunctionTree})");
+                }
+
+                stringFunction = StrFuncBuilder.ToString();
             }
 
             return stringFunction;
