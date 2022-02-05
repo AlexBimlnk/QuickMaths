@@ -11,93 +11,56 @@ namespace QuickMaths.BL.DataStructure
 {
     public static class TreeBuilder
     {
-        //ToDo: Найс нейминг - с, а, б еще не хватает п. Исправь во всем классе.
         public static Tree BuildTree(string s)
         {
-            List<string> SummList = Split(s, '+');
+            List<List<string>> funcList = new List<List<string>>();
+            Split(s, '+').ForEach(func => funcList.Add(Split(func, '*')));
 
-            List<List<string>> MultipList = new List<List<string>>();
-
-            //Делим слагаемые по умножению
-            foreach (string func in SummList)
-            {
-                List<string> tmp = Split(func, '*');
-                MultipList.Add(tmp);
-            }
+            bool merged = false;
             Tree tree = new Tree();
-            MultipList.Reverse();
+            funcList.Reverse();
 
-            bool MergeCheck = false;
-            foreach (var slog in MultipList)
+            //Перебираем слагаемые в сложной функции ()+()+()
+            foreach (var slog in funcList)
             {
-                for (int i = 0;i < slog.Count; i++)
+                //Перебираем множители ()*()*()
+                for (int i = 0; i < slog.Count; i++)
                 {
-                    IFunction newFunc = GetFunc(slog[i]);
+                    IFunction currentFunc = GetFunc(slog[i]);
 
-                    if (newFunc is NumberFunction)
+                    //Если функция числовая
+                    if (currentFunc is NumberFunction && i + 1 < slog.Count)
                     {
-                        if (i + 1 < slog.Count)
-                        {
-                            MergeCheck = true;
-                            IFunction subFunc = GetFunc(slog[i + 1]);
-                            NumberFunction oldFunc = (NumberFunction)newFunc;
+                        IFunction nextFunction = GetFunc(slog[i + 1]);
 
-                            if (subFunc is SimpleFunction)
-                            {
-                                if (subFunc is LinearFunction)
-                                    newFunc = new LinearFunction(oldFunc.Digit);
-                                else
-                                    newFunc = new LinearFunction(oldFunc.Digit,new Tree(subFunc));
-                            }
-                            else
-                            {
-                                newFunc = new LinearFunction(oldFunc.Digit, subFunc.SubFunctionTree);
-                            }
+                        //Если следующая функция линейная - склеиваем функцию
+                        if(nextFunction is LinearFunction)
+                        {
+                            currentFunc = new LinearFunction(((NumberFunction)currentFunc).Digit);
+                            merged = true;
+                        }
+
+                        //Если сложная, то представляем как сложную линейную
+                        if(nextFunction is CompositeFunction)
+                        {
+                            currentFunc = new LinearFunction(((NumberFunction)currentFunc).Digit, nextFunction.SubFunctionTree);
+                            merged = true;
                         }
                     }
 
                     if (i == 0)
-                        tree.AddNewSummandInRoot(newFunc);
+                        tree.AddNewSummandInRoot(currentFunc);
                     else
-                        tree.AddNewMultiplier(newFunc);
+                        tree.AddNewMultiplier(currentFunc);
 
-                    if (MergeCheck)
+                    if (merged)
                     {
-                        MergeCheck = false;
+                        merged = false;
                         i++;
                     }
                 }
             }
             return tree;
-        }
-
-       
-
-        private static List<string> Split(string s, char c)
-        {
-            s += c;
-            int start = 0;
-            List<string> ans = new List<string>();
-            int skobkaCheck = 0;
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (s[i] == '(')
-                    skobkaCheck++;
-                if (s[i] == ')')
-                    skobkaCheck--;
-
-                if (skobkaCheck == 0)
-                {
-                    if (s[i] == c)
-                    {
-                        string tmp = s.Substring(start, i - start);
-                        ans.Add(tmp);
-                        start = i + 1;
-                    }
-                }
-            }
-
-            return ans;
         }
 
         public static IFunction GetFunc(string functionString)
@@ -151,6 +114,35 @@ namespace QuickMaths.BL.DataStructure
                 }
             }
             return true;
+        }
+
+
+
+        private static List<string> Split(string s, char c)
+        {
+            s += c;
+            int start = 0;
+            List<string> ans = new List<string>();
+            int skobkaCheck = 0;
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == '(')
+                    skobkaCheck++;
+                if (s[i] == ')')
+                    skobkaCheck--;
+
+                if (skobkaCheck == 0)
+                {
+                    if (s[i] == c)
+                    {
+                        string tmp = s.Substring(start, i - start);
+                        ans.Add(tmp);
+                        start = i + 1;
+                    }
+                }
+            }
+
+            return ans;
         }
     }
 }

@@ -56,22 +56,22 @@ namespace QuickMaths.BL.Functions
         {
             if (stringFunction == String.Empty)
             {
-                StringBuilder StrFuncBuilder = new StringBuilder();
+                StringBuilder strFuncBuilder = new StringBuilder();
 
                 if (Digit != 1)
-                    StrFuncBuilder.Append($"{Digit}*");
+                    strFuncBuilder.Append($"{Digit}*");
 
                 if (SubFunctionTree == null)
-                    StrFuncBuilder.Append('x');
+                    strFuncBuilder.Append('x');
                 else
                 { 
                     if (SubFunctionTree.Size == 1)
-                        StrFuncBuilder.Append($"{SubFunctionTree}");
+                        strFuncBuilder.Append($"{SubFunctionTree}");
                     else
-                        StrFuncBuilder.Append($"({SubFunctionTree})");
+                        strFuncBuilder.Append($"({SubFunctionTree})");
                 }
 
-                stringFunction = StrFuncBuilder.ToString();
+                stringFunction = strFuncBuilder.ToString();
             }
 
             return stringFunction;
