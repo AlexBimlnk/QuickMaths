@@ -15,51 +15,50 @@ namespace QuickMaths.BL.Functions
     ///         <description>Является линейной функцией.</description>
     ///     </item>
     ///     <item>
-    ///         <term>y</term>
-    ///         <description>Является числовой функцией.</description>
+    ///         <term>4*y</term>
+    ///         <description>Является линейной функцией.</description>
     ///     </item>
     /// </list>
     /// </summary>
     public class LinearFunction : SimpleFunction
     {
-        public LinearFunction()
-        { }
-
+        public LinearFunction() { }
+        public LinearFunction(double value, Tree subTree = null) : base(value, subTree) { }
+        public LinearFunction(Variable variable, Tree subTree = null) : base(variable, subTree) { }
         public LinearFunction(string stringFunction) : base(stringFunction)
         {
-            Digit = 1;
+            Variable = new Variable(1);
         }
 
-        public LinearFunction(double digit, Tree subTree = null):base(digit, subTree)
+
+        public override double Calculate()
         {
-
+            throw new NotImplementedException();
         }
-
         public override IFunction Derivative()
         {
             if (SubFunctionTree == null)
-                return new NumberFunction(Digit);
-            if (Digit == 1)
+                return new NumberFunction(Variable.Value);
+            if (Variable.Value == 1)
                 return new CompositeFunction(SubFunctionTree.GetDerivative());
 
             Tree tree = new Tree();
 
-            tree.AddNewMultiplier(new NumberFunction(Digit));
+            tree.AddNewMultiplier(new NumberFunction(Variable.Value));
             
 
             Tree.MergeMult(tree, SubFunctionTree.GetDerivative());
 
             return new CompositeFunction(tree);
         }
-
         public override string ToString()
         {
             if (stringFunction == String.Empty)
             {
                 StringBuilder strFuncBuilder = new StringBuilder();
 
-                if (Digit != 1)
-                    strFuncBuilder.Append($"{Digit}*");
+                if (Variable.Value != 1)
+                    strFuncBuilder.Append($"{Variable.Value}*");
 
                 if (SubFunctionTree == null)
                     strFuncBuilder.Append('x');

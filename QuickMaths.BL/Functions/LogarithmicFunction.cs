@@ -22,34 +22,35 @@ namespace QuickMaths.BL.Functions
     /// </summary>
     internal class LogarithmicFunction : SimpleFunction
     {
+        public LogarithmicFunction() { }
+        public LogarithmicFunction(double value, Tree subTree = null) : base(value, subTree) { }
+        public LogarithmicFunction(Variable variable, Tree subTree = null) : base(variable, subTree) { }
+        public LogarithmicFunction(Variable variable, double @base, Tree subTree = null ) 
+            : base(variable,subTree) { Base = @base; }
+        public LogarithmicFunction(string stringFunction) : base(stringFunction)
+        {
+            Variable = new Variable(Convert.ToDouble(stringFunction.Substring(3, stringFunction.IndexOf('(') - 3)));
+        }
+
+
         /// <summary>
         /// Основание логарифма.
         /// </summary>
         public double Base { get; private set; }
 
-        public LogarithmicFunction() { }
 
-        public LogarithmicFunction(double digit, Tree subTree = null) : base(digit, subTree) { }
-        public LogarithmicFunction(double digit, double @base, Tree subTree = null ) 
-            : base(digit,subTree) { Base = @base; }
-
-        public LogarithmicFunction(string stringFunction) : base(stringFunction)
+        public override double Calculate()
         {
-            Digit = Convert.ToDouble(stringFunction.Substring(3, stringFunction.IndexOf('(') - 3));
+            throw new NotImplementedException();
         }
-
-        /// <summary>
-        /// 1 / (x * ln a)
-        /// </summary>
-        /// <returns></returns>
         public override IFunction Derivative()
         {
             //return new CompositeFunction($"({Variable}*log{Base}({Digit}))^(-1
             Tree tree = new Tree();
 
-            if (Digit != Math.E)
+            if (Variable.Value != Math.E)
             {
-                NumberFunction digit = new NumberFunction(Digit);
+                NumberFunction digit = new NumberFunction(Variable.Value);
                 Tree subTree = new Tree();
                 subTree.AddNewMultiplier(digit);
                 LogarithmicFunction logarithmicFunction = new LogarithmicFunction(Math.E, subTree);
@@ -61,14 +62,13 @@ namespace QuickMaths.BL.Functions
             
             return new PowerFunction(-1, tree);
         }
-
         public override string ToString()
         {
             if (stringFunction == String.Empty)
             {
                 StringBuilder buildFuncStr = new StringBuilder("log");
 
-                buildFuncStr.Append($" {Digit}(");
+                buildFuncStr.Append($" {Variable.Value}(");
                 if (SubFunctionTree == null)
                     buildFuncStr.Append("x)");
                 else
@@ -77,6 +77,6 @@ namespace QuickMaths.BL.Functions
             }
 
             return stringFunction;
-        }
+        } 
     }
 }

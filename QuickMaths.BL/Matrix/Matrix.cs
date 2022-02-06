@@ -12,23 +12,14 @@ namespace QuickMaths.BL.Matrix
     /// </summary>
     public class Matrix
     {
-        public double[,] Table { get; private set; }
-
-        public long RowCount => Table.GetLength(0);
-
-        public long ColumnCount => Table.GetLength(1);
-
-
         public Matrix(long rows, long columns)
         {
             Table = new double[rows, columns];
         }
-
         public Matrix(double[,] table)
         {
             Table = (double[,])table.Clone();
         }
-
         //public Matrix(LinearFunction[,] linearFunctions)
         //{
         //    long row = linearFunctions.GetLongLength(0);
@@ -52,6 +43,11 @@ namespace QuickMaths.BL.Matrix
         }
 
 
+        public double[,] Table { get; private set; }
+        public long RowCount => Table.GetLength(0);
+        public long ColumnCount => Table.GetLength(1);
+
+
         public Matrix GetRow(long indexRow)
         {
             Matrix matrix = new Matrix(1, ColumnCount);
@@ -63,7 +59,6 @@ namespace QuickMaths.BL.Matrix
 
             return matrix;
         }
-
         public Matrix GetColumn(long indexColumn)
         {
             Matrix matrix = new Matrix(RowCount, 1);
@@ -149,6 +144,5 @@ namespace QuickMaths.BL.Matrix
                                     "не равно количеству строк второй матрицы.");
         }
         #endregion
-
     }
 }

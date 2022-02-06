@@ -10,21 +10,24 @@ namespace QuickMaths.BL.Functions
     public abstract class SimpleFunction : IFunction
     {
         protected string stringFunction = String.Empty;
-
-        public double Digit { get; protected set; }
-
-        public char Variable { get; protected set; }
-
-        public Tree SubFunctionTree { get; protected set; }
+        
 
         public SimpleFunction() { }
-
-        public SimpleFunction(double digit, Tree subTree = null)
+        public SimpleFunction(double value, Tree subTree = null)
         {
-            Digit = digit;
+            Variable = new Variable(value);
             SubFunctionTree = subTree;
         }
-
+        public SimpleFunction(Variable variable, Tree subTree = null)
+        {
+            Variable = variable;
+            SubFunctionTree = subTree;
+        }
+        //public SimpleFunction(double digit, Tree subTree = null)
+        //{
+        //    //Digit = digit;
+        //    SubFunctionTree = subTree;
+        //}
         public SimpleFunction(string strFunction)
         {
             stringFunction = strFunction;
@@ -35,7 +38,14 @@ namespace QuickMaths.BL.Functions
             }
         }
 
-        public abstract IFunction Derivative();
 
+        //public double Digit { get; protected set; }
+        public Variable Variable { get; protected set; }
+        public Tree SubFunctionTree { get; protected set; }
+        public List<IFunction> Arguments => throw new NotImplementedException();
+
+
+        public abstract double Calculate();
+        public abstract IFunction Derivative();
     }
 }

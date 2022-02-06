@@ -23,19 +23,20 @@ namespace QuickMaths.BL.Functions
     internal class PowerFunction : SimpleFunction
     {
         public PowerFunction() { }
-
-        public PowerFunction(double digit, Tree subTree = null) : base(digit, subTree) { }
-
+        public PowerFunction(double value, Tree subTree = null) : base(value, subTree) { }
+        public PowerFunction(Variable variable, Tree subTree = null) : base(variable, subTree) { }
         public PowerFunction(string stringFunction) : base(stringFunction)
         {
             string[] arr = stringFunction.Split('^');
-            Digit = Convert.ToDouble(arr[arr.Length - 1]);
+            Variable = new Variable(Convert.ToDouble(arr[arr.Length - 1]));
             
         }
-        /// <summary>
-        /// n*x^(n-1)
-        /// </summary>
-        /// <returns></returns>
+
+
+        public override double Calculate()
+        {
+            throw new NotImplementedException();
+        }
         public override IFunction Derivative()
         {
             //return new CompositeFunction($"{Digit}*{Variable}^{Digit - 1}");
@@ -43,10 +44,10 @@ namespace QuickMaths.BL.Functions
             Tree SubTree = new Tree();
 
             IFunction ThisDer;
-            if (Digit == 2)
-                ThisDer = new LinearFunction(Digit, SubFunctionTree);
+            if (Variable.Value == 2)
+                ThisDer = new LinearFunction(Variable, SubFunctionTree);
             else
-                ThisDer = new LinearFunction(Digit, new Tree(new PowerFunction(Digit - 1, SubFunctionTree)));
+                ThisDer = new LinearFunction(Variable, new Tree(new PowerFunction(new Variable(Variable.Value - 1), SubFunctionTree)));
             SubTree.AddNewMultiplier(ThisDer);
 
             if (SubFunctionTree != null)
@@ -54,7 +55,6 @@ namespace QuickMaths.BL.Functions
 
             return new CompositeFunction(SubTree);
         }
-
         public override string ToString()
         {
             if (stringFunction == String.Empty)
@@ -67,7 +67,7 @@ namespace QuickMaths.BL.Functions
                 else
                     buildFuncStr.Append($"({SubFunctionTree})");
 
-                buildFuncStr.Append($"^{Digit}");
+                buildFuncStr.Append($"^{Variable.Value}");
                 stringFunction = buildFuncStr.ToString();
             }
 

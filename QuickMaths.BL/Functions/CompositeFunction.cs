@@ -12,31 +12,26 @@ namespace QuickMaths.BL.Functions
     {
         private string _stringFunction = String.Empty;
 
-        public Tree SubFunctionTree { get; set; }
         
         public CompositeFunction(Tree tree)
         {
             SubFunctionTree = tree;
         }
-
         public CompositeFunction(string function)
         {
             _stringFunction = function;
             SubFunctionTree = TreeBuilder.BuildTree(function);
         }
 
-        /*
-         * Заменять константы на чилса (е = 2.7 и т.д)
-         * Проставлять пропущенные знаки (умножение например)
-         * Приводить функцию к нормальному виду иными словами
-         * Метод всегда возращает true, смысл делать его булевым?
-         * Лучше наверное сделать void и просто вызывать ее в конструкторе
-         * А затем вызывать построение дерева
-         * Уберем лишнюю проверку и сигнатуру метода
-        */
-        
 
-        //ToDo: Реализовать алгоритм нахождения сложной функции.
+        public Tree SubFunctionTree { get; protected set; }
+        public List<IFunction> Arguments => throw new NotImplementedException();
+
+
+        public double Calculate()
+        {
+            throw new NotImplementedException();
+        }
         public IFunction Derivative()
         {
             if (SubFunctionTree != null)
@@ -45,7 +40,6 @@ namespace QuickMaths.BL.Functions
             }
             return null;
         }
-
         public override string ToString()
         {
             if (_stringFunction == String.Empty)

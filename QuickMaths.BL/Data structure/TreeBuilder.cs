@@ -36,14 +36,14 @@ namespace QuickMaths.BL.DataStructure
                         //Если следующая функция линейная - склеиваем функцию
                         if(nextFunction is LinearFunction)
                         {
-                            currentFunc = new LinearFunction(((NumberFunction)currentFunc).Digit);
+                            currentFunc = new LinearFunction(((NumberFunction)currentFunc).Variable);
                             merged = true;
                         }
 
                         //Если сложная, то представляем как сложную линейную
                         if(nextFunction is CompositeFunction)
                         {
-                            currentFunc = new LinearFunction(((NumberFunction)currentFunc).Digit, nextFunction.SubFunctionTree);
+                            currentFunc = new LinearFunction(((NumberFunction)currentFunc).Variable, nextFunction.SubFunctionTree);
                             merged = true;
                         }
                     }
@@ -62,7 +62,6 @@ namespace QuickMaths.BL.DataStructure
             }
             return tree;
         }
-
         public static IFunction GetFunc(string functionString)
         {
             if (functionString[0] == '(' && functionString[functionString.Length - 1] == ')')
@@ -74,6 +73,7 @@ namespace QuickMaths.BL.DataStructure
             if (functionString.Length >= 3 && functionString.Substring(0, 3) == "log")
                 return new LogarithmicFunction(functionString);
 
+            //Некорректное определение показательной функции.
             if (functionString[0] == 'e')
                 return new ExponentialFunction(functionString);
 
@@ -86,7 +86,6 @@ namespace QuickMaths.BL.DataStructure
 
             return new LinearFunction(functionString);
         }
-
         public static bool IsComplex(ref string s)
         {
             int firstSk = s.IndexOf('(');
@@ -102,20 +101,11 @@ namespace QuickMaths.BL.DataStructure
 
             return true;
         }
-
         public static bool IsCorrect(ref string s)
         {
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (s[i] == ' ')
-                {
-                    s = s.Remove(i, 1);
-                    i--;
-                }
-            }
+            s = s.Replace(" ", String.Empty);
             return true;
         }
-
 
 
         private static List<string> Split(string s, char c)

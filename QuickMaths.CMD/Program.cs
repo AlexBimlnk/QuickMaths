@@ -19,30 +19,9 @@ namespace QuickMaths.CMD
             //Function sm3 = new Function("3^x+x");
 
 
-            IFunction der_sm2 = sm.Derivative();
-            Console.WriteLine(der_sm2.ToString());
-            //foreach (var i in sm.SubFunctionTree.CreateMultyWayList(sm.SubFunctionTree.Head))
-            //{
-            //    Console.WriteLine(i.Data.ToString());
-            //}
-
-
+            //IFunction der_sm2 = sm.Derivative();
             //Console.WriteLine(der_sm2.ToString());
-            
-            
-            //Console.WriteLine(Derivative.GetDerivative(sm2));
 
-            //ConsoleHelper.Start();
-
-            //double[,] tb = { { 1, 2, 3},
-            //                 { 4, 5, 6},
-            //                 { 7, 8, 9}};
-
-            //Matrix matrix1 = new Matrix(tb);
-            //Matrix matrix2 = new Matrix(tb);
-            //Matrix matrix3 = matrix1 + matrix2*-1;
-
-            //Console.WriteLine(matrix3[0,0]);
 
             Console.ReadKey();
         }

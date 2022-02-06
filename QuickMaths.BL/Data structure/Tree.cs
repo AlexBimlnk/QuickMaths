@@ -10,25 +10,24 @@ namespace QuickMaths.BL.DataStructure
 {
     public class Tree //where T : IComparable
     {
-        public Node Head { get; private set; }
-
-        public int Size { get { return (Head == null) ? 0 : Head.Size; } }
-
         public Tree()
         {
             Head = null;
         }
-
         public Tree(Node head)
         {
             Head = head;
         }
-
         public Tree(IFunction head)
         {
             if (head != null)
                 Head = new Node(head);
         }
+
+
+        public Node Head { get; private set; }
+        public int Size { get { return (Head == null) ? 0 : Head.Size; } }
+
 
         /// <summary>
         /// Добавляет в дерево узел-множитель.
@@ -42,7 +41,6 @@ namespace QuickMaths.BL.DataStructure
             else
                 Head.Add(newNode, NodeWayType.MultiplyWay);
         }
-
         /// <summary>
         /// Добавляет в дерево узел-слагаемое.
         /// </summary>
@@ -57,7 +55,6 @@ namespace QuickMaths.BL.DataStructure
                 Head.Add(newNode, NodeWayType.PlusWay);
             }
         }
-
         /// <summary>
         /// Добавляет в дерево узел-слагаемое и устанавливает его в качестве корня дерева.
         /// </summary>
@@ -73,7 +70,6 @@ namespace QuickMaths.BL.DataStructure
                 Head = newNode;
             }
         }
-
         /// <summary>
         /// Создает список из "+"-узлов во всем дереве.
         /// </summary>
@@ -92,7 +88,6 @@ namespace QuickMaths.BL.DataStructure
 
             return nodes;
         }
-
         /// <summary>
         /// Создает список из "*"-узлов, связанных с данным узлом.
         /// </summary>
@@ -112,7 +107,6 @@ namespace QuickMaths.BL.DataStructure
 
             return nodes;
         }
-
         //TODO: доделать производную
         /// <summary>
         /// Возвращает дерево производных, если это возможно.
@@ -169,7 +163,6 @@ namespace QuickMaths.BL.DataStructure
 
             return derivativeNode == null ? null : new Tree(derivativeNode);
         }
-
         //TODO: доделать преобразование в строку
         public override string ToString()
         {
@@ -200,6 +193,7 @@ namespace QuickMaths.BL.DataStructure
             return builTreeStr.ToString();
         }
 
+
         /// <summary>
         /// Производит слияние двух деревьев, связанных умножением в одно.
         /// (a*b*c) * (d*e*f) => a*b*c*d*e*f
@@ -229,7 +223,5 @@ namespace QuickMaths.BL.DataStructure
             }
             toMerge.Head.Add(fromMerge.Head, NodeWayType.MultiplyWay);
         }
-
-        
     }
 }

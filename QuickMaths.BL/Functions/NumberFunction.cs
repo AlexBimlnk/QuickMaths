@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace QuickMaths.BL.Functions
 {
-    //TODO: Проблема в том, что она никогда не будет иметь переменных
-    //что как бы уже проблема в проектировании, правильной иерархии, возможно
-    //будет достаточно что она имлпементирует интерфейс IFunction. Ну короче надо будет подумать
-    //насчет неё
+    //TODO: Особая функция, многие методы что она имплементирует не будут реализованы.
+    //Может быть нужно перепроектирование?
 
     /// <summary>
     /// Числовая функция.
@@ -27,22 +25,25 @@ namespace QuickMaths.BL.Functions
     internal class NumberFunction : SimpleFunction
     {
         public NumberFunction() { }
-
-        public NumberFunction(double digit) : base(digit) { }
-
+        public NumberFunction(double value) => Variable = new Variable(value);
+        public NumberFunction(Variable variable) : base(variable) { }
         public NumberFunction(string stringFunction) : base(stringFunction)
         {
-            Digit = Convert.ToDouble(stringFunction);
+            Variable = new Variable(Convert.ToDouble(stringFunction));
         }
 
+
+        public override double Calculate()
+        {
+            return Variable.Value;
+        }
         public override IFunction Derivative()
         {
             return null;
         }
-
         public override string ToString()
         {
-            return Digit.ToString();
+            return Variable.Value.ToString();
         }
     }
 }

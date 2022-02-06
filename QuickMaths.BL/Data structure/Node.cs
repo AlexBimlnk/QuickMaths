@@ -10,15 +10,18 @@ namespace QuickMaths.BL.DataStructure
 {
     public class Node
     {
-        public Node MultiplyWay { get; set; }
-        public Node PlusWay { get; set; }
-        public IFunction Data { get; set; }
-        public int Size { get; private set; }
         public Node(IFunction data)
         {
             Data = data;
             Size = 1;
         }
+
+
+        public Node MultiplyWay { get; set; }
+        public Node PlusWay { get; set; }
+        public IFunction Data { get; set; }
+        public int Size { get; private set; }
+
 
         public void Add(Node data, NodeWayType wayType)
         {
