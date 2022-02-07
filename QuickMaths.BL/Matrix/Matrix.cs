@@ -20,20 +20,7 @@ namespace QuickMaths.BL.Matrix
         {
             Table = (double[,])table.Clone();
         }
-        //public Matrix(LinearFunction[,] linearFunctions)
-        //{
-        //    long row = linearFunctions.GetLongLength(0);
-        //    long column = linearFunctions.GetLongLength(1);
-        //    Table = new double[row, column];
 
-        //    Console.WriteLine(linearFunctions.Length);
-
-        //    for(int i = 0; i < row; i++)
-        //    {
-        //        for (int j = 0; j < column; j++)
-        //            Table[i, j] = linearFunctions[i, j].Digit;
-        //    }
-        //}
 
 
         public double this[long rowIndex, long columnIndex]
@@ -43,32 +30,44 @@ namespace QuickMaths.BL.Matrix
         }
 
 
+
         public double[,] Table { get; private set; }
         public long RowCount => Table.GetLength(0);
         public long ColumnCount => Table.GetLength(1);
 
 
+
         public Matrix GetRow(long indexRow)
         {
-            Matrix matrix = new Matrix(1, ColumnCount);
-
-            for(int i = 0; i < ColumnCount; i++)
+            if (0 <= indexRow && indexRow < RowCount)
             {
-                matrix[0, i] = Table[indexRow, i];
+                Matrix matrix = new Matrix(1, ColumnCount);
+
+                for (int i = 0; i < ColumnCount; i++)
+                {
+                    matrix[0, i] = Table[indexRow, i];
+                }
+
+                return matrix;
             }
 
-            return matrix;
+            throw new IndexOutOfRangeException("Индекс находится вне границ.");
         }
         public Matrix GetColumn(long indexColumn)
         {
-            Matrix matrix = new Matrix(RowCount, 1);
-
-            for (int i = 0; i < RowCount; i++)
+            if (0 <= indexColumn && indexColumn < ColumnCount) 
             {
-                matrix[i, 0] = Table[i, indexColumn];
+                Matrix matrix = new Matrix(RowCount, 1);
+
+                for (int i = 0; i < RowCount; i++)
+                {
+                    matrix[i, 0] = Table[i, indexColumn];
+                }
+
+                return matrix; 
             }
 
-            return matrix;
+            throw new IndexOutOfRangeException("Индекс находится вне границ.");
         }
 
 
@@ -86,8 +85,8 @@ namespace QuickMaths.BL.Matrix
 
                 return new Matrix(table);
             }
-            else
-                throw new Exception("Число строк и столбцов первой матрицы " +
+
+            throw new ArithmeticException("Число строк и столбцов первой матрицы " +
                                     "не соответствуют числу строк и столбцов второй матрицы");
         }
 
@@ -104,8 +103,8 @@ namespace QuickMaths.BL.Matrix
 
                 return new Matrix(table);
             }
-            else
-                throw new Exception("Число строк и столбцов первой матрицы " +
+
+            throw new ArithmeticException("Число строк и столбцов первой матрицы " +
                                     "не соответствуют числу строк и столбцов второй матрицы");
         }
 
@@ -139,8 +138,8 @@ namespace QuickMaths.BL.Matrix
 
                 return new Matrix(table);
             }
-            else
-                throw new Exception("Количество столбцов первой матрицы " +
+            
+            throw new ArithmeticException("Количество столбцов первой матрицы " +
                                     "не равно количеству строк второй матрицы.");
         }
         #endregion

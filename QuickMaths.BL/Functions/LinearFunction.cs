@@ -38,7 +38,7 @@ namespace QuickMaths.BL.Functions
         public override IFunction Derivative()
         {
             if (SubFunctionTree == null)
-                return new NumberFunction(Variable.Value);
+                return new NumberFunction(Variable);
             if (Variable.Value == 1)
                 return new CompositeFunction(SubFunctionTree.GetDerivative());
 
