@@ -11,20 +11,21 @@ namespace QuickMaths.BL.Functions
     public class CompositeFunction : IFunction
     {
         private string _stringFunction = String.Empty;
+        private Tree _functionTree;
 
         
         public CompositeFunction(Tree tree)
         {
-            SubFunctionTree = tree;
+            _functionTree = tree;
         }
         public CompositeFunction(string function)
         {
             _stringFunction = function;
-            SubFunctionTree = TreeBuilder.BuildTree(function);
+            _functionTree = TreeBuilder.BuildTree(function);
         }
 
 
-        public Tree SubFunctionTree { get; protected set; }
+        public Tree SubFunctionTree { get { return _functionTree; } }
         public List<IFunction> Arguments => throw new NotImplementedException();
 
 

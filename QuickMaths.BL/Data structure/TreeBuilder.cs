@@ -13,6 +13,7 @@ namespace QuickMaths.BL.DataStructure
     {
         public static Tree BuildTree(string s)
         {
+            IsCorrect(ref s);
             List<List<string>> funcList = new List<List<string>>();
             Split(s, '+').ForEach(func => funcList.Add(Split(func, '*')));
 
@@ -43,7 +44,7 @@ namespace QuickMaths.BL.DataStructure
                         //Если сложная, то представляем как сложную линейную
                         if(nextFunction is CompositeFunction)
                         {
-                            currentFunc = new LinearFunction(((NumberFunction)currentFunc).Variable, nextFunction.SubFunctionTree);
+                            currentFunc = new LinearFunction(((NumberFunction)currentFunc).Variable, ((CompositeFunction)nextFunction).SubFunctionTree);
                             merged = true;
                         }
                     }
@@ -70,16 +71,16 @@ namespace QuickMaths.BL.DataStructure
                 return new CompositeFunction(functionString);
             }
                 
-            if (functionString.Length >= 3 && functionString.Substring(0, 3) == "log")
-                return new LogarithmicFunction(functionString);
+            //if (functionString.Length >= 3 && functionString.Substring(0, 3) == "log")
+            //    return new LogarithmicFunction(functionString);
 
-            //Некорректное определение показательной функции.
-            if (functionString[0] == 'e')
-                return new ExponentialFunction(functionString);
+            ////Некорректное определение показательной функции.
+            //if (functionString[0] == 'e')
+            //    return new ExponentialFunction(functionString);
 
 
-            if (functionString.Contains('^') == true)
-                return new PowerFunction(functionString);
+            //if (functionString.Contains('^') == true)
+            //    return new PowerFunction(functionString);
 
             if (functionString[0] >= '0' && functionString[0] <= '9')
                 return new NumberFunction(functionString);

@@ -9,8 +9,8 @@ namespace QuickMaths.BL.Functions
 {
     public interface IFunction 
     {
-        public Tree SubFunctionTree { get; }
-        public List<IFunction> Arguments { get; }
+        //public Tree SubFunctionTree { get; }
+        //public List<IFunction> Arguments { get; }
 
 
         /// <summary>

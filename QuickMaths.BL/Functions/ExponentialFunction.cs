@@ -20,54 +20,54 @@ namespace QuickMaths.BL.Functions
     ///     </item>
     /// </list>
     /// </summary>
-    internal class ExponentialFunction : SimpleFunction
-    {
-        public ExponentialFunction() { }
-        public ExponentialFunction(Variable variable, Tree subTree = null) : base(variable, subTree) { }
-        public ExponentialFunction(string stringFunction) : base(stringFunction)
-        {
-            Variable.Value = Convert.ToDouble(stringFunction.Split('^')[0]);
-        }
+    //internal class ExponentialFunction : SimpleFunction
+    //{
+    //    public ExponentialFunction() { }
+    //    public ExponentialFunction(Variable variable, Tree subTree = null) : base(variable, subTree) { }
+    //    public ExponentialFunction(string stringFunction) : base(stringFunction)
+    //    {
+    //        Variable.Value = Convert.ToDouble(stringFunction.Split('^')[0]);
+    //    }
 
 
-        public override double Calculate()
-        {
-            throw new NotImplementedException();
-        }
-        public override IFunction Derivative()
-        { 
-            Tree tree = new Tree();
+    //    public override double Calculate()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //    public override IFunction Derivative()
+    //    { 
+    //        Tree tree = new Tree();
 
-            tree.AddNewMultiplier(this);
+    //        tree.AddNewMultiplier(this);
 
-            if (Variable.Value != Math.E)
-            {
-                Tree subTree = new Tree();
-                NumberFunction digit = new NumberFunction(Variable);
-                subTree.AddNewMultiplier(digit);
-                LogarithmicFunction logarithmicFunction = new LogarithmicFunction(new Variable(Math.E), subTree);
-                tree.AddNewMultiplier(logarithmicFunction);
-            }
-            if (SubFunctionTree != null)
-                Tree.MergeMult(tree, SubFunctionTree.GetDerivative());
+    //        if (Variable.Value != Math.E)
+    //        {
+    //            Tree subTree = new Tree();
+    //            NumberFunction digit = new NumberFunction(Variable);
+    //            subTree.AddNewMultiplier(digit);
+    //            LogarithmicFunction logarithmicFunction = new LogarithmicFunction(new Variable(Math.E), subTree);
+    //            tree.AddNewMultiplier(logarithmicFunction);
+    //        }
+    //        if (SubFunctionTree != null)
+    //            Tree.MergeMult(tree, SubFunctionTree.GetDerivative());
             
-            return new CompositeFunction(tree);
-        }
-        public override string ToString()
-        {
-            if (stringFunction == String.Empty)
-            {
-                StringBuilder buildFuncStr = new StringBuilder();
+    //        return new CompositeFunction(tree);
+    //    }
+    //    public override string ToString()
+    //    {
+    //        if (stringFunction == String.Empty)
+    //        {
+    //            StringBuilder buildFuncStr = new StringBuilder();
 
-                buildFuncStr.Append($"{Variable.Value}^");
-                if (SubFunctionTree == null)
-                    buildFuncStr.Append('x');
-                else
-                    buildFuncStr.Append(SubFunctionTree.ToString());
-                stringFunction = buildFuncStr.ToString();
-            }
+    //            buildFuncStr.Append($"{Variable.Value}^");
+    //            if (SubFunctionTree == null)
+    //                buildFuncStr.Append('x');
+    //            else
+    //                buildFuncStr.Append(SubFunctionTree.ToString());
+    //            stringFunction = buildFuncStr.ToString();
+    //        }
 
-            return stringFunction;
-        }
-    }
+    //        return stringFunction;
+    //    }
+    //}
 }
