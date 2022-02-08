@@ -9,10 +9,9 @@ namespace QuickMaths.BL.Functions
     /// <summary>
     /// Переменная.
     /// </summary>
-    public class Variable
+    public class Variable : SimpleFunction
     {
         public Variable(string name) => Name = name;
-        public Variable(double value) => Value = value;
         public Variable(string name, double value)
         {
             Name = name;
@@ -20,7 +19,23 @@ namespace QuickMaths.BL.Functions
         }
 
 
+
         public string Name { get; }
         public double Value { get; set; } = Double.NaN;
+
+
+
+        public override double Calculate()
+        {
+            return Value;
+        }
+        public override IFunction Derivative()
+        {
+            return new NumberFunction(1);
+        }
+        public override string ToString()
+        {
+            return Name; 
+        }
     }
 }

@@ -22,13 +22,27 @@ namespace QuickMaths.BL.Functions
     /// </summary>
     public class LinearFunction : SimpleFunction
     {
-        public LinearFunction() { }
-        public LinearFunction(double value, Tree subTree = null) : base(value, subTree) { }
-        public LinearFunction(Variable variable, Tree subTree = null) : base(variable, subTree) { }
-        public LinearFunction(string stringFunction) : base(stringFunction)
+        public LinearFunction(string stringFunction, IFunction argument, 
+                              IFunction koef = null) : base(stringFunction)
         {
-            Variable = new Variable(1);
+            if (koef != null)
+                Koef = koef;
+            Argument = argument;
         }
+        public LinearFunction(IFunction argument,
+                              IFunction koef = null)
+        {
+            if (koef != null)
+                Koef = koef;
+            Argument = argument;
+        }
+
+
+
+
+        public IFunction Koef { get; set; } = new NumberFunction(1);
+        public IFunction Argument { get; set; }
+
 
 
         public override double Calculate()
@@ -37,19 +51,7 @@ namespace QuickMaths.BL.Functions
         }
         public override IFunction Derivative()
         {
-            if (SubFunctionTree == null)
-                return new NumberFunction(Variable);
-            if (Variable.Value == 1)
-                return new CompositeFunction(SubFunctionTree.GetDerivative());
-
-            Tree tree = new Tree();
-
-            tree.AddNewMultiplier(new NumberFunction(Variable.Value));
-            
-
-            Tree.MergeMult(tree, SubFunctionTree.GetDerivative());
-
-            return new CompositeFunction(tree);
+            throw new NotImplementedException();
         }
         public override string ToString()
         {
@@ -57,20 +59,7 @@ namespace QuickMaths.BL.Functions
             {
                 StringBuilder strFuncBuilder = new StringBuilder();
 
-                if (Variable.Value != 1)
-                    strFuncBuilder.Append($"{Variable.Value}*");
-
-                if (SubFunctionTree == null)
-                    strFuncBuilder.Append('x');
-                else
-                { 
-                    if (SubFunctionTree.Size == 1)
-                        strFuncBuilder.Append($"{SubFunctionTree}");
-                    else
-                        strFuncBuilder.Append($"({SubFunctionTree})");
-                }
-
-                stringFunction = strFuncBuilder.ToString();
+                //Todo: ToString in LF
             }
 
             return stringFunction;

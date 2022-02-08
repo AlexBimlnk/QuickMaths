@@ -34,17 +34,11 @@ namespace QuickMaths.BL.DataStructure
                     {
                         IFunction nextFunction = GetFunc(slog[i + 1]);
 
-                        //Если следующая функция линейная - склеиваем функцию
-                        if(nextFunction is LinearFunction)
+                        //Если следующая функция линейная или составная - склеиваем функцию
+                        if(nextFunction is LinearFunction || nextFunction is CompositeFunction ||
+                           nextFunction is Variable)
                         {
-                            currentFunc = new LinearFunction(((NumberFunction)currentFunc).Variable);
-                            merged = true;
-                        }
-
-                        //Если сложная, то представляем как сложную линейную
-                        if(nextFunction is CompositeFunction)
-                        {
-                            currentFunc = new LinearFunction(((NumberFunction)currentFunc).Variable, ((CompositeFunction)nextFunction).SubFunctionTree);
+                            currentFunc = new LinearFunction($"{currentFunc}*{nextFunction}", nextFunction, currentFunc);
                             merged = true;
                         }
                     }
@@ -82,10 +76,13 @@ namespace QuickMaths.BL.DataStructure
             //if (functionString.Contains('^') == true)
             //    return new PowerFunction(functionString);
 
+            if(functionString == "x")
+                return new Variable(functionString);
+
             if (functionString[0] >= '0' && functionString[0] <= '9')
                 return new NumberFunction(functionString);
 
-            return new LinearFunction(functionString);
+            return new LinearFunction(functionString, new CompositeFunction(functionString));
         }
         public static bool IsComplex(ref string s)
         {

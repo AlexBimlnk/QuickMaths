@@ -8,12 +8,16 @@ using QuickMaths.BL.DataStructure;
 namespace QuickMaths.BL.Functions
 {
     //TODO: Класс "Функция"
+    /// <summary>
+    /// Составная функция.
+    /// </summary>
     public class CompositeFunction : IFunction
     {
         private string _stringFunction = String.Empty;
         private Tree _functionTree;
 
         
+
         public CompositeFunction(Tree tree)
         {
             _functionTree = tree;
@@ -25,9 +29,6 @@ namespace QuickMaths.BL.Functions
         }
 
 
-        public Tree SubFunctionTree { get { return _functionTree; } }
-        public List<IFunction> Arguments => throw new NotImplementedException();
-
 
         public double Calculate()
         {
@@ -35,9 +36,9 @@ namespace QuickMaths.BL.Functions
         }
         public IFunction Derivative()
         {
-            if (SubFunctionTree != null)
+            if (_functionTree != null)
             { 
-                return new CompositeFunction(SubFunctionTree.GetDerivative());
+                return new CompositeFunction(_functionTree.GetDerivative());
             }
             return null;
         }
@@ -45,7 +46,7 @@ namespace QuickMaths.BL.Functions
         {
             if (_stringFunction == String.Empty)
             {
-                _stringFunction = (SubFunctionTree != null) ? SubFunctionTree.ToString() : _stringFunction;
+                _stringFunction = (_functionTree != null) ? _functionTree.ToString() : _stringFunction;
             }
             return _stringFunction;
         }

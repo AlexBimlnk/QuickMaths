@@ -24,18 +24,21 @@ namespace QuickMaths.BL.Functions
     /// </summary>
     internal class NumberFunction : SimpleFunction
     {
-        public NumberFunction() { }
-        public NumberFunction(double value) => Variable = new Variable(value);
-        public NumberFunction(Variable variable) : base(variable) { }
         public NumberFunction(string stringFunction) : base(stringFunction)
         {
-            Variable = new Variable(Convert.ToDouble(stringFunction));
+            Value = Convert.ToDouble(stringFunction);
         }
+        public NumberFunction(double value) => Value = value;
+        
+
+
+        public double Value { get; }
+
 
 
         public override double Calculate()
         {
-            return Variable.Value;
+            return Value;
         }
         public override IFunction Derivative()
         {
@@ -43,7 +46,7 @@ namespace QuickMaths.BL.Functions
         }
         public override string ToString()
         {
-            return Variable.Value.ToString();
+            return Value.ToString();
         }
     }
 }
