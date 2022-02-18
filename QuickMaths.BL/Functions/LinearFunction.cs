@@ -38,8 +38,6 @@ namespace QuickMaths.BL.Functions
         }
 
 
-
-
         public IFunction Koef { get; set; } = new NumberFunction(1);
         public IFunction Argument { get; set; }
 

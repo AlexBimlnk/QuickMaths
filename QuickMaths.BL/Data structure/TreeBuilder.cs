@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using QuickMaths.BL.Functions;
 using QuickMaths.BL.Enums;
 using QuickMaths.BL.Validation;
+using System.Text.RegularExpressions;
 
 namespace QuickMaths.BL.DataStructure
 {
@@ -13,52 +14,58 @@ namespace QuickMaths.BL.DataStructure
     {
         public static Tree BuildTree(string s)
         {
+            Tree summands = null;
             IsCorrect(ref s);
-            List<List<string>> funcList = new List<List<string>>();
-            Split(s, '+').ForEach(func => funcList.Add(Split(func, '*')));
+            List<string> tmpSummdsLisr = Split(s, "+-"); // разбиение строки по + или -
 
-            bool merged = false;
-            Tree tree = new Tree();
-            funcList.Reverse();
-
-            //Перебираем слагаемые в сложной функции ()+()+()
-            foreach (var slog in funcList)
+            for(int i = 0;i < tmpSummdsLisr.Count;i++)
             {
-                //Перебираем множители ()*()*()
-                for (int i = 0; i < slog.Count; i++)
+                bool useReversePlusOperator = false;
+                if (tmpSummdsLisr[i][0] == '!') // проверка нужно ли использовать - для связи слогаемых
                 {
-                    IFunction currentFunc = GetFunc(slog[i]);
-
-                    //Если функция числовая
-                    if (currentFunc is NumberFunction && i + 1 < slog.Count)
-                    {
-                        IFunction nextFunction = GetFunc(slog[i + 1]);
-
-                        //Если следующая функция линейная или составная - склеиваем функцию
-                        if(nextFunction is LinearFunction || nextFunction is CompositeFunction ||
-                           nextFunction is Variable)
-                        {
-                            currentFunc = new LinearFunction($"{currentFunc}*{nextFunction}", nextFunction, currentFunc);
-                            merged = true;
-                        }
-                    }
-
-                    if (i == 0)
-                        tree.AddNewSummandInRoot(currentFunc);
-                    else
-                        tree.AddNewMultiplier(currentFunc);
-
-                    if (merged)
-                    {
-                        merged = false;
-                        i++;
-                    }
+                    useReversePlusOperator = true;
+                    tmpSummdsLisr[i] = tmpSummdsLisr[i].TrimStart('!');
                 }
+
+                List<string> tmpMultipList = Split(tmpSummdsLisr[i], "*/"); // разбиение строки по * или /
+                Tree multipliers = null; 
+
+                for (int y = 0;y < tmpMultipList.Count;y++)
+                {
+                    bool useRevMultOperator = false;
+
+                    if (tmpMultipList[y][0] == '!') // проверка нужно ли использовать / для связи множителей
+                    {
+                        useRevMultOperator = true;
+                        tmpMultipList[y] = tmpMultipList[i].TrimStart('!');
+                    }
+
+                    IFunction newFunc = GetFunc(tmpMultipList[y]); 
+
+                    if (i == 0 && useReversePlusOperator) // обработка исключения когда - стоит в начале уравнения т.е. он используется как унарный оперетор
+                    {
+                        Tree.Merge(multipliers, new Tree(newFunc), MathOperation.Minus);
+                        useReversePlusOperator=false;
+                        continue;
+                    }
+
+                     multipliers = Tree.Merge(multipliers, new Tree(newFunc), ((useRevMultOperator) ? MathOperation.Divide : MathOperation.Multiply)); // объединени множителей с учётом их связи
+                }
+
+                summands = Tree.Merge(summands, multipliers, ((useReversePlusOperator) ? MathOperation.Minus : MathOperation.Plus)); // объединение слогаемых с учётом их связи
             }
-            return tree;
+
+            return summands;
         }
         public static IFunction GetFunc(string functionString)
         {
+            //ToDo регулярные выражения
+            Regex patCompos = new Regex(@"");
+            Regex patLinear = new Regex(@"");
+            Regex patNumber = new Regex(@"");
+            Regex patVariable = new Regex(@"");
+
+            
             if (functionString[0] == '(' && functionString[functionString.Length - 1] == ')')
             {
                 IsComplex(ref functionString);
@@ -105,14 +112,19 @@ namespace QuickMaths.BL.DataStructure
             return true;
         }
 
-
-        private static List<string> Split(string s, char c)
+      
+        private static List<string> Split(string s, string chars)
         {
-            s += c;
+            if (s[0] != chars[1]) // для придания строки вида "<оператор>(текст)<оператор>...<оператор>(текст)<оператор>"
+                s = chars[0] + s;
+            s += chars[0];
+
             int start = 0;
             List<string> ans = new List<string>();
+            
             int skobkaCheck = 0;
-            for (int i = 0; i < s.Length; i++)
+            
+            for (int i = 1; i < s.Length; i++)
             {
                 if (s[i] == '(')
                     skobkaCheck++;
@@ -121,11 +133,18 @@ namespace QuickMaths.BL.DataStructure
 
                 if (skobkaCheck == 0)
                 {
-                    if (s[i] == c)
+                    for (int y = 0; y < chars.Length; y++)
                     {
-                        string tmp = s.Substring(start, i - start);
-                        ans.Add(tmp);
-                        start = i + 1;
+                        if (s[i] == chars[y])
+                        {
+                            string tmp = ((s[start] == chars[1]) ? "!" : "");
+
+                            tmp += s.Substring(start + 1, i - start - 1);
+                            ans.Add(tmp);
+
+                            start = i;
+                            break;
+                        }
                     }
                 }
             }

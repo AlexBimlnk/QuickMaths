@@ -18,12 +18,8 @@ namespace QuickMaths.BL.Functions
             Value = value;
         }
 
-
-
         public string Name { get; }
         public double Value { get; set; } = Double.NaN;
-
-
 
         public override double Calculate()
         {

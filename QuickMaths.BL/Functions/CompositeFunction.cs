@@ -44,11 +44,11 @@ namespace QuickMaths.BL.Functions
         }
         public override string ToString()
         {
-            if (_stringFunction == String.Empty)
-            {
-                _stringFunction = (_functionTree != null) ? _functionTree.ToString() : _stringFunction;
-            }
-            return _stringFunction;
+            //if (_stringFunction == String.Empty)
+            //{
+            //    _stringFunction = (_functionTree != null) ? _functionTree.ToString() : _stringFunction;
+            //}
+            return String.Format("({0})", (_functionTree != null) ? _functionTree.ToString() : _stringFunction); 
         }
     }
 }
