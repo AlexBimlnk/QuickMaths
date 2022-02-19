@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Functions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\QuickMaths.BL\QuickMaths.BL.csproj" />
   </ItemGroup>
 

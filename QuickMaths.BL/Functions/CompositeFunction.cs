@@ -24,6 +24,9 @@ namespace QuickMaths.BL.Functions
         }
         public CompositeFunction(string function)
         {
+            if (function == String.Empty || function == null)
+                throw new ArgumentException("Input string is empty or null", "function");
+
             _stringFunction = function;
             _functionTree = TreeBuilder.BuildTree(function);
         }

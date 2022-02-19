@@ -223,8 +223,6 @@ namespace QuickMaths.BL.Matrix.Tests
             {
                 Assert.Throws<IndexOutOfRangeException>(action);
             }
-
-
         }
     }
 }
