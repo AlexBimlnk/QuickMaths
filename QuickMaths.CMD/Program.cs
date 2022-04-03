@@ -1,5 +1,6 @@
 ﻿using System;
 using QuickMaths.BL;
+using QuickMaths.BL.Cmd;
 using QuickMaths.BL.Functions;
 using QuickMaths.BL.Matrix;
 
@@ -36,8 +37,8 @@ namespace QuickMaths.CMD
             IFunction sm7 = new CompositeFunction("15*x+4*x+x");
             Console.WriteLine(sm7.ToString());
 
-            
 
+            ConsoleHelper.Start();
 
             Console.ReadKey();
         }

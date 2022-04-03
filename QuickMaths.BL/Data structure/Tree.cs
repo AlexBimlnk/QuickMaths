@@ -10,18 +10,13 @@ namespace QuickMaths.BL.DataStructure
 {
     public class Tree //where T : IComparable
     {
-        public Tree()
-        {
-            Head = null;
-        }
-        public Tree(Node head)
-        {
-            Head = head;
-        }
+        public Tree(Node head) { Head = head; }
         public Tree(IFunction head)
         {
-            if (head != null)
-                Head = new Node(head);
+            if (head == null)
+                throw new ArgumentNullException();
+
+            Head = new Node(head);
         }
 
 
@@ -117,7 +112,7 @@ namespace QuickMaths.BL.DataStructure
             // (x*y*z)' => x'*y*z + x*y'*z + x*y*z'
 
             Node treeHead = Head;
-            Node derivativeNode = null;
+            Node? derivativeNode = null;
 
             //Перебираем узлы-слагаемые
             while (treeHead != null)
@@ -127,7 +122,7 @@ namespace QuickMaths.BL.DataStructure
                 //Перебираем список узлов-множителей
                 for (int i = 0; i < nodes.Count; i++)
                 {
-                    Node summand = null;
+                    Node? summand = null;
                     for (int y = 0; y < nodes.Count; y++)
                     {
                         //Если мы достигли множителя, от которого следует взять производную
@@ -241,7 +236,7 @@ namespace QuickMaths.BL.DataStructure
         /// <param name="tree2"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        static public Tree Merge(Tree tree1, Tree tree2,MathOperation type)
+        public static Tree? Merge(Tree tree1, Tree tree2,MathOperation type)
         {
             //ToDo доделать
             if (tree1 == null && tree2 == null)
@@ -258,7 +253,6 @@ namespace QuickMaths.BL.DataStructure
                     tree1.Head.Add(tree2.Head, NodeWayType.PlusWay);
                     return tree1;
 
-                    break;
                 case MathOperation.Multiply:
 
                     if (tree1.Head.PlusWay == null && tree2.Head.PlusWay == null)
@@ -279,7 +273,7 @@ namespace QuickMaths.BL.DataStructure
                         if (tree2.Head.PlusWay != null)
                             Swap(ref tree1, ref tree2);
 
-                        Node temp = tree1.Head;
+                        Node? temp = tree1.Head;
 
                         while (temp != null)
                         {
@@ -287,7 +281,7 @@ namespace QuickMaths.BL.DataStructure
 
                             while(fromAdd != null)
                             {
-                                Node toAdd = new Node(fromAdd.Data);
+                                var toAdd = new Node(fromAdd.Data);
 
                                 temp.Add(toAdd, NodeWayType.MultiplyWay);
 
@@ -298,7 +292,6 @@ namespace QuickMaths.BL.DataStructure
                         }
                     }
                     return tree1;
-                    break;
 
                 case MathOperation.Divide:
 
@@ -308,7 +301,7 @@ namespace QuickMaths.BL.DataStructure
                     break;
             }
 
-            return new Tree();
+            throw new InvalidOperationException();
         }
     }
 }
