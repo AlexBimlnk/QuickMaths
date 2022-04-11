@@ -10,31 +10,29 @@ namespace QuickMaths.BL.Cmd
     public static class ConsoleHelper
     {
         private static Dictionary<string, IFunction> _functions = new Dictionary<string, IFunction>();
-        private static Dictionary<string, Command> _commands = CommandsStorage.Commands;
+        private static IReadOnlyDictionary<string, Command> _commands = CommandsStorage.Commands;
 
 
-        public static Dictionary<string, IFunction> FunctionsCollection { get { return _functions; } }
+        public static Dictionary<string, IFunction> Functions { get { return _functions; } }
         public static bool IsWork { get; internal set; } = true;
 
+
+        private static void InvokeCommand(Command command)
+        {
+            Console.WriteLine($"\nRun command {command.Name}...\n");
+            command.Action.Invoke();
+            Console.WriteLine($"\nCommand {command.Name} is complete\n\n");
+        }
 
         private static void SearchCommand(string? inputCommand)
         {
             Console.WriteLine();
-
+            
             if (inputCommand != null && inputCommand != String.Empty)
             {
                 if (_commands.TryGetValue(inputCommand.ToUpper(), out Command? command))
                 {
-                    Console.WriteLine();
-
-                    command.Action();
-
-                    Console.WriteLine();
-
-
-                    Console.WriteLine($"Command {inputCommand} is complete\n");
-
-                    Console.WriteLine();
+                    InvokeCommand(command);
                     return;
                 }
             }
@@ -47,7 +45,6 @@ namespace QuickMaths.BL.Cmd
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Console Helper. Command \"help\" write list command\n");
-
             string? command = String.Empty;
             do
             {

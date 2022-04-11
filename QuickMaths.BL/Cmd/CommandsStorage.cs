@@ -3,31 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuickMaths.BL.Functions;
 
 namespace QuickMaths.BL.Cmd
 {
     //TODO CommandsStorage:
     internal static class CommandsStorage
     {
-        private static Dictionary<string, Command> _commands = new Dictionary<string, Command>()
+        private static readonly Dictionary<string, Command> _commands = new Dictionary<string, Command>()
         {
             { "HELP",   new Command("HELP", "Write all command in console.", Help)},
             { "EXIT",   new Command("EXIT", "Close ConsoleHelper.", Exit)},
             { "CLEAR",  new Command("CLEAR","Clear console.", Clear)},
 
-            { "CREATE", new Command("CREATE","Create new function.", CreateFunction)}
+            { "CREATE", new Command("CREATE","Create new function.", CreateFunction)},
+            { "VIEW FUNCTIONS", new Command("VIEW FUNCTIONS","Write all created functions.", WriteCreatedFunctions)}
         };
 
-        public static Dictionary<string, Command> Commands { get { return _commands; } }
+        public static IReadOnlyDictionary<string, Command> Commands { get { return _commands; } }
 
         #region State work commands
         private static void Help()
         {
-            Console.WriteLine("Commands list:");
+            Console.WriteLine("\tCommands list:");
             foreach (var command in _commands.Values)
             {
-                Console.WriteLine($"\tCommand {command.Name}");
-                Console.WriteLine($"\t\t{command.Description}");
+                Console.WriteLine($"\t\tCommand {command.Name}");
+                Console.WriteLine($"\t\t\t{command.Description}");
             }
         }
 
@@ -43,18 +45,35 @@ namespace QuickMaths.BL.Cmd
         #endregion
 
 
-        #region Create commands
+        #region Сommands of create
         private static void CreateFunction()
         {
-            throw new NotImplementedException();
+            Console.Write("\tWrite function: ");
+            string functionString = Console.ReadLine();
+
+            Console.Write($"\tWrite name for function: ");
+            string functionName = Console.ReadLine();
+
+            try
+            {
+                ConsoleHelper.Functions.Add(functionName, new CompositeFunction(functionString));
+            }
+            catch(ArgumentException ex)
+            {
+                Console.WriteLine($"\tError: {ex.Message}");
+            }
         }
         #endregion
 
 
         #region Commands of managment functions object
-        private static void ReturnFunctionsList()
+        private static void WriteCreatedFunctions()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("\tFunctions list:");
+            foreach(var element in ConsoleHelper.Functions)
+            {
+                Console.WriteLine($"\t\tFunction: {element.Key}={element.Value}");
+            }
         }
 
         private static void TakeVariable()
