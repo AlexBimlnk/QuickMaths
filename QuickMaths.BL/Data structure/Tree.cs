@@ -8,7 +8,7 @@ using QuickMaths.BL.Enums;
 
 namespace QuickMaths.BL.DataStructure
 {
-    public class Tree //where T : IComparable
+    internal class Tree //where T : IComparable
     {
         public Tree(Node head) { Head = head; }
         public Tree(IFunction head)
@@ -23,6 +23,124 @@ namespace QuickMaths.BL.DataStructure
         public Node Head { get; private set; }
         public int Size { get { return (Head == null) ? 0 : Head.Size; } }
 
+
+        private static void Swap<T>(ref T leftValue, ref T rightValue)
+        {
+            T temp;
+            temp = leftValue;
+            leftValue = rightValue;
+            rightValue = temp;
+        }
+
+
+        /// <summary>
+        /// Производит слияние двух деревьев, связанных умножением в одно.
+        /// (a*b*c) * (d*e*f) => a*b*c*d*e*f
+        /// <br/>
+        /// (a*b*c) * (d+e+f) => a*b*c*(d+e+f)
+        /// </summary>
+        /// <param name="toMerge"> Дерево, являющееся результатом слияния. </param>
+        /// <param name="fromMerge"> Дерево, из которого нужно достать узлы для слияния. </param>
+        public static void MergeMult(Tree toMerge, Tree fromMerge)
+        {
+            if (fromMerge == null)
+                return;
+            if (toMerge == null)
+            {
+                toMerge = fromMerge;
+                return;
+            }
+            if (toMerge.Head.PlusWay != null)
+            {
+                return;
+            }
+            if (fromMerge.Head.PlusWay != null)
+            {
+                CompositeFunction newNode = new CompositeFunction(fromMerge);
+                toMerge.AddNewMultiplier(newNode);
+                return;
+            }
+            toMerge.Head.Add(fromMerge.Head, NodeWayType.MultiplyWay);
+        }
+
+
+        /// <summary>
+        /// Производит слияние двух деревьев, связанных простым математическим оператором.
+        /// (a*b*c) * (d*e*f) => a*b*c*d*e*f
+        /// (a*b*c) * (d+e+f) => a*b*c*d + a*b*c*e + a*b*c*f
+        /// (a+b+c) * (d+e+f) => (a+b+c)*(d+e+f)
+        /// </summary>
+        /// <param name="tree1"></param>
+        /// <param name="tree2"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static Tree? Merge(Tree tree1, Tree tree2, MathOperation type)
+        {
+            //ToDo доделать
+            if (tree1 == null && tree2 == null)
+                return null;
+            if (tree2 == null)
+                return tree1;
+            if (tree1 == null)
+                return tree2;
+
+            switch (type)
+            {
+                case MathOperation.Plus:
+
+                    tree1.Head.Add(tree2.Head, NodeWayType.PlusWay);
+                    return tree1;
+
+                case MathOperation.Multiply:
+
+                    if (tree1.Head.PlusWay == null && tree2.Head.PlusWay == null)
+                    {
+                        tree1.Head.Add(tree2.Head, NodeWayType.MultiplyWay);
+                    }
+                    else if (tree1.Head.PlusWay != null && tree1.Head.PlusWay != null)
+                    {
+                        CompositeFunction newNode1 = new CompositeFunction(tree1);
+                        CompositeFunction newNode2 = new CompositeFunction(tree2);
+
+                        Tree newTree = new Tree(newNode1);
+                        newTree.Head.Add(new Node(newNode2), NodeWayType.MultiplyWay);
+                        return newTree;
+                    }
+                    else
+                    {
+                        if (tree2.Head.PlusWay != null)
+                            Swap(ref tree1, ref tree2);
+
+                        Node? temp = tree1.Head;
+
+                        while (temp != null)
+                        {
+                            Node fromAdd = tree2.Head;
+
+                            while (fromAdd != null)
+                            {
+                                var toAdd = new Node(fromAdd.Data);
+
+                                temp.Add(toAdd, NodeWayType.MultiplyWay);
+
+                                fromAdd = fromAdd.MultiplyWay;
+                            }
+
+                            temp = temp.PlusWay;
+                        }
+                    }
+                    return tree1;
+
+                case MathOperation.Divide:
+
+                    break;
+                case MathOperation.Minus:
+
+                    break;
+            }
+
+            throw new InvalidOperationException();
+        }
 
         /// <summary>
         /// Добавляет в дерево узел-множитель.
@@ -186,122 +304,6 @@ namespace QuickMaths.BL.DataStructure
             }
 
             return builTreeStr.ToString();
-        }
-
-
-        /// <summary>
-        /// Производит слияние двух деревьев, связанных умножением в одно.
-        /// (a*b*c) * (d*e*f) => a*b*c*d*e*f
-        /// <br/>
-        /// (a*b*c) * (d+e+f) => a*b*c*(d+e+f)
-        /// </summary>
-        /// <param name="toMerge"> Дерево, являющееся результатом слияния. </param>
-        /// <param name="fromMerge"> Дерево, из которого нужно достать узлы для слияния. </param>
-        static public void MergeMult(Tree toMerge, Tree fromMerge)
-        {
-            if (fromMerge == null)
-                return;
-            if (toMerge == null)
-            {
-                toMerge = fromMerge;
-                return;
-            }
-            if (toMerge.Head.PlusWay != null)
-            {
-                return;
-            }
-            if (fromMerge.Head.PlusWay != null)
-            {
-                CompositeFunction newNode = new CompositeFunction(fromMerge);
-                toMerge.AddNewMultiplier(newNode);
-                return;
-            }
-            toMerge.Head.Add(fromMerge.Head, NodeWayType.MultiplyWay);
-        }
-        static void Swap<T>(ref T leftValue, ref T rightValue)
-        {
-            T temp;
-            temp = leftValue;
-            leftValue = rightValue;
-            rightValue = temp;
-        }
-
-        /// <summary>
-        /// Производит слияние двух деревьев, связанных простым математическим оператором.
-        /// (a*b*c) * (d*e*f) => a*b*c*d*e*f
-        /// (a*b*c) * (d+e+f) => a*b*c*d + a*b*c*e + a*b*c*f
-        /// (a+b+c) * (d+e+f) => (a+b+c)*(d+e+f)
-        /// </summary>
-        /// <param name="tree1"></param>
-        /// <param name="tree2"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static Tree? Merge(Tree tree1, Tree tree2,MathOperation type)
-        {
-            //ToDo доделать
-            if (tree1 == null && tree2 == null)
-                return null;
-            if (tree2 == null)
-                return tree1;
-            if (tree1 == null)
-                return tree2;
-            
-            switch(type)
-            {
-                case MathOperation.Plus:
-                    
-                    tree1.Head.Add(tree2.Head, NodeWayType.PlusWay);
-                    return tree1;
-
-                case MathOperation.Multiply:
-
-                    if (tree1.Head.PlusWay == null && tree2.Head.PlusWay == null)
-                    {
-                        tree1.Head.Add(tree2.Head, NodeWayType.MultiplyWay);
-                    }
-                    else if (tree1.Head.PlusWay != null && tree1.Head.PlusWay != null)
-                    {
-                        CompositeFunction newNode1 = new CompositeFunction(tree1);
-                        CompositeFunction newNode2 = new CompositeFunction(tree2);
-
-                        Tree newTree = new Tree(newNode1);
-                        newTree.Head.Add(new Node(newNode2), NodeWayType.MultiplyWay);
-                        return newTree;
-                    }
-                    else
-                    {
-                        if (tree2.Head.PlusWay != null)
-                            Swap(ref tree1, ref tree2);
-
-                        Node? temp = tree1.Head;
-
-                        while (temp != null)
-                        {
-                            Node fromAdd = tree2.Head;
-
-                            while(fromAdd != null)
-                            {
-                                var toAdd = new Node(fromAdd.Data);
-
-                                temp.Add(toAdd, NodeWayType.MultiplyWay);
-
-                                fromAdd = fromAdd.MultiplyWay;
-                            }
-
-                            temp = temp.PlusWay;
-                        }
-                    }
-                    return tree1;
-
-                case MathOperation.Divide:
-
-                    break;
-                case MathOperation.Minus:
-
-                    break;
-            }
-
-            throw new InvalidOperationException();
         }
     }
 }

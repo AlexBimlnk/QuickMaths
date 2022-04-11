@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using QuickMaths.BL;
 using QuickMaths.BL.Cmd;
 using QuickMaths.BL.Functions;
@@ -12,6 +13,19 @@ namespace QuickMaths.CMD
         {
 
             Console.WriteLine("Hello World!");
+
+            List<IFunction> list = new List<IFunction>()
+            {
+                new NumberFunction(1),
+                new CompositeFunction("4*x")
+            };
+
+            //NumberFunction numberFunction = new NumberFunction(1);
+            //numberFunction.Derivative() -> Ошибка, метод скрыт.
+            //Но так метод вызвать можно
+            foreach (var i in list)
+                Console.WriteLine($"Deravative {i} = {i.Derivative()}"); 
+            
 
             //CompositeFunction sm1 = new CompositeFunction("15*x^2+4*x+x");
             //Console.WriteLine(sm1.ToString());

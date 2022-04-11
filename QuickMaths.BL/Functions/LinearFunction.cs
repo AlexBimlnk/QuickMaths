@@ -20,47 +20,50 @@ namespace QuickMaths.BL.Functions
     ///     </item>
     /// </list>
     /// </summary>
-    public class LinearFunction : SimpleFunction
+    public class LinearFunction : IFunction
     {
-        public LinearFunction(string stringFunction, IFunction argument, 
-                              IFunction koef = null) : base(stringFunction)
+        private string _stringFunction = string.Empty;
+
+        public LinearFunction(IFunction argument)
         {
-            if (koef != null)
-                Koef = koef;
-            Argument = argument;
+            Argument = argument ?? throw new ArgumentNullException("argument");
         }
-        public LinearFunction(IFunction argument,
-                              IFunction koef = null)
+        public LinearFunction(IFunction argument, IFunction koef)
         {
-            if (koef != null)
-                Koef = koef;
-            Argument = argument;
+            Argument = argument ?? throw new ArgumentNullException("argument");
+            Koef = koef ?? throw new ArgumentNullException("koef");
+        }
+        public LinearFunction(string stringFunction, IFunction argument, IFunction koef = null)
+        {
+            Argument = argument ?? throw new ArgumentNullException("argument");
+            Koef = koef ?? new NumberFunction(1);
+            _stringFunction = stringFunction;
         }
 
 
-        public IFunction Koef { get; set; } = new NumberFunction(1);
-        public IFunction Argument { get; set; }
+        public IFunction Koef { get; init; } = new NumberFunction(1);
+        public IFunction Argument { get; init; }
 
 
 
-        public override double Calculate()
+        public double Calculate()
         {
             throw new NotImplementedException();
         }
-        public override IFunction Derivative()
+        public IFunction Derivative()
         {
             throw new NotImplementedException();
         }
-        public override string ToString()
+        public override string ToString() //Todo: ToString in LF
         {
-            if (stringFunction == String.Empty)
+            if (_stringFunction == String.Empty)
             {
                 StringBuilder strFuncBuilder = new StringBuilder();
 
-                //Todo: ToString in LF
+                
             }
 
-            return stringFunction;
+            return _stringFunction;
         }
     }
 }

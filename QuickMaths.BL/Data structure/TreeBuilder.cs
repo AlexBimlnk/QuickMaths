@@ -10,8 +10,48 @@ using System.Text.RegularExpressions;
 
 namespace QuickMaths.BL.DataStructure
 {
-    public static class TreeBuilder
+    internal static class TreeBuilder
     {
+        private static List<string> Split(string s, string chars)
+        {
+            if (s[0] != chars[1]) // для придания строки вида "<оператор>(текст)<оператор>...<оператор>(текст)<оператор>"
+                s = chars[0] + s;
+            s += chars[0];
+
+            int start = 0;
+            List<string> ans = new List<string>();
+
+            int skobkaCheck = 0;
+
+            for (int i = 1; i < s.Length; i++)
+            {
+                if (s[i] == '(')
+                    skobkaCheck++;
+                if (s[i] == ')')
+                    skobkaCheck--;
+
+                if (skobkaCheck == 0)
+                {
+                    for (int y = 0; y < chars.Length; y++)
+                    {
+                        if (s[i] == chars[y])
+                        {
+                            string tmp = ((s[start] == chars[1]) ? "!" : "");
+
+                            tmp += s.Substring(start + 1, i - start - 1);
+                            ans.Add(tmp);
+
+                            start = i;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return ans;
+        }
+
+
         public static Tree BuildTree(string s)
         {
             Tree summands = null;
@@ -110,46 +150,6 @@ namespace QuickMaths.BL.DataStructure
         {
             s = s.Replace(" ", String.Empty);
             return true;
-        }
-
-      
-        private static List<string> Split(string s, string chars)
-        {
-            if (s[0] != chars[1]) // для придания строки вида "<оператор>(текст)<оператор>...<оператор>(текст)<оператор>"
-                s = chars[0] + s;
-            s += chars[0];
-
-            int start = 0;
-            List<string> ans = new List<string>();
-            
-            int skobkaCheck = 0;
-            
-            for (int i = 1; i < s.Length; i++)
-            {
-                if (s[i] == '(')
-                    skobkaCheck++;
-                if (s[i] == ')')
-                    skobkaCheck--;
-
-                if (skobkaCheck == 0)
-                {
-                    for (int y = 0; y < chars.Length; y++)
-                    {
-                        if (s[i] == chars[y])
-                        {
-                            string tmp = ((s[start] == chars[1]) ? "!" : "");
-
-                            tmp += s.Substring(start + 1, i - start - 1);
-                            ans.Add(tmp);
-
-                            start = i;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return ans;
         }
     }
 }

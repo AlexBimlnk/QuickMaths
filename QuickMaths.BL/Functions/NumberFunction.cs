@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace QuickMaths.BL.Functions
 {
-    //TODO: Особая функция, многие методы что она имплементирует не будут реализованы.
-    //Может быть нужно перепроектирование?
-
     /// <summary>
     /// Числовая функция.
     /// <list type="bullet">
@@ -22,10 +19,16 @@ namespace QuickMaths.BL.Functions
     ///     </item>
     /// </list>
     /// </summary>
-    internal class NumberFunction : SimpleFunction
+    public class NumberFunction : IFunction
     {
-        public NumberFunction(string stringFunction) : base(stringFunction)
+        private string _stringFunction = string.Empty;
+
+        public NumberFunction(string stringFunction)
         {
+            if (stringFunction == string.Empty)
+                throw new ArgumentException("stringFunction");
+
+            _stringFunction = stringFunction ?? throw new ArgumentNullException("stringFunction");
             Value = Convert.ToDouble(stringFunction);
         }
         public NumberFunction(double value) => Value = value;
@@ -36,14 +39,11 @@ namespace QuickMaths.BL.Functions
 
 
 
-        public override double Calculate()
+        public double Calculate()
         {
             return Value;
         }
-        public override IFunction Derivative()
-        {
-            return null;
-        }
+        IFunction? IFunction.Derivative() => null;
         public override string ToString()
         {
             return Value.ToString();

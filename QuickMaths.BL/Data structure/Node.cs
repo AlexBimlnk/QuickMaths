@@ -8,7 +8,7 @@ using QuickMaths.BL.Enums;
 
 namespace QuickMaths.BL.DataStructure
 {
-    public class Node
+    internal class Node
     {
         public Node(IFunction data)
         {
