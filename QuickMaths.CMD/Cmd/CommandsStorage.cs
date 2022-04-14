@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using QuickMaths.BL.Functions;
 
-namespace QuickMaths.BL.Cmd
+namespace QuickMaths.CMD.Cmd
 {
     //TODO CommandsStorage:
     internal static class CommandsStorage
@@ -21,6 +21,7 @@ namespace QuickMaths.BL.Cmd
         };
 
         public static IReadOnlyDictionary<string, Command> Commands { get { return _commands; } }
+
 
         #region State work commands
         private static void Help()

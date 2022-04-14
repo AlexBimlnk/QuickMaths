@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using QuickMaths.BL.Functions;
 
-namespace QuickMaths.BL.Cmd
+namespace QuickMaths.CMD.Cmd
 {
     public static class ConsoleHelper
     {
@@ -50,6 +50,7 @@ namespace QuickMaths.BL.Cmd
             {
                 Console.Write("Input command: ");
                 command = Console.ReadLine();
+                command = command.Trim();
                 SearchCommand(command);
             }
             while (IsWork);

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using QuickMaths.BL;
-using QuickMaths.BL.Cmd;
 using QuickMaths.BL.Functions;
 using QuickMaths.BL.Matrix;
+using QuickMaths.CMD.Cmd;
 
 namespace QuickMaths.CMD
 {
