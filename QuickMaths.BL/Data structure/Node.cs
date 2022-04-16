@@ -3,40 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuickMaths.BL.Functions;
+using QuickMaths.BL.Enums;
 
-namespace QuickMaths.BL
+namespace QuickMaths.BL.DataStructure
 {
-    public class Node
+    internal class Node
     {
-
-        public Node MultyWay { get; set; }
-        public Node PlusWay { get; set; }
-        public Tree SubFuncTree { get; set; }
-        public SimpleFunction Data { get; set; }
-
-
-        public Node(SimpleFunction _data)
+        public Node(IFunction data)
         {
-            Data = _data;
+            Data = data;
+            Size = 1;
         }
 
-        //TODO
-        public void Add(Node _data, bool forMultyWay)
+
+        public Node MultiplyWay { get; set; }
+        public Node PlusWay { get; set; }
+        public IFunction Data { get; set; }
+        public int Size { get; private set; }
+
+
+        public void Add(Node data, NodeWayType wayType)
         {
-            if (forMultyWay)
+            if (wayType == NodeWayType.MultiplyWay)
             {
-                if (MultyWay == null)
-                    MultyWay = _data;
+                if (MultiplyWay == null)
+                    MultiplyWay = data;
                 else
-                    MultyWay.Add(_data, forMultyWay);
+                    MultiplyWay.Add(data, NodeWayType.MultiplyWay);
             }
             else
             {
                 if (PlusWay == null)
-                    PlusWay = _data;
+                    PlusWay = data;
                 else
-                    PlusWay.Add(_data, forMultyWay);
+                    PlusWay.Add(data, NodeWayType.PlusWay);
             }
+            Size = 1 + ((MultiplyWay == null)? 0: MultiplyWay.Size) + ((PlusWay == null)? 0: PlusWay.Size);
         }
     }
 }

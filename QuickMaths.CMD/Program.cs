@@ -1,5 +1,8 @@
 ﻿using System;
-using QuickMaths.BL;
+using System.Collections.Generic;
+using QuickMaths.MatrixBll;
+using QuickMaths.BL.Functions;
+using QuickMaths.CMD.Cmd;
 
 namespace QuickMaths.CMD
 {
@@ -7,19 +10,45 @@ namespace QuickMaths.CMD
     {
         static void Main(string[] args)
         {
-
             Console.WriteLine("Hello World!");
 
-            Function sm = new Function("3*x^2 + 4*x + 5*(x+3)*log2(x)");
-            Function sm2 = new Function("3*x^2*5 + 4*x + x");
-            //Function sm3 = new Function("3^x+x");
-
-            foreach (var i in sm.FunctionTree.CreateMultyWayList(sm.FunctionTree.Head))
+            List<IFunction> list = new List<IFunction>()
             {
-                Console.WriteLine(i.Data.FunctionString);
-            }
+                new NumberFunction(1),
+                new CompositeFunction("4*x")
+            };
 
-            Console.WriteLine(Derivative.GetDerivative(sm2));
+            //NumberFunction numberFunction = new NumberFunction(1);
+            //numberFunction.Derivative() -> Ошибка, метод скрыт.
+            //Но так метод вызвать можно
+            foreach (var i in list)
+                Console.WriteLine($"Deravative {i} = {i.Derivative()}"); 
+            
+
+            //CompositeFunction sm1 = new CompositeFunction("15*x^2+4*x+x");
+            //Console.WriteLine(sm1.ToString());
+            //CompositeFunction sm2 = new CompositeFunction("15*x+4*x+x");
+            //Console.WriteLine(sm2.ToString());
+
+
+            IFunction sm2 = new CompositeFunction("x");
+            Console.WriteLine(sm2.ToString());
+
+            IFunction sm3 = new CompositeFunction("4*x");
+            Console.WriteLine(sm3.ToString());
+
+            IFunction sm4 = new CompositeFunction("4*(4 + x)");
+            Console.WriteLine(sm4.ToString());
+
+            IFunction sm5 = new CompositeFunction("4*(4 + 4*x)");
+            Console.WriteLine(sm5.ToString());
+
+            IFunction sm6 = new CompositeFunction("(4 + 4*x)*(4 + 4*x)");
+            Console.WriteLine(sm6.ToString());
+
+            IFunction sm7 = new CompositeFunction("15*x+4*x+x");
+            Console.WriteLine(sm7.ToString());
+
 
             ConsoleHelper.Start();
 
