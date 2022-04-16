@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace QuickMaths.BL.Matrix.Tests
+namespace QuickMaths.MatrixBll.Tests
 {
     public class MatrixTests
     {
