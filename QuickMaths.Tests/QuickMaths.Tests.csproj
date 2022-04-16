@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QuickMaths.BL\QuickMaths.BL.csproj" />
+    <ProjectReference Include="..\QuickMaths.MatrixBll\QuickMaths.MatrixBll.csproj" />
   </ItemGroup>
 
 </Project>

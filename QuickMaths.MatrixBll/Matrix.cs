@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuickMaths.BL.Functions;
 
-namespace QuickMaths.BL.Matrix
+namespace QuickMaths.MatrixBll
 {
     /// <summary>
     /// Класс реализует представление математической матрицы.

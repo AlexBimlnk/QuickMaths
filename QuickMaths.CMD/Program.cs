@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuickMaths.BL;
+using QuickMaths.MatrixBll;
 using QuickMaths.BL.Functions;
-using QuickMaths.BL.Matrix;
 using QuickMaths.CMD.Cmd;
 
 namespace QuickMaths.CMD
@@ -11,7 +10,6 @@ namespace QuickMaths.CMD
     {
         static void Main(string[] args)
         {
-
             Console.WriteLine("Hello World!");
 
             List<IFunction> list = new List<IFunction>()
