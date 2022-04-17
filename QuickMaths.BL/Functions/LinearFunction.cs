@@ -24,18 +24,15 @@ namespace QuickMaths.BL.Functions
     {
         private string _stringFunction = string.Empty;
 
-        public LinearFunction(IFunction argument)
-        {
-            Argument = argument ?? throw new ArgumentNullException("argument");
-        }
+        public LinearFunction(IFunction argument) => Argument = argument ?? throw new ArgumentNullException(nameof(argument));
         public LinearFunction(IFunction argument, IFunction koef)
         {
-            Argument = argument ?? throw new ArgumentNullException("argument");
-            Koef = koef ?? throw new ArgumentNullException("koef");
+            Argument = argument ?? throw new ArgumentNullException(nameof(argument));
+            Koef = koef ?? throw new ArgumentNullException(nameof(koef));
         }
-        public LinearFunction(string stringFunction, IFunction argument, IFunction koef = null)
+        public LinearFunction(string stringFunction, IFunction argument, IFunction? koef = default)
         {
-            Argument = argument ?? throw new ArgumentNullException("argument");
+            Argument = argument ?? throw new ArgumentNullException(nameof(argument));
             Koef = koef ?? new NumberFunction(1);
             _stringFunction = stringFunction;
         }

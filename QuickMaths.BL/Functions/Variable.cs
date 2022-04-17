@@ -14,9 +14,9 @@ namespace QuickMaths.BL.Functions
         public Variable(string name)
         {
             if(name == string.Empty)
-                throw new ArgumentException("name");
+                throw new ArgumentException("Название переменной не может быть пустым.", nameof(name));
 
-            Name = name ?? throw new ArgumentNullException("name");
+            Name = name ?? throw new ArgumentNullException(nameof(name));
         }
         public Variable(string name, double value)
         {

@@ -26,9 +26,9 @@ namespace QuickMaths.BL.Functions
         public NumberFunction(string stringFunction)
         {
             if (stringFunction == string.Empty)
-                throw new ArgumentException("stringFunction");
+                throw new ArgumentException("Строка пустая.", nameof(stringFunction));
 
-            _stringFunction = stringFunction ?? throw new ArgumentNullException("stringFunction");
+            _stringFunction = stringFunction ?? throw new ArgumentNullException(nameof(stringFunction));
             Value = Convert.ToDouble(stringFunction);
         }
         public NumberFunction(double value) => Value = value;

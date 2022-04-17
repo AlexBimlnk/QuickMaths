@@ -18,16 +18,13 @@ namespace QuickMaths.BL.Functions
 
         
 
-        internal CompositeFunction(Tree tree)
-        {
-            _functionTree = tree;
-        }
+        internal CompositeFunction(Tree tree) => _functionTree = tree ?? throw new ArgumentNullException(nameof(tree));
         public CompositeFunction(string function)
         {
-            if (function == String.Empty)
-                throw new ArgumentException("function");
+            if (function == string.Empty)
+                throw new ArgumentException("Строка пустая.", nameof(function));
 
-            _stringFunction = function ?? throw new ArgumentNullException("function");
+            _stringFunction = function ?? throw new ArgumentNullException(nameof(function));
             _functionTree = TreeBuilder.BuildTree(function);
         }
 
