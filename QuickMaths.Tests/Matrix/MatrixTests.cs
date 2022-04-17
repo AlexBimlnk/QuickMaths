@@ -13,21 +13,22 @@ namespace QuickMaths.MatrixBll.Tests
                                                                  { 1, 2, 3 },
                                                                  { 1, 2, 3 } });
 
-
         private static Matrix _data1 = new Matrix(new double[,] { { 1, 2, 3 },
-                                                                   { 1, 2, 3 },
-                                                                   { 1, 2, 3 } });
+                                                                  { 1, 2, 3 },
+                                                                  { 1, 2, 3 } });
+
         private static Matrix _data2 = new Matrix(new double[,] { { 0, 0, 0 },
-                                                                   { 0, 0, 0 },
-                                                                   { 0, 0, 0 } });
+                                                                  { 0, 0, 0 },
+                                                                  { 0, 0, 0 } });
+
         private static Matrix _data3 = new Matrix(new double[,] { { 5, 5, 5 },
-                                                                   { 5, 5, 5 },
-                                                                   { 5, 5, 5 } });
+                                                                  { 5, 5, 5 },
+                                                                  { 5, 5, 5 } });
         private static Matrix _data4 = new Matrix(3, 3);
         private static Matrix _data5 = new Matrix(2, 3);
         private static Matrix _data6 = new Matrix(new double[,] { { 1, 9 },
-                                                                   { 4, 7 },
-                                                                   { 5, 8 } });
+                                                                  { 4, 7 },
+                                                                  { 5, 8 } });
 
 
 
@@ -48,6 +49,38 @@ namespace QuickMaths.MatrixBll.Tests
         }
 
 
+        [Theory]
+        [InlineData(0, 0)]
+        [InlineData(1, 1)]
+        [InlineData(0, 1)]
+        [InlineData(1, 0)]
+        [InlineData(-1, 0)]
+        [InlineData(0, -1)]
+        [InlineData(1, -1)]
+        [InlineData(-1, 1)]
+        public void CreateMatrix_LongArguments_ThrowIfInvalid(long rows, long columns)
+        {
+            Action action = () => new Matrix(rows, columns);
+
+            try
+            {
+                action();
+            }
+            catch
+            {
+                Assert.Throws<ArgumentException>(action);
+            }
+        }
+        [Fact]
+        public void CreateMatrix_DoubleArray_ThrowIfNull()
+        {
+            double[,] nullArray = null;
+            var matrix1 = new Matrix(_data.Table);
+
+            Assert.Throws<ArgumentNullException>(() => new Matrix(nullArray));
+            Assert.True(true);
+        }
+
         #region Арифметические операции
 
         [Fact]
@@ -60,6 +93,7 @@ namespace QuickMaths.MatrixBll.Tests
             Matrix result2 = new Matrix(_data.Table);
             Matrix result3 = new Matrix(new double[,] { { 6, 7, 8 }, { 6, 7, 8 }, { 6, 7, 8 } });
             Matrix result4 = new Matrix(_data.Table);
+            Matrix nullMatrix = null;
 
 
             Matrix output1 = _data + _data1;
@@ -68,6 +102,7 @@ namespace QuickMaths.MatrixBll.Tests
             Matrix output4 = _data + _data4;
             Assert.Throws<ArithmeticException>(() => _data + _data5);
             Assert.Throws<ArithmeticException>(() => _data + _data6);
+            Assert.Throws<ArgumentNullException>(() => _data + nullMatrix);
 
 
             Matrix[,] listTest = new Matrix[,]{ { result1, result2, result3, result4},
@@ -90,6 +125,7 @@ namespace QuickMaths.MatrixBll.Tests
             Matrix result2 = new Matrix(_data.Table);
             Matrix result3 = new Matrix(new double[,] { { -4, -3, -2 }, { -4, -3, -2 }, { -4, -3, -2 } });
             Matrix result4 = new Matrix(_data.Table);
+            Matrix nullMatrix = null;
 
 
             Matrix output1 = _data - _data1;
@@ -98,6 +134,7 @@ namespace QuickMaths.MatrixBll.Tests
             Matrix output4 = _data - _data4;
             Assert.Throws<ArithmeticException>(() => _data - _data5);
             Assert.Throws<ArithmeticException>(() => _data - _data6);
+            Assert.Throws<ArgumentNullException>(() => _data - nullMatrix);
 
 
             Matrix[,] listTest = new Matrix[,]{ { result1, result2, result3, result4},
@@ -120,6 +157,8 @@ namespace QuickMaths.MatrixBll.Tests
         [InlineData(1.2)]
         public void MultiplyMatrix_MatrixAndNumber_ReturnMatrixOfMultiply(double k)
         {
+
+            Matrix matrix = null;
             Matrix result = _data * k;
 
             for (int i = 0; i < _data.RowCount; i++)
@@ -129,7 +168,7 @@ namespace QuickMaths.MatrixBll.Tests
                     Assert.Equal(result[i, j], _data[i, j] * k);
                 }
             }
-
+            Assert.Throws<ArgumentNullException>(() => matrix * k);
         }
 
         [Fact]
@@ -137,7 +176,7 @@ namespace QuickMaths.MatrixBll.Tests
         {
             const int TEST_COUNT = 5;
 
-
+            Matrix nullMatrix = null;
             Matrix result1 = new Matrix(new double[,] { { 6, 12, 18 }, { 6, 12, 18 }, { 6, 12, 18 } });
             Matrix result2 = new Matrix(3, 3);
             Matrix result3 = new Matrix(new double[,] { { 30, 30, 30 }, { 30, 30, 30 }, { 30, 30, 30 } });
@@ -153,6 +192,7 @@ namespace QuickMaths.MatrixBll.Tests
             Matrix output4 = _data * _data4;
             Matrix output6 = _data * _data6;
             Assert.Throws<ArithmeticException>(() => _data * _data5);
+            Assert.Throws<ArgumentNullException>(() => _data - nullMatrix);
 
 
             Matrix[,] listTest = new Matrix[,]{ { result1, result2, result3, result4, result6},
@@ -187,14 +227,11 @@ namespace QuickMaths.MatrixBll.Tests
                 {
                     Assert.Equal(output[i], result[i, 0]);
                 }
-
             }
             catch
             {
                 Assert.Throws<IndexOutOfRangeException>(action);
             }
-
-            
         }
 
         [Theory]
@@ -217,7 +254,6 @@ namespace QuickMaths.MatrixBll.Tests
                 {
                     Assert.Equal(output[i], result[0, i]);
                 }
-
             }
             catch
             {
