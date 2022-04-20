@@ -9,29 +9,26 @@ namespace QuickMaths.MatrixBll
     /// <summary>
     /// Класс реализует представление математической матрицы.
     /// </summary>
-    public class Matrix
+    public record Matrix
     {
         public Matrix(long rows, long columns)
         {
             if (rows < 0 || columns < 0)
                 throw new ArgumentException();
 
-            Table = new double[rows, columns];
+            Table = new decimal[rows, columns];
         }
-        public Matrix(double[,] table)
-        {
-            Table = table?.Clone() as double[,] ?? throw new ArgumentNullException(nameof(table));
-        }
+        public Matrix(decimal[,] table) => Table = table?.Clone() as decimal[,] ?? throw new ArgumentNullException(nameof(table));
 
 
-        public double this[long rowIndex, long columnIndex]
+        public decimal this[long rowIndex, long columnIndex]
         {
             get { return Table[rowIndex, columnIndex]; }
             set { Table[rowIndex, columnIndex] = value; }
         }
 
 
-        public double[,] Table { get; private set; }
+        public decimal[,] Table { get; init; }
         public long RowCount => Table.GetLength(0);
         public long ColumnCount => Table.GetLength(1);
 
@@ -66,7 +63,7 @@ namespace QuickMaths.MatrixBll
         }
 
 
-        #region Статические функции
+        #region Математические операторы
         public static Matrix operator + (Matrix matrix1, Matrix matrix2)
         {
             if (matrix1 is null || matrix2 is null)
@@ -81,7 +78,7 @@ namespace QuickMaths.MatrixBll
             }
 
 
-            double[,] table = new double[matrix1.RowCount, matrix1.ColumnCount];
+            decimal[,] table = new decimal[matrix1.RowCount, matrix1.ColumnCount];
 
             for (int i = 0; i < matrix1.RowCount; i++)
                 for (int j = 0; j < matrix1.ColumnCount; j++)
@@ -104,7 +101,7 @@ namespace QuickMaths.MatrixBll
             }
 
 
-            double[,] table = new double[matrix1.RowCount, matrix1.ColumnCount];
+            decimal[,] table = new decimal[matrix1.RowCount, matrix1.ColumnCount];
 
             for (int i = 0; i < matrix1.RowCount; i++)
                 for (int j = 0; j < matrix1.ColumnCount; j++)
@@ -113,12 +110,12 @@ namespace QuickMaths.MatrixBll
             return new Matrix(table);
         }
 
-        public static Matrix operator * (Matrix matrix, double k)
+        public static Matrix operator * (Matrix matrix, decimal k)
         {
             if (matrix is null)
                 throw new ArgumentNullException(nameof(matrix));
 
-            double[,] table = new double[matrix.RowCount, matrix.ColumnCount];
+            decimal[,] table = new decimal[matrix.RowCount, matrix.ColumnCount];
 
             for (int i = 0; i < matrix.RowCount; i++)
                 for (int j = 0; j < matrix.ColumnCount; j++)
@@ -142,7 +139,7 @@ namespace QuickMaths.MatrixBll
             long row1 = matrix1.RowCount;
             long column2 = matrix2.ColumnCount;
 
-            double[,] table = new double[row1, column2];
+            decimal[,] table = new decimal[row1, column2];
 
             for (int i = 0; i < row1; i++)
                 for (int j = 0; j < column2; j++)
