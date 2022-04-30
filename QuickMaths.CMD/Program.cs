@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuickMaths.Matrix;
+using QuickMaths.MatrixBLL;
 using QuickMaths.FunctionsBLL.Functions;
 using QuickMaths.CMD.Cmd;
 

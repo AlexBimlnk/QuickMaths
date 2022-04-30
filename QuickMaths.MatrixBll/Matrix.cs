@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickMaths.Matrix
+namespace QuickMaths.MatrixBLL
 {
     /// <summary>
     /// Класс реализует представление математической матрицы.
     /// </summary>
-    public record Matrix
+    public struct Matrix : IEquatable<Matrix>
     {
         public Matrix(long rows, long columns)
         {
@@ -19,13 +20,6 @@ namespace QuickMaths.Matrix
             Table = new decimal[rows, columns];
         }
         public Matrix(decimal[,] table) => Table = table?.Clone() as decimal[,] ?? throw new ArgumentNullException(nameof(table));
-
-
-        public decimal this[long rowIndex, long columnIndex]
-        {
-            get { return Table[rowIndex, columnIndex]; }
-            set { Table[rowIndex, columnIndex] = value; }
-        }
 
 
         public decimal[,] Table { get; init; }
@@ -63,12 +57,43 @@ namespace QuickMaths.Matrix
         }
 
 
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(RowCount, ColumnCount);
+        }
+        public override bool Equals(object? obj)
+        {
+            if (obj is Matrix matrix)
+                return Equals(matrix);
+
+            return false;
+        }
+        public bool Equals(Matrix other)
+        {
+            if (other.ColumnCount == ColumnCount &&
+                other.RowCount == RowCount)
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    for (int j = 0; j < ColumnCount; j++)
+                    {
+                        bool isEqualsElement = this[i, j] == other[i, j];
+
+                        if (!isEqualsElement)
+                            return false;
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+
         #region Математические операторы
         public static Matrix operator + (Matrix matrix1, Matrix matrix2)
         {
-            if (matrix1 is null || matrix2 is null)
-                throw new ArgumentNullException();
-
             if (matrix1.ColumnCount != matrix2.ColumnCount ||
                 matrix1.RowCount != matrix2.RowCount)
             {
@@ -89,9 +114,6 @@ namespace QuickMaths.Matrix
 
         public static Matrix operator - (Matrix matrix1, Matrix matrix2)
         {
-            if (matrix1 is null || matrix2 is null)
-                throw new ArgumentNullException();
-
             if (matrix1.ColumnCount != matrix2.ColumnCount ||
                 matrix1.RowCount != matrix2.RowCount)
             {
@@ -112,9 +134,6 @@ namespace QuickMaths.Matrix
 
         public static Matrix operator * (Matrix matrix, decimal k)
         {
-            if (matrix is null)
-                throw new ArgumentNullException(nameof(matrix));
-
             decimal[,] table = new decimal[matrix.RowCount, matrix.ColumnCount];
 
             for (int i = 0; i < matrix.RowCount; i++)
@@ -126,9 +145,6 @@ namespace QuickMaths.Matrix
 
         public static Matrix operator * (Matrix matrix1, Matrix matrix2)
         {
-            if (matrix1 is null || matrix2 is null)
-                throw new ArgumentNullException();
-
             long column1 = matrix1.ColumnCount;
             long row2 = matrix2.RowCount;
 
@@ -149,5 +165,12 @@ namespace QuickMaths.Matrix
             return new Matrix(table);
         }
         #endregion
+
+
+        public decimal this[long rowIndex, long columnIndex]
+        {
+            get { return Table[rowIndex, columnIndex]; }
+            set { Table[rowIndex, columnIndex] = value; }
+        }
     }
 }
