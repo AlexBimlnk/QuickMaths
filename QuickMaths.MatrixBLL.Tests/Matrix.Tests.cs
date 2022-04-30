@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using FluentAssertions;
 using Xunit;
-using Xunit.Sdk;
+
 namespace QuickMaths.MatrixBLL.Tests
 {
     public class MatrixTest
