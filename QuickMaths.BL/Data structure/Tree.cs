@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuickMaths.BL.Functions;
-using QuickMaths.BL.Enums;
+using QuickMaths.FunctionsBLL.Functions;
+using QuickMaths.FunctionsBLL.Enums;
 
-namespace QuickMaths.BL.DataStructure
+namespace QuickMaths.FunctionsBLL.DataStructure
 {
     internal class Tree //where T : IComparable
     {

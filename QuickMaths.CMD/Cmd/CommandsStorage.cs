@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuickMaths.BL.Functions;
+using QuickMaths.FunctionsBLL.Functions;
 
 namespace QuickMaths.CMD.Cmd
 {

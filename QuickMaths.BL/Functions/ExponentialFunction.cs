@@ -1,11 +1,11 @@
-﻿using QuickMaths.BL.DataStructure;
+﻿using QuickMaths.FunctionsBLL.DataStructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickMaths.BL.Functions
+namespace QuickMaths.FunctionsBLL.Functions
 {
     /// <summary>
     /// Показательная функция.

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickMaths.MatrixBll
+namespace QuickMaths.Matrix
 {
     /// <summary>
     /// Класс реализует представление математической матрицы.

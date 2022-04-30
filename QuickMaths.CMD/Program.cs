@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using QuickMaths.MatrixBll;
-using QuickMaths.BL.Functions;
+using QuickMaths.Matrix;
+using QuickMaths.FunctionsBLL.Functions;
 using QuickMaths.CMD.Cmd;
 
 namespace QuickMaths.CMD

@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuickMaths.BL\QuickMaths.BL.csproj" />
-    <ProjectReference Include="..\QuickMaths.MatrixBll\QuickMaths.MatrixBll.csproj" />
+    <ProjectReference Include="..\QuickMaths.BL\QuickMaths.FunctionsBLL.csproj" />
+    <ProjectReference Include="..\QuickMaths.MatrixBll\QuickMaths.MatrixBLL.csproj" />
   </ItemGroup>
 
 </Project>
