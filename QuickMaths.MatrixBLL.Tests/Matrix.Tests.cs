@@ -11,37 +11,6 @@ namespace QuickMaths.MatrixBLL.Tests
 {
     public class MatrixTest
     {
-        public static TheoryData<Matrix> MatrixData
-        {
-            get
-            {
-                var data = new TheoryData<Matrix>();
-                data.Add(new Matrix(new decimal[,] { { 1, 2, 3 },
-                                                     { 1, 2, 3 },
-                                                     { 1, 2, 3 } }));
-
-                data.Add(new Matrix(new decimal[,] { { -11,     1,  1 },
-                                                     {   1,  2.5m, -5 },
-                                                     {   0,  2.1m,  3 } }));
-
-                data.Add(new Matrix(new decimal[,] { { 0, 0, 0 },
-                                                     { 0, 0, 0 },
-                                                     { 0, 0, 0 } }));
-
-                data.Add(new Matrix(new decimal[,] { { -5,  5,  5 },
-                                                     {  5, -5,  5 },
-                                                     {  5,  5, -5 } }));
-
-                data.Add(new Matrix(3, 3));
-                data.Add(new Matrix(2, 3));
-                data.Add(new Matrix(new decimal[,] { { 1, 9 },
-                                                     { 4, 7 },
-                                                     { 5, 8 } }));
-
-                return data;
-            }
-        }
-
         [Fact(DisplayName = "Can be created.")]
         [Trait("Category", "Unit")]
         public void CanBeCreated()
