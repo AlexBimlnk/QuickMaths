@@ -5,15 +5,15 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickMaths.CMD", "QuickMaths.CMD\QuickMaths.CMD.csproj", "{0A3085BB-D658-4010-8C40-191CE05B67D3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickMaths.FunctionsBLL", "QuickMaths.BL\QuickMaths.FunctionsBLL.csproj", "{97FCCEEE-0428-4BBE-A6E8-269B96CBE16A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickMaths.FunctionsBLL", "QuickMaths.FunctionsBLL\QuickMaths.FunctionsBLL.csproj", "{97FCCEEE-0428-4BBE-A6E8-269B96CBE16A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickMaths.Tests", "QuickMaths.Tests\QuickMaths.Tests.csproj", "{5997C519-C13C-43A7-A02C-994AB977B543}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickMaths.MatrixBLL", "QuickMaths.MatrixBll\QuickMaths.MatrixBLL.csproj", "{3DDF0081-26B9-4B0A-B9AE-AB393FD9795E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickMaths.MatrixBLL.Tests", "QuickMaths.MatrixBLL.Tests\QuickMaths.MatrixBLL.Tests.csproj", "{0A1DCD87-24A6-4590-9A74-B39746FED7C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickMaths.MatrixBLL.Tests", "QuickMaths.MatrixBLL.Tests\QuickMaths.MatrixBLL.Tests.csproj", "{0A1DCD87-24A6-4590-9A74-B39746FED7C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickMaths.FunctionsBLL.Tests", "QuickMaths.FunctionsBLL.Tests\QuickMaths.FunctionsBLL.Tests.csproj", "{5EC8B5CD-897C-42BC-BAC8-CF7BE8FE718C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickMaths.FunctionsBLL.Tests", "QuickMaths.FunctionsBLL.Tests\QuickMaths.FunctionsBLL.Tests.csproj", "{5EC8B5CD-897C-42BC-BAC8-CF7BE8FE718C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
