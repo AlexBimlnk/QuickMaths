@@ -12,6 +12,7 @@ namespace QuickMaths.MatrixBLL
     /// </summary>
     public struct Matrix : IEquatable<Matrix>
     {
+        public Matrix() { throw new NotImplementedException(); }
         public Matrix(long rows, long columns)
         {
             if (rows < 0 || columns < 0)
