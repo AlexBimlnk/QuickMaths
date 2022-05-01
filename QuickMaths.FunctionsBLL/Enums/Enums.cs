@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickMaths.BL.Enums
+namespace QuickMaths.FunctionsBLL.Enums
 {
     public enum MathOperation
     {

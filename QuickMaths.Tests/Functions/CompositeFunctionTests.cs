@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace QuickMaths.BL.Functions.Tests
+namespace QuickMaths.FunctionsBLL.Functions.Tests
 {
     //Todo: Test for (composite) function 
     public class CompositeFunctionTests
