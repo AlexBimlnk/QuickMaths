@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuickMaths.BL.Functions;
-using QuickMaths.BL.Enums;
-using QuickMaths.BL.Validation;
+using QuickMaths.FunctionsBLL.Functions;
+using QuickMaths.FunctionsBLL.Enums;
+using QuickMaths.FunctionsBLL.Validation;
 using System.Text.RegularExpressions;
 
-namespace QuickMaths.BL.DataStructure
+namespace QuickMaths.FunctionsBLL.DataStructure
 {
     internal static class TreeBuilder
     {

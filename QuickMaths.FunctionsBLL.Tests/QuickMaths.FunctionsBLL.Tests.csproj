@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.6.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -21,8 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuickMaths.BL\QuickMaths.BL.csproj" />
-    <ProjectReference Include="..\QuickMaths.MatrixBll\QuickMaths.MatrixBll.csproj" />
+    <ProjectReference Include="..\QuickMaths.FunctionsBLL\QuickMaths.FunctionsBLL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Functions\" />
+    <Folder Include="DataStructure\" />
   </ItemGroup>
 
 </Project>

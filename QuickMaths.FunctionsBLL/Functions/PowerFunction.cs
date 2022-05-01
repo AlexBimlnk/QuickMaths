@@ -1,26 +1,26 @@
-﻿using QuickMaths.BL.DataStructure;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuickMaths.FunctionsBLL.DataStructure;
 
-namespace QuickMaths.BL.Functions
+namespace QuickMaths.FunctionsBLL.Functions
 {
     /// <summary>
-    /// Показательная функция.
+    /// Степенная функция.
     /// <list type="bullet">
     ///     <item>
-    ///         <term>e^x</term>
-    ///         <description>Является показательной функцией.</description>
+    ///         <term>x^2</term>
+    ///         <description>Является степенной функцией.</description>
     ///     </item>
     ///     <item>
-    ///         <term>2^y</term>
-    ///         <description>Является показательной функцией.</description>
+    ///         <term>y^4</term>
+    ///         <description>Является степенной функцией.</description>
     ///     </item>
     /// </list>
     /// </summary>
-    public class ExponentialFunction : IFunction
+    public class PowerFunction : IFunction
     {
         public double Calculate()
         {
