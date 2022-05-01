@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuickMaths.BL.Functions;
-using QuickMaths.BL.Enums;
+using QuickMaths.FunctionsBLL.Functions;
+using QuickMaths.FunctionsBLL.Enums;
 
-namespace QuickMaths.BL.DataStructure
+namespace QuickMaths.FunctionsBLL.DataStructure
 {
     internal class Tree //where T : IComparable
     {
-        public Tree(Node head) { Head = head; }
-        public Tree(IFunction head)
+        public Tree(Node head) => Head = head ?? throw new ArgumentNullException(nameof(head));
+        public Tree(IFunction function)
         {
-            if (head == null)
-                throw new ArgumentNullException();
-
-            Head = new Node(head);
+            Head = function is not null 
+                   ? new Node(function) 
+                   : throw new ArgumentNullException(nameof(function));
         }
 
 
@@ -148,8 +147,11 @@ namespace QuickMaths.BL.DataStructure
         /// <param name="newMult"> Функция-множитель. </param>
         public void AddNewMultiplier(IFunction newMult)
         {
+            if (newMult is null)
+                throw new ArgumentNullException(nameof(newMult));
+
             Node newNode = new Node(newMult);
-            if (Head == null)
+            if (Head is null)
                 Head = newNode;
             else
                 Head.Add(newNode, NodeWayType.MultiplyWay);
@@ -160,13 +162,14 @@ namespace QuickMaths.BL.DataStructure
         /// <param name="newSumm"> Функция-слагаемое. </param>
         public void AddNewSummand(IFunction newSumm)
         {
+            if (newSumm is null)
+                throw new ArgumentNullException(nameof(newSumm));
+
             Node newNode = new Node(newSumm);
-            if (Head == null)
+            if (Head is null)
                 Head = newNode;
             else
-            {
                 Head.Add(newNode, NodeWayType.PlusWay);
-            }
         }
         /// <summary>
         /// Добавляет в дерево узел-слагаемое и устанавливает его в качестве корня дерева.
@@ -174,8 +177,11 @@ namespace QuickMaths.BL.DataStructure
         /// <param name="newSumm"> Фугкция-слагаемое. </param>
         public void AddNewSummandInRoot(IFunction newSumm)
         {
+            if (newSumm is null)
+                throw new ArgumentNullException(nameof(newSumm));
+
             Node newNode = new Node(newSumm);
-            if (Head == null)
+            if (Head is null)
                 Head= newNode;
             else
             {
@@ -208,11 +214,14 @@ namespace QuickMaths.BL.DataStructure
         /// <returns> Список из "*"-узлов. </returns>
         public List<Node> CreateMultyWayList(Node node)
         {
+            if (node is null)
+                throw new ArgumentNullException(nameof(node));
+
+
             List<Node> nodes = new List<Node>();
 
             Node temp = node;
-
-            while(temp != null)
+            while(temp is not null)
             {
                 nodes.Add(temp);
                 temp = temp.MultiplyWay;

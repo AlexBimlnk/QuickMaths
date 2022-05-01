@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuickMaths.BL.Functions;
-using QuickMaths.BL.Enums;
+using QuickMaths.FunctionsBLL.Functions;
+using QuickMaths.FunctionsBLL.Enums;
 
-namespace QuickMaths.BL.DataStructure
+namespace QuickMaths.FunctionsBLL.DataStructure
 {
     internal class Node
     {
         public Node(IFunction data)
         {
-            Data = data;
+            Data = data ?? throw new ArgumentNullException(nameof(data));
             Size = 1;
         }
 
 
-        public Node MultiplyWay { get; set; }
-        public Node PlusWay { get; set; }
+        public Node? MultiplyWay { get; set; }
+        public Node? PlusWay { get; set; }
         public IFunction Data { get; set; }
         public int Size { get; private set; }
 
