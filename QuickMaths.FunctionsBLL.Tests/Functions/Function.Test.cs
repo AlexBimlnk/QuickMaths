@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickMaths.BL.Data_structure.Tests
+namespace QuickMaths.FunctionsBLL.Tests.Functions
 {
-    public class TreeBuilderTests
+    internal class Function
     {
-        //Todo: tests for tree builder
     }
 }

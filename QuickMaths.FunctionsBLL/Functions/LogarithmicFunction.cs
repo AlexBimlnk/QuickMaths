@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuickMaths.BL.DataStructure;
+using QuickMaths.FunctionsBLL.DataStructure;
 
-namespace QuickMaths.BL.Functions
+namespace QuickMaths.FunctionsBLL.Functions
 {
     /// <summary>
     /// Логарифмическая функция.
