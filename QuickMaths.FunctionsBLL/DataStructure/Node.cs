@@ -12,13 +12,13 @@ namespace QuickMaths.FunctionsBLL.DataStructure
     {
         public Node(IFunction data)
         {
-            Data = data;
+            Data = data ?? throw new ArgumentNullException(nameof(data));
             Size = 1;
         }
 
 
-        public Node MultiplyWay { get; set; }
-        public Node PlusWay { get; set; }
+        public Node? MultiplyWay { get; set; }
+        public Node? PlusWay { get; set; }
         public IFunction Data { get; set; }
         public int Size { get; private set; }
 
