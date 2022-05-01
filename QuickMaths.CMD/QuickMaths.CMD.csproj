@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,9 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuickMaths.BL\QuickMaths.FunctionsBLL.csproj" />
     <ProjectReference Include="..\QuickMaths.FunctionsBLL\QuickMaths.FunctionsBLL.csproj" />
-    <ProjectReference Include="..\QuickMaths.MatrixBll\QuickMaths.MatrixBLL.csproj" />
+    <ProjectReference Include="..\QuickMaths.MatrixBLL\QuickMaths.MatrixBLL.csproj" />
   </ItemGroup>
 
 </Project>
