@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace QuickMaths.FunctionsBLL.Tests.Functions;
 
-namespace QuickMaths.FunctionsBLL.Tests.Functions
+public class NumberFunctionTests
 {
-    internal class Function
-    {
-    }
 }
