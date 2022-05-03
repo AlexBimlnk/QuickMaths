@@ -33,6 +33,14 @@ public class NumberFunction : IFunction
 
 
     public double Calculate() => Value;
-    IFunction? IFunction.Derivative() => null;
+    IFunction IFunction.Derivative() => throw new NotImplementedException();
+    public override bool Equals(object? obj)
+    {
+        if (obj is IFunction function)
+            return Equals(function);
+        return false;
+    }
+    public bool Equals(IFunction? other) => other is NumberFunction numberFunction && numberFunction.Value == Value;
+    public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => Value.ToString();
 }

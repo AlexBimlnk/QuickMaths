@@ -1,6 +1,6 @@
 ﻿namespace QuickMaths.FunctionsBLL.Functions;
 
-public interface IFunction
+public interface IFunction : IEquatable<IFunction>
 {
 
     /// <summary>

@@ -40,6 +40,16 @@ public class LinearFunction : IFunction
 
     public double Calculate() => throw new NotImplementedException();
     public IFunction Derivative() => throw new NotImplementedException();
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is IFunction function)
+            return Equals(function);
+        return false;
+    }
+    public bool Equals(IFunction? other) => other is LinearFunction linearFunction && 
+        Koef.Equals(linearFunction.Koef) && Argument.Equals(linearFunction.Argument);
+    public override int GetHashCode() => HashCode.Combine(_stringFunction, Koef, Argument);
     public override string ToString() //Todo: ToString in LF
     {
         if (_stringFunction == String.Empty)

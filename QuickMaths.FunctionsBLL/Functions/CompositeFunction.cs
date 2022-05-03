@@ -8,7 +8,6 @@ namespace QuickMaths.FunctionsBLL.Functions;
 /// </summary>
 public class CompositeFunction : IFunction
 {
-    private string _stringFunction = String.Empty;
     private Tree _functionTree = null!;
 
 
@@ -18,7 +17,6 @@ public class CompositeFunction : IFunction
         if (string.IsNullOrEmpty(function))
             throw new ArgumentException(null, nameof(function));
 
-        _stringFunction = function;
         //TODO Рефакторинг ошибки
         //Либо уберем после рефакторинга возможность возраста null дерева в билдере
         //Или делаем свой кастомный эксепшен
@@ -26,8 +24,16 @@ public class CompositeFunction : IFunction
     }
 
 
+    /// <inheritdoc/>
     public double Calculate() => throw new NotImplementedException();
     public IFunction Derivative() => new CompositeFunction(_functionTree.GetDerivative());
-
-    public override string ToString() => $"({((_functionTree != null) ? _functionTree.ToString() : _stringFunction)})";
+    public override bool Equals(object? obj)
+    {
+        if (obj is IFunction function)
+            return Equals(function);
+        return false;
+    }
+    public bool Equals(IFunction? other) => throw new NotImplementedException();
+    public override int GetHashCode() => throw new NotImplementedException();
+    public override string ToString() => $"({_functionTree})";
 }
