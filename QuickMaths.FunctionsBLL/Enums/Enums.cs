@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QuickMaths.FunctionsBLL.Enums
+﻿namespace QuickMaths.FunctionsBLL.Enums
 {
     public enum MathOperation
     {

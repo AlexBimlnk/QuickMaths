@@ -1,35 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QuickMaths.FunctionsBLL.DataStructure;
+﻿namespace QuickMaths.FunctionsBLL.Functions;
 
-namespace QuickMaths.FunctionsBLL.Functions
+/// <summary>
+/// Степенная функция.
+/// <list type="bullet">
+///     <item>
+///         <term>x^2</term>
+///         <description>Является степенной функцией.</description>
+///     </item>
+///     <item>
+///         <term>y^4</term>
+///         <description>Является степенной функцией.</description>
+///     </item>
+/// </list>
+/// </summary>
+public class PowerFunction : IFunction
 {
-    /// <summary>
-    /// Степенная функция.
-    /// <list type="bullet">
-    ///     <item>
-    ///         <term>x^2</term>
-    ///         <description>Является степенной функцией.</description>
-    ///     </item>
-    ///     <item>
-    ///         <term>y^4</term>
-    ///         <description>Является степенной функцией.</description>
-    ///     </item>
-    /// </list>
-    /// </summary>
-    public class PowerFunction : IFunction
-    {
-        public double Calculate()
-        {
-            throw new NotImplementedException();
-        }
+    public double Calculate() => throw new NotImplementedException();
 
-        public IFunction Derivative()
-        {
-            throw new NotImplementedException();
-        }
-    }
+    public IFunction Derivative() => throw new NotImplementedException();
 }
