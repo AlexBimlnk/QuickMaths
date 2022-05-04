@@ -1,7 +1,7 @@
 ﻿namespace QuickMaths.FunctionsBLL.Functions;
 
 /// <summary>
-/// Числовая функция.
+/// Представляет числовую функцию.
 /// <list type="bullet">
 ///     <item>
 ///         <term>4</term>
@@ -15,16 +15,15 @@
 /// </summary>
 public class NumberFunction : IFunction
 {
-    private string _stringFunction = string.Empty;
-
-
     public NumberFunction(string stringFunction)
     {
         if (string.IsNullOrEmpty(stringFunction))
             throw new ArgumentException(null, nameof(stringFunction));
 
-        _stringFunction = stringFunction;
-        Value = Convert.ToDouble(stringFunction);
+        if (!double.TryParse(stringFunction, out double number))
+            throw new FormatException($"Input string has invalid format");
+
+        Value = number;
     }
     public NumberFunction(double value) => Value = value;
 
@@ -33,7 +32,7 @@ public class NumberFunction : IFunction
 
 
     public double Calculate() => Value;
-    IFunction IFunction.Derivative() => throw new NotImplementedException();
+    IFunction IFunction.Derivative() => null!;
     public override bool Equals(object? obj)
     {
         if (obj is IFunction function)
@@ -41,6 +40,6 @@ public class NumberFunction : IFunction
         return false;
     }
     public bool Equals(IFunction? other) => other is NumberFunction numberFunction && numberFunction.Value == Value;
-    public override int GetHashCode() => HashCode.Combine(Value);
+    public override int GetHashCode() => HashCode.Combine(Value, nameof(NumberFunction));
     public override string ToString() => Value.ToString();
 }
