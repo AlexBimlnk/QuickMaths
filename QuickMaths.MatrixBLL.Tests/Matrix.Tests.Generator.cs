@@ -1,10 +1,8 @@
-﻿using System.Text;
-
-using Xunit;
+﻿using Xunit;
 
 namespace QuickMaths.MatrixBLL.Tests;
 
-public class MatrixTestData
+internal class MatrixTestsData
 {
     #region Const matrix data
 
@@ -69,7 +67,7 @@ public class MatrixTestData
             data.Add(_matrix1, _matrix7, false);
             data.Add(_matrix1, _matrix7, false);
             data.Add(_matrix1, null!, false);
-            data.Add(_matrix1, new StringBuilder(), false);
+            data.Add(_matrix1, "123", false);
 
             return data;
         }

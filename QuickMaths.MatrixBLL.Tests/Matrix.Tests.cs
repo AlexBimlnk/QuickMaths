@@ -13,15 +13,15 @@ public class MatrixTests
     [Trait("Category", "Unit")]
     public void CanBeCreated()
     {
-        //arrange
+        // Arrange
         var size = 3;
         var table = new decimal[3, 3];
 
-        //act
+        // Act
         var exeption1 = Record.Exception(() => new Matrix(size, size));
         var exeption2 = Record.Exception(() => new Matrix(table));
 
-        //assert
+        // Assert
         exeption1.Should().BeNull();
         exeption2.Should().BeNull();
     }
@@ -30,16 +30,16 @@ public class MatrixTests
     [Trait("Category", "Unit")]
     public void CanNotBeCreatedWhenSizeIsIncorrect()
     {
-        //arrange
+        // Arrange
         var correctSize = 3;
         var incorrectSize = -3;
 
-        //act
+        // Act
         var exeption1 = Record.Exception(() => new Matrix(correctSize, incorrectSize));
         var exeption2 = Record.Exception(() => new Matrix(incorrectSize, correctSize));
         var exeption3 = Record.Exception(() => new Matrix(incorrectSize, incorrectSize));
 
-        //assert
+        // Assert
         exeption1.Should().NotBeNull().And.BeOfType<ArgumentException>();
         exeption2.Should().NotBeNull().And.BeOfType<ArgumentException>();
         exeption3.Should().NotBeNull().And.BeOfType<ArgumentException>();
@@ -49,45 +49,45 @@ public class MatrixTests
     [Trait("Category", "Unit")]
     public void CanNotBeCreatedWhenTableIsMissing()
     {
-        //act
+        // Act
         var exeption1 = Record.Exception(() => new Matrix(null!));
 
-        //assert
+        // Assert
         exeption1.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
     }
     #endregion
 
     #region Свойства
 
-    [Fact(DisplayName = "Can get row count.")]
+    [Fact(DisplayName = "Can get rows count.")]
     [Trait("Category", "Unit")]
     public void CanGetRowsCount()
     {
-        //arrange
+        // Arrange
         var rows = 3;
         var columns = 1;
         var matrix = new Matrix(rows, columns);
 
-        //act
+        // Act
         var result = matrix.RowsCount;
 
-        //assert
+        // Assert
         result.Should().Be(rows);
     }
 
-    [Fact(DisplayName = "Can get column count.")]
+    [Fact(DisplayName = "Can get columns count.")]
     [Trait("Category", "Unit")]
     public void CanGetColumnsCount()
     {
-        //arrange
+        // Arrange
         var rows = 3;
         var columns = 1;
         var matrix = new Matrix(rows, columns);
 
-        //act
+        // Act
         var result = matrix.ColumnsCount;
 
-        //assert
+        // Assert
         result.Should().Be(columns);
     }
     #endregion
@@ -96,71 +96,71 @@ public class MatrixTests
 
     [Theory(DisplayName = "Can get row as matrix if index is valid.")]
     [Trait("Category", "Unit")]
-    [MemberData(nameof(MatrixTestData.GetRowFromMatrixData), MemberType = typeof(MatrixTestData))]
+    [MemberData(nameof(MatrixTestsData.GetRowFromMatrixData), MemberType = typeof(MatrixTestsData))]
     public void CanGetRowAsMatrix(Matrix matrix, long index, Matrix expectedMatrix)
     {
-        //arrange
+        // Arrange
         var func = (Matrix m1, long index) => m1.GetRow(index);
 
-        //act
+        // Act
         try
         {
-            var result = func(matrix, index);
+            Matrix result = func(matrix, index);
 
-            //assert
+            // Assert
             result.Should().BeEquivalentTo(expectedMatrix);
         }
         catch
         {
-            //assert
+            // Assert
             Assert.Throws<IndexOutOfRangeException>(() => func(matrix, index));
         }
     }
 
     [Theory(DisplayName = "Can get column as matrix if index is valid.")]
     [Trait("Category", "Unit")]
-    [MemberData(nameof(MatrixTestData.GetColumnFromMatrixData), MemberType = typeof(MatrixTestData))]
+    [MemberData(nameof(MatrixTestsData.GetColumnFromMatrixData), MemberType = typeof(MatrixTestsData))]
     public void CanGetColumnAsMatrix(Matrix matrix, long index, Matrix expectedMatrix)
     {
-        //arrange
+        // Arrange
         var func = (Matrix m1, long index) => m1.GetColumn(index);
 
-        //act
+        // Act
         try
         {
-            var result = func(matrix, index);
+            Matrix result = func(matrix, index);
 
-            //assert
+            // Assert
             result.Should().BeEquivalentTo(expectedMatrix);
         }
         catch
         {
-            //assert
+            // Assert
             Assert.Throws<IndexOutOfRangeException>(() => func(matrix, index));
         }
     }
 
-    [Theory(DisplayName = "Equals two matrix works.")]
+    [Theory(DisplayName = "Equals matrix and object works.")]
     [Trait("Category", "Unit")]
-    [MemberData(nameof(MatrixTestData.EqualsTwoMatrixData), MemberType = typeof(MatrixTestData))]
-    public void EqualsTwoMatrixWork(Matrix firstMatrix, Matrix other, bool expectedResult)
+    [MemberData(nameof(MatrixTestsData.EqualsMatrixAndObjectData), MemberType = typeof(MatrixTestsData))]
+    public void EqualsMatrixAndObjectWork(Matrix firstMatrix, object other, bool expectedResult)
     {
-        //act
-        var result = firstMatrix.Equals(other);
+        // Act
+        bool result = firstMatrix.Equals(other);
 
-        //assert
+        // Assert
         result.Should().Be(expectedResult);
     }
 
-    [Theory(DisplayName = "Equals matrix and object works.")]
+    [Theory(DisplayName = "Equals two matrixs works.")]
     [Trait("Category", "Unit")]
-    [MemberData(nameof(MatrixTestData.EqualsMatrixAndObjectData), MemberType = typeof(MatrixTestData))]
-    public void EqualsMatrixAndObjectWork(Matrix firstMatrix, object other, bool expectedResult)
+    [MemberData(nameof(MatrixTestsData.EqualsTwoMatrixData), MemberType = typeof(MatrixTestsData))]
+    public void EqualsTwoMatrixWork(Matrix firstMatrix, Matrix other, bool expectedResult)
     {
-        //act
-        var result = firstMatrix.Equals(other);
+        // Act
+        bool result = firstMatrix.Equals(other);
 
-        //assert
+        // Assert
         result.Should().Be(expectedResult);
     }
     #endregion
@@ -169,86 +169,86 @@ public class MatrixTests
 
     [Theory(DisplayName = "Plus operator works.")]
     [Trait("Category", "Unit")]
-    [MemberData(nameof(MatrixTestData.SumTwoMatrixData), MemberType = typeof(MatrixTestData))]
+    [MemberData(nameof(MatrixTestsData.SumTwoMatrixData), MemberType = typeof(MatrixTestsData))]
     public void PlusOperatorWork(Matrix firstMatrix, Matrix otherMatrix, Matrix expectedMatrix)
     {
-        //arrange
+        // Arrange
         var func = (Matrix m1, Matrix m2) => m1 + m2;
         var result = new Matrix(1, 1);
 
-        //act
+        // Act
         try
         {
             result = func(firstMatrix, otherMatrix);
 
-            //assert
+            // Assert
             result.Should().BeEquivalentTo(expectedMatrix);
         }
         catch
         {
-            //assert
+            // Assert
             Assert.Throws<ArithmeticException>(() => func(firstMatrix, otherMatrix));
         }
     }
 
     [Theory(DisplayName = "Substraction operator works.")]
     [Trait("Category", "Unit")]
-    [MemberData(nameof(MatrixTestData.SubstractionTwoMatrixData), MemberType = typeof(MatrixTestData))]
+    [MemberData(nameof(MatrixTestsData.SubstractionTwoMatrixData), MemberType = typeof(MatrixTestsData))]
     public void SubstractionOperatorWork(Matrix firstMatrix, Matrix otherMatrix, Matrix expectedMatrix)
     {
-        //arrange
+        // Arrange
         var func = (Matrix m1, Matrix m2) => m1 - m2;
         var result = new Matrix(1, 1);
 
-        //act
+        // Act
         try
         {
             result = func(firstMatrix, otherMatrix);
 
-            //assert
+            // Assert
             result.Should().BeEquivalentTo(expectedMatrix);
         }
         catch
         {
-            //assert
+            // Assert
             Assert.Throws<ArithmeticException>(() => func(firstMatrix, otherMatrix));
         }
     }
 
     [Theory(DisplayName = "Multiply operator with matrix and number works.")]
     [Trait("Category", "Unit")]
-    [MemberData(nameof(MatrixTestData.MultiplyMatrixAndNumberData), MemberType = typeof(MatrixTestData))]
+    [MemberData(nameof(MatrixTestsData.MultiplyMatrixAndNumberData), MemberType = typeof(MatrixTestsData))]
     public void MultiplyOperatorWithMatrixAndNumberWork(Matrix firstMatrix, decimal koef, Matrix expectedMatrix)
     {
-        //act
+        // Act
         var result = firstMatrix * koef;
         var resultAlternative = koef * firstMatrix;
 
-        //assert
+        // Assert
         result.Should().BeEquivalentTo(expectedMatrix);
         resultAlternative.Should().BeEquivalentTo(expectedMatrix);
     }
 
     [Theory(DisplayName = "Multiply operator works.")]
     [Trait("Category", "Unit")]
-    [MemberData(nameof(MatrixTestData.MultiplyTwoMatrixData), MemberType = typeof(MatrixTestData))]
+    [MemberData(nameof(MatrixTestsData.MultiplyTwoMatrixData), MemberType = typeof(MatrixTestsData))]
     public void MultiplyOperatorWithTwoMatrixWork(Matrix firstMatrix, Matrix otherMatrix, Matrix expectedMatrix)
     {
-        //arrange
+        // Arrange
         var func = (Matrix m1, Matrix m2) => m1 * m2;
         var result = new Matrix(1, 1);
 
-        //act
+        // Act
         try
         {
             result = func(firstMatrix, otherMatrix);
 
-            //assert
+            // Assert
             result.Should().BeEquivalentTo(expectedMatrix);
         }
         catch
         {
-            //assert
+            // Assert
             Assert.Throws<ArithmeticException>(() => func(firstMatrix, otherMatrix));
         }
     }
