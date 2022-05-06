@@ -1,9 +1,9 @@
 ﻿using System;
 
 using FluentAssertions;
-using QuickMaths.FunctionsBLL.Functions;
-
 using Xunit;
+
+using QuickMaths.FunctionsBLL.Functions;
 
 namespace QuickMaths.FunctionsBLL.Tests.Functions;
 
@@ -19,8 +19,8 @@ public class NumberFunctionTests
             data.Add(new NumberFunction(14), new NumberFunction("14"), true);
             data.Add(new NumberFunction(14), new NumberFunction(1), false);
             data.Add(new NumberFunction(14), new NumberFunction("1"), false);
-            data.Add(new NumberFunction(14), new Variable("name"), false);
-            data.Add(new NumberFunction(14), new LinearFunction(new Variable("name")), false);
+            data.Add(new NumberFunction(14), new VariableFunction("name"), false);
+            data.Add(new NumberFunction(14), new LinearFunction(new VariableFunction("name")), false);
 
             return data;
         }
@@ -36,8 +36,8 @@ public class NumberFunctionTests
             data.Add(new NumberFunction(14), new NumberFunction("14"), true);
             data.Add(new NumberFunction(14), new NumberFunction(1), false);
             data.Add(new NumberFunction(14), new NumberFunction("1"), false);
-            data.Add(new NumberFunction(14), new Variable("name"), false);
-            data.Add(new NumberFunction(14), new LinearFunction(new Variable("name")), false);
+            data.Add(new NumberFunction(14), new VariableFunction("name"), false);
+            data.Add(new NumberFunction(14), new LinearFunction(new VariableFunction("name")), false);
             data.Add(new NumberFunction(14), null!, false);
             data.Add(new NumberFunction(14), "123", false);
 
@@ -49,57 +49,54 @@ public class NumberFunctionTests
     #region Конструкторы
 
     [Fact(DisplayName = "Can be created.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Constructors")]
     public void CanBeCreated()
     {
         // Arrange
-        var inputNumber = 128;
+        var inputNumber = 128d;
         var inputString = "1756";
 
         // Act
-        var exeption1 = Record.Exception(() => new NumberFunction(inputNumber));
-        var exeption2 = Record.Exception(() => new NumberFunction(inputString));
+        var exception1 = Record.Exception(() => new NumberFunction(inputNumber));
+        var exception2 = Record.Exception(() => new NumberFunction(inputString));
 
         // Assert
-        exeption1.Should().BeNull();
-        exeption2.Should().BeNull();
+        exception1.Should().BeNull();
+        exception2.Should().BeNull();
     }
 
     [Fact(DisplayName = "Cannot be created when string is null or empty.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Constructors")]
     public void CanNotBeCreatedWhenStringIsNullOrEmpty()
     {
-        // Arrange
-        string emptyString = string.Empty;
-
         // Act
-        var exeption1 = Record.Exception(() => new NumberFunction(emptyString));
-        var exeption2 = Record.Exception(() => new NumberFunction(null!));
+        var exception1 = Record.Exception(() => new NumberFunction(string.Empty));
+        var exception2 = Record.Exception(() => new NumberFunction(null!));
 
         // Assert
-        exeption1.Should().NotBeNull().And.BeOfType<ArgumentException>();
-        exeption2.Should().NotBeNull().And.BeOfType<ArgumentException>();
+        exception1.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
+        exception2.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
     }
 
     [Fact(DisplayName = "Cannot be created when string be in invalid format.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Constructors")]
     public void CanNotBeCreatedWhenFormatStringIsInvalid()
     {
         // Arrange
         var invalidString = "sda 144 f";
 
         // Act
-        var exeption = Record.Exception(() => new NumberFunction(invalidString));
+        var exception = Record.Exception(() => new NumberFunction(invalidString));
 
         // Assert
-        exeption.Should().NotBeNull().And.BeOfType<FormatException>();
+        exception.Should().NotBeNull().And.BeOfType<FormatException>();
     }
     #endregion
 
     #region Свойства
 
     [Fact(DisplayName = "Can get value.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Properties")]
     public void CanGetValue()
     {
         // Arrange
@@ -118,7 +115,7 @@ public class NumberFunctionTests
     #region Методы
 
     [Fact(DisplayName = "Can calulate.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Methods")]
     public void CanCalculate()
     {
         // Arrange
@@ -132,8 +129,8 @@ public class NumberFunctionTests
     }
 
     [Fact(DisplayName = "Cannot get derivative.")]
-    [Trait("Category", "Unit")]
-    public void CanNotCalculate()
+    [Trait("Category", "Methods")]
+    public void CanNotGetDerivative()
     {
         // Act
         IFunction result = ((IFunction)new NumberFunction(145)).Derivative();
@@ -142,20 +139,8 @@ public class NumberFunctionTests
         result.Should().BeNull();
     }
 
-    [Theory(DisplayName = "Equals NF and other function works.")]
-    [Trait("Category", "Unit")]
-    [MemberData(nameof(EqualsNFAndOtherFunctionData), MemberType = typeof(NumberFunctionTests))]
-    public void EqualsNFAndOtherFunctionWork(NumberFunction function, IFunction other, bool expectedValue)
-    {
-        // Act
-        bool result = function.Equals(other);
-
-        // Assert
-        result.Should().Be(expectedValue);
-    }
-
     [Theory(DisplayName = "Equals NF and object works.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Methods")]
     [MemberData(nameof(EqualsNFAndObjectData), MemberType = typeof(NumberFunctionTests))]
     public void EqualsNFAndObjectFunctionWork(NumberFunction function, object other, bool expectedValue)
     {
@@ -166,8 +151,20 @@ public class NumberFunctionTests
         result.Should().Be(expectedValue);
     }
 
+    [Theory(DisplayName = "Equals NF and other function works.")]
+    [Trait("Category", "Methods")]
+    [MemberData(nameof(EqualsNFAndOtherFunctionData), MemberType = typeof(NumberFunctionTests))]
+    public void EqualsNFAndOtherFunctionWork(NumberFunction function, IFunction other, bool expectedValue)
+    {
+        // Act
+        bool result = function.Equals(other);
+
+        // Assert
+        result.Should().Be(expectedValue);
+    }
+
     [Fact(DisplayName = "GetHashCode works.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Methods")]
     public void GetHashCodeWork()
     {
         // Arrange
@@ -181,7 +178,7 @@ public class NumberFunctionTests
     }
 
     [Fact(DisplayName = "ToString works.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Methods")]
     public void ToStringWork()
     {
         // Arrange
@@ -193,9 +190,5 @@ public class NumberFunctionTests
         // Assert
         result.Should().Be(expectedResult);
     }
-    #endregion
-
-    #region Математические операторы
-
     #endregion
 }

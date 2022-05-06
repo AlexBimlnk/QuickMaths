@@ -10,7 +10,7 @@ public class MatrixTests
     #region Конструкторы
 
     [Fact(DisplayName = "Can be created.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Constructors")]
     public void CanBeCreated()
     {
         // Arrange
@@ -18,16 +18,16 @@ public class MatrixTests
         var table = new decimal[3, 3];
 
         // Act
-        var exeption1 = Record.Exception(() => new Matrix(size, size));
-        var exeption2 = Record.Exception(() => new Matrix(table));
+        var exception1 = Record.Exception(() => new Matrix(size, size));
+        var exception2 = Record.Exception(() => new Matrix(table));
 
         // Assert
-        exeption1.Should().BeNull();
-        exeption2.Should().BeNull();
+        exception1.Should().BeNull();
+        exception2.Should().BeNull();
     }
 
     [Fact(DisplayName = "Cannot be created when size is incorrect.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Constructors")]
     public void CanNotBeCreatedWhenSizeIsIncorrect()
     {
         // Arrange
@@ -35,32 +35,32 @@ public class MatrixTests
         var incorrectSize = -3;
 
         // Act
-        var exeption1 = Record.Exception(() => new Matrix(correctSize, incorrectSize));
-        var exeption2 = Record.Exception(() => new Matrix(incorrectSize, correctSize));
-        var exeption3 = Record.Exception(() => new Matrix(incorrectSize, incorrectSize));
+        var exception1 = Record.Exception(() => new Matrix(correctSize, incorrectSize));
+        var exception2 = Record.Exception(() => new Matrix(incorrectSize, correctSize));
+        var exception3 = Record.Exception(() => new Matrix(incorrectSize, incorrectSize));
 
         // Assert
-        exeption1.Should().NotBeNull().And.BeOfType<ArgumentException>();
-        exeption2.Should().NotBeNull().And.BeOfType<ArgumentException>();
-        exeption3.Should().NotBeNull().And.BeOfType<ArgumentException>();
+        exception1.Should().NotBeNull().And.BeOfType<ArgumentException>();
+        exception2.Should().NotBeNull().And.BeOfType<ArgumentException>();
+        exception3.Should().NotBeNull().And.BeOfType<ArgumentException>();
     }
 
     [Fact(DisplayName = "Cannot be created when table is missing.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Constructors")]
     public void CanNotBeCreatedWhenTableIsMissing()
     {
         // Act
-        var exeption1 = Record.Exception(() => new Matrix(null!));
+        var exception1 = Record.Exception(() => new Matrix(null!));
 
         // Assert
-        exeption1.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
+        exception1.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
     }
     #endregion
 
     #region Свойства
 
     [Fact(DisplayName = "Can get rows count.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Properties")]
     public void CanGetRowsCount()
     {
         // Arrange
@@ -76,7 +76,7 @@ public class MatrixTests
     }
 
     [Fact(DisplayName = "Can get columns count.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Properties")]
     public void CanGetColumnsCount()
     {
         // Arrange
@@ -95,7 +95,7 @@ public class MatrixTests
     #region Методы
 
     [Theory(DisplayName = "Can get row as matrix if index is valid.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Methods")]
     [MemberData(nameof(MatrixTestsData.GetRowFromMatrixData), MemberType = typeof(MatrixTestsData))]
     public void CanGetRowAsMatrix(Matrix matrix, long index, Matrix expectedMatrix)
     {
@@ -118,7 +118,7 @@ public class MatrixTests
     }
 
     [Theory(DisplayName = "Can get column as matrix if index is valid.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Methods")]
     [MemberData(nameof(MatrixTestsData.GetColumnFromMatrixData), MemberType = typeof(MatrixTestsData))]
     public void CanGetColumnAsMatrix(Matrix matrix, long index, Matrix expectedMatrix)
     {
@@ -141,7 +141,7 @@ public class MatrixTests
     }
 
     [Theory(DisplayName = "Equals matrix and object works.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Methods")]
     [MemberData(nameof(MatrixTestsData.EqualsMatrixAndObjectData), MemberType = typeof(MatrixTestsData))]
     public void EqualsMatrixAndObjectWork(Matrix firstMatrix, object other, bool expectedResult)
     {
@@ -153,7 +153,7 @@ public class MatrixTests
     }
 
     [Theory(DisplayName = "Equals two matrixs works.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Methods")]
     [MemberData(nameof(MatrixTestsData.EqualsTwoMatrixData), MemberType = typeof(MatrixTestsData))]
     public void EqualsTwoMatrixWork(Matrix firstMatrix, Matrix other, bool expectedResult)
     {
@@ -168,7 +168,7 @@ public class MatrixTests
     #region Математические операторы
 
     [Theory(DisplayName = "Plus operator works.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Operators")]
     [MemberData(nameof(MatrixTestsData.SumTwoMatrixData), MemberType = typeof(MatrixTestsData))]
     public void PlusOperatorWork(Matrix firstMatrix, Matrix otherMatrix, Matrix expectedMatrix)
     {
@@ -192,7 +192,7 @@ public class MatrixTests
     }
 
     [Theory(DisplayName = "Substraction operator works.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Operators")]
     [MemberData(nameof(MatrixTestsData.SubstractionTwoMatrixData), MemberType = typeof(MatrixTestsData))]
     public void SubstractionOperatorWork(Matrix firstMatrix, Matrix otherMatrix, Matrix expectedMatrix)
     {
@@ -216,7 +216,7 @@ public class MatrixTests
     }
 
     [Theory(DisplayName = "Multiply operator with matrix and number works.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Operators")]
     [MemberData(nameof(MatrixTestsData.MultiplyMatrixAndNumberData), MemberType = typeof(MatrixTestsData))]
     public void MultiplyOperatorWithMatrixAndNumberWork(Matrix firstMatrix, decimal koef, Matrix expectedMatrix)
     {
@@ -230,7 +230,7 @@ public class MatrixTests
     }
 
     [Theory(DisplayName = "Multiply operator works.")]
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Operators")]
     [MemberData(nameof(MatrixTestsData.MultiplyTwoMatrixData), MemberType = typeof(MatrixTestsData))]
     public void MultiplyOperatorWithTwoMatrixWork(Matrix firstMatrix, Matrix otherMatrix, Matrix expectedMatrix)
     {
