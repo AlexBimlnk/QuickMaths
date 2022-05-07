@@ -119,12 +119,12 @@ internal static class TreeBuilder
         //    return new PowerFunction(functionString);
 
         if (functionString == "x")
-            return new Variable(functionString);
+            return new VariableFunction(functionString);
 
         if (functionString[0] >= '0' && functionString[0] <= '9')
             return new NumberFunction(functionString);
 
-        return new LinearFunction(functionString, new CompositeFunction(functionString));
+        return new LinearFunction(new CompositeFunction(functionString));
     }
     public static bool IsComplex(ref string s)
     {
@@ -143,7 +143,7 @@ internal static class TreeBuilder
     }
     public static bool IsCorrect(ref string s)
     {
-        s = s.Replace(" ", String.Empty);
+        s = s.Replace(" ", string.Empty);
         return true;
     }
 }
