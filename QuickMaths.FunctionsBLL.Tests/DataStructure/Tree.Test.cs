@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace QuickMaths.FunctionsBLL.Tests.DataStructure;
 
-namespace QuickMaths.FunctionsBLL.Tests.DataStructure
+public class TreeTests
 {
-    internal class Tree
-    {
-    }
 }

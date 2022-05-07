@@ -1,46 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace QuickMaths.FunctionsBLL.Functions;
 
-namespace QuickMaths.FunctionsBLL.Functions
+/// <summary>
+/// Переменная.
+/// </summary>
+public class Variable : IFunction
 {
-    /// <summary>
-    /// Переменная.
-    /// </summary>
-    public class Variable : IFunction
+    public Variable(string name)
     {
-        public Variable(string name)
-        {
-            if(name == string.Empty)
-                throw new ArgumentException("name");
+        if (string.IsNullOrEmpty(name))
+            throw new ArgumentException(null, nameof(name));
 
-            Name = name ?? throw new ArgumentNullException("name");
-        }
-        public Variable(string name, double value)
-        {
-            if (name == string.Empty)
-                throw new ArgumentException("name");
-
-            Name = name ?? throw new ArgumentNullException("name");
-            Value = value;
-        }
-
-        public string Name { get; init; }
-        public double Value { get; set; }
-
-        public double Calculate()
-        {
-            return Value;
-        }
-        public IFunction Derivative()
-        {
-            return new NumberFunction(1);
-        }
-        public override string ToString()
-        {
-            return Name; 
-        }
+        Name = name;
     }
+    public Variable(string name, double value)
+    {
+        if (string.IsNullOrEmpty(name))
+            throw new ArgumentException(null, nameof(name));
+
+        Name = name;
+        Value = value;
+    }
+
+
+    public string Name { get; init; }
+    public double Value { get; set; }
+
+
+    public double Calculate() => Value;
+    public IFunction Derivative() => new NumberFunction(1);
+    public override string ToString() => Name;
 }

@@ -1,69 +1,54 @@
-﻿using QuickMaths.FunctionsBLL.DataStructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
-namespace QuickMaths.FunctionsBLL.Functions
+namespace QuickMaths.FunctionsBLL.Functions;
+
+/// <summary>
+/// Линейная функция.
+/// <list type="bullet">
+///     <item>
+///         <term>x</term>
+///         <description>Является линейной функцией.</description>
+///     </item>
+///     <item>
+///         <term>4*y</term>
+///         <description>Является линейной функцией.</description>
+///     </item>
+/// </list>
+/// </summary>
+public class LinearFunction : IFunction
 {
-    /// <summary>
-    /// Линейная функция.
-    /// <list type="bullet">
-    ///     <item>
-    ///         <term>x</term>
-    ///         <description>Является линейной функцией.</description>
-    ///     </item>
-    ///     <item>
-    ///         <term>4*y</term>
-    ///         <description>Является линейной функцией.</description>
-    ///     </item>
-    /// </list>
-    /// </summary>
-    public class LinearFunction : IFunction
+    private string _stringFunction = string.Empty;
+
+
+    public LinearFunction(IFunction argument) => Argument = argument ?? throw new ArgumentNullException(nameof(argument));
+    public LinearFunction(IFunction argument, IFunction koef)
     {
-        private string _stringFunction = string.Empty;
+        Argument = argument ?? throw new ArgumentNullException(nameof(argument));
+        Koef = koef ?? throw new ArgumentNullException(nameof(koef));
+    }
+    public LinearFunction(string stringFunction, IFunction argument, IFunction? koef = null)
+    {
+        Argument = argument ?? throw new ArgumentNullException(nameof(argument));
+        Koef = koef ?? new NumberFunction(1);
+        _stringFunction = stringFunction;
+    }
 
-        public LinearFunction(IFunction argument)
+
+    public IFunction Koef { get; init; } = new NumberFunction(1);
+    public IFunction Argument { get; init; }
+
+
+    public double Calculate() => throw new NotImplementedException();
+    public IFunction Derivative() => throw new NotImplementedException();
+    public override string ToString() //Todo: ToString in LF
+    {
+        if (_stringFunction == String.Empty)
         {
-            Argument = argument ?? throw new ArgumentNullException("argument");
-        }
-        public LinearFunction(IFunction argument, IFunction koef)
-        {
-            Argument = argument ?? throw new ArgumentNullException("argument");
-            Koef = koef ?? throw new ArgumentNullException("koef");
-        }
-        public LinearFunction(string stringFunction, IFunction argument, IFunction koef = null)
-        {
-            Argument = argument ?? throw new ArgumentNullException("argument");
-            Koef = koef ?? new NumberFunction(1);
-            _stringFunction = stringFunction;
+            var strFuncBuilder = new StringBuilder();
+
+
         }
 
-
-        public IFunction Koef { get; init; } = new NumberFunction(1);
-        public IFunction Argument { get; init; }
-
-
-
-        public double Calculate()
-        {
-            throw new NotImplementedException();
-        }
-        public IFunction Derivative()
-        {
-            throw new NotImplementedException();
-        }
-        public override string ToString() //Todo: ToString in LF
-        {
-            if (_stringFunction == String.Empty)
-            {
-                StringBuilder strFuncBuilder = new StringBuilder();
-
-                
-            }
-
-            return _stringFunction;
-        }
+        return _stringFunction;
     }
 }
