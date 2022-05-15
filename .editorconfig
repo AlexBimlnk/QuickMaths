@@ -18,6 +18,8 @@ csharp_indent_switch_labels = true
 
 #Formatting - new line options
 
+#place query expressions on a new line
+csharp_new_line_between_query_expression_clauses = true
 #place catch statements on a new line
 csharp_new_line_before_catch = true
 #place else statements on a new line
@@ -26,11 +28,6 @@ csharp_new_line_before_else = true
 csharp_new_line_before_members_in_object_initializers = false
 #require braces to be on a new line for accessors, methods, control_blocks, properties, and types (also known as "Allman" style)
 csharp_new_line_before_open_brace = all
-
-#Formatting - organize using options
-
-#sort System.* using directives alphabetically, and place them before other usings
-dotnet_sort_system_directives_first = true
 
 #Formatting - spacing options
 
@@ -304,6 +301,16 @@ dotnet_naming_style.всечастиспрописнойбуквы.word_separato
 dotnet_naming_style.всечастиспрописнойбуквы.capitalization = pascal_case
 
 [*.{cs,vb}]
+
+###Форматирование###
+
+
+
+#Usings
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = true
+
+
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4
 indent_size = 4
