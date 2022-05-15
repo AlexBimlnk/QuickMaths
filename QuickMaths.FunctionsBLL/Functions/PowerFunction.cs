@@ -1,4 +1,6 @@
-﻿namespace QuickMaths.FunctionsBLL.Functions;
+﻿using QuickMaths.General.Abstractions;
+
+namespace QuickMaths.FunctionsBLL.Functions;
 
 /// <summary>
 /// Степенная функция.

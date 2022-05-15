@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QuickMaths.FunctionsBLL\QuickMaths.FunctionsBLL.csproj" />
+    <ProjectReference Include="..\QuickMaths.General\QuickMaths.General.csproj" />
     <ProjectReference Include="..\QuickMaths.MatrixBLL\QuickMaths.MatrixBLL.csproj" />
   </ItemGroup>
 

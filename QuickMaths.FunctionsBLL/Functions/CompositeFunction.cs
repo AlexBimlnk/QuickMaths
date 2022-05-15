@@ -1,4 +1,4 @@
-﻿using QuickMaths.FunctionsBLL.DataStructure;
+﻿using QuickMaths.General.Abstractions;
 
 namespace QuickMaths.FunctionsBLL.Functions;
 
@@ -8,10 +8,10 @@ namespace QuickMaths.FunctionsBLL.Functions;
 /// </summary>
 public class CompositeFunction : IFunction
 {
-    private Tree _functionTree = null!;
+    //private Tree _functionTree = null!;
 
 
-    internal CompositeFunction(Tree? tree) => _functionTree = tree ?? throw new ArgumentNullException(nameof(tree));
+    //internal CompositeFunction(Tree? tree) => _functionTree = tree ?? throw new ArgumentNullException(nameof(tree));
     public CompositeFunction(string? function)
     {
         if (string.IsNullOrEmpty(function))
@@ -20,13 +20,13 @@ public class CompositeFunction : IFunction
         //TODO Рефакторинг ошибки
         //Либо уберем после рефакторинга возможность возраста null дерева в билдере
         //Или делаем свой кастомный эксепшен
-        _functionTree = TreeBuilder.BuildTree(function) ?? throw new ArgumentNullException();
+        //_functionTree = TreeBuilder.BuildTree(function) ?? throw new ArgumentNullException();
     }
 
 
     /// <inheritdoc/>
     public double Calculate() => throw new NotImplementedException();
-    public IFunction Derivative() => new CompositeFunction(_functionTree.GetDerivative());
+    public IFunction Derivative() => throw new NotImplementedException();
     public override bool Equals(object? obj)
     {
         if (obj is IFunction function)
@@ -35,5 +35,5 @@ public class CompositeFunction : IFunction
     }
     public bool Equals(IFunction? other) => throw new NotImplementedException();
     public override int GetHashCode() => throw new NotImplementedException();
-    public override string ToString() => $"({_functionTree})";
+    public override string ToString() => throw new NotImplementedException();
 }
