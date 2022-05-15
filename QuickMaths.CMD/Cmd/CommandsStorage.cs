@@ -8,7 +8,7 @@ namespace QuickMaths.CMD.Cmd;
 //TODO CommandsStorage:
 internal static class CommandsStorage
 {
-    private static readonly Dictionary<string, Command> _commands = new Dictionary<string, Command>()
+    private static readonly Dictionary<string, Command> s_commands = new Dictionary<string, Command>()
     {
         { "HELP",   new Command("HELP", "Write all command in console.", Help)},
         { "EXIT",   new Command("EXIT", "Close ConsoleHelper.", Exit)},
@@ -18,14 +18,14 @@ internal static class CommandsStorage
         { "VIEW FUNCTIONS", new Command("VIEW FUNCTIONS","Write all created functions.", WriteCreatedFunctions)}
     };
 
-    public static IReadOnlyDictionary<string, Command> Commands => _commands;
+    public static IReadOnlyDictionary<string, Command> Commands => s_commands;
 
 
     #region State work commands
     private static void Help()
     {
         Console.WriteLine("\tCommands list:");
-        foreach (var command in _commands.Values)
+        foreach (var command in s_commands.Values)
         {
             Console.WriteLine($"\t\tCommand {command.Name}");
             Console.WriteLine($"\t\t\t{command.Description}");
