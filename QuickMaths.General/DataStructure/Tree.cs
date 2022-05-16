@@ -1,8 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿namespace QuickMaths.General.DataStructure;
 
-[assembly: InternalsVisibleTo("QuickMaths.General.Tests")]
-namespace QuickMaths.General.DataStructure;
-
-internal class Tree
+public class Tree
 {
+
 }
