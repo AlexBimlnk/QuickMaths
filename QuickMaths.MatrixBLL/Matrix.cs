@@ -84,8 +84,8 @@ public struct Matrix : IEquatable<Matrix>
     public decimal this[long rowIndex, long columnIndex]
     {
 
-        get { return Table[rowIndex, columnIndex]; }
-        set { Table[rowIndex, columnIndex] = value; }
+        get => Table[rowIndex, columnIndex];
+        set => Table[rowIndex, columnIndex] = value;
     }
 
 

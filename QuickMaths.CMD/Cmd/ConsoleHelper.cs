@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using QuickMaths.FunctionsBLL.Functions;
+using QuickMaths.General.Abstractions;
 
 namespace QuickMaths.CMD.Cmd;
 
 public static class ConsoleHelper
 {
-    private static Dictionary<string, IFunction> _functions = new Dictionary<string, IFunction>();
-    private static IReadOnlyDictionary<string, Command> _commands = CommandsStorage.Commands;
+    private static Dictionary<string, IFunction> s_functions = new Dictionary<string, IFunction>();
+    private static IReadOnlyDictionary<string, Command> s_commands = CommandsStorage.Commands;
 
 
-    public static Dictionary<string, IFunction> Functions => _functions;
+    public static Dictionary<string, IFunction> Functions => s_functions;
     public static bool IsWork { get; internal set; } = true;
 
 
@@ -28,7 +28,7 @@ public static class ConsoleHelper
 
         if (inputCommand is not null && inputCommand != String.Empty)
         {
-            if (_commands.TryGetValue(inputCommand.ToUpper(), out Command command))
+            if (s_commands.TryGetValue(inputCommand.ToUpper(), out Command command))
             {
                 InvokeCommand(command);
                 return;

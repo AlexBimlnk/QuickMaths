@@ -1,4 +1,6 @@
-﻿namespace QuickMaths.FunctionsBLL.Functions;
+﻿using QuickMaths.General.Abstractions;
+
+namespace QuickMaths.FunctionsBLL.Functions;
 
 /// <summary>
 /// Показательная функция.
@@ -18,4 +20,14 @@ public class ExponentialFunction : IFunction
     public double Calculate() => throw new NotImplementedException();
 
     public IFunction Derivative() => throw new NotImplementedException();
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is IFunction function)
+            return Equals(function);
+        return false;
+    }
+    public bool Equals(IFunction? other) => throw new NotImplementedException();
+    public override int GetHashCode() => throw new NotImplementedException();
+    public override string ToString() => throw new NotImplementedException();
 }

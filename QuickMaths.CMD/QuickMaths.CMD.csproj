@@ -3,10 +3,13 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\QuickMaths.FunctionsBLL\QuickMaths.FunctionsBLL.csproj" />
+    <ProjectReference Include="..\QuickMaths.General\QuickMaths.General.csproj" />
     <ProjectReference Include="..\QuickMaths.MatrixBLL\QuickMaths.MatrixBLL.csproj" />
   </ItemGroup>
 
