@@ -18,6 +18,8 @@ csharp_indent_switch_labels = true
 
 #Formatting - new line options
 
+#place query expressions on a new line
+csharp_new_line_between_query_expression_clauses = true
 #place catch statements on a new line
 csharp_new_line_before_catch = true
 #place else statements on a new line
@@ -26,11 +28,6 @@ csharp_new_line_before_else = true
 csharp_new_line_before_members_in_object_initializers = false
 #require braces to be on a new line for accessors, methods, control_blocks, properties, and types (also known as "Allman" style)
 csharp_new_line_before_open_brace = all
-
-#Formatting - organize using options
-
-#sort System.* using directives alphabetically, and place them before other usings
-dotnet_sort_system_directives_first = true
 
 #Formatting - spacing options
 
@@ -64,15 +61,15 @@ csharp_prefer_braces = false:suggestion
 #Style - expression bodied member options
 
 #prefer block bodies for accessors
-csharp_style_expression_bodied_accessors = false:suggestion
+csharp_style_expression_bodied_accessors = when_on_single_line:error
 #prefer block bodies for constructors
 csharp_style_expression_bodied_constructors = when_on_single_line:error
 #prefer block bodies for indexers
-csharp_style_expression_bodied_indexers = false:suggestion
+csharp_style_expression_bodied_indexers = false:error
 #prefer block bodies for methods
 csharp_style_expression_bodied_methods = when_on_single_line:error
 #prefer block bodies for operators
-csharp_style_expression_bodied_operators = false:suggestion
+csharp_style_expression_bodied_operators = false:error
 #prefer block bodies for properties
 csharp_style_expression_bodied_properties = when_on_single_line:error
 
@@ -131,6 +128,22 @@ dotnet_style_qualification_for_property = false:suggestion
 
 # Правила именования
 
+dotnet_naming_rule.async_methods_should_be_ends_with_async.severity = error
+dotnet_naming_rule.async_methods_should_be_ends_with_async.symbols = async_methods
+dotnet_naming_rule.async_methods_should_be_ends_with_async.style = ends_with_async
+
+dotnet_naming_rule.private_static_fields_should_be_begins_with_s_.severity = error
+dotnet_naming_rule.private_static_fields_should_be_begins_with_s_.symbols = private_static_fields
+dotnet_naming_rule.private_static_fields_should_be_begins_with_s_.style = begins_with_s_
+
+dotnet_naming_rule.constant_fields_should_be_upper_case.severity = error
+dotnet_naming_rule.constant_fields_should_be_upper_case.symbols = constants
+dotnet_naming_rule.constant_fields_should_be_upper_case.style = upper_case
+
+dotnet_naming_rule.private_fields_should_be_bedins_with__.severity = error
+dotnet_naming_rule.private_fields_should_be_bedins_with__.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_bedins_with__.style = begins_with__
+
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = error
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
@@ -145,6 +158,22 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
 # Спецификации символов
 
+dotnet_naming_symbols.async_methods.applicable_kinds = method
+dotnet_naming_symbols.async_methods.applicable_accessibilities = *
+dotnet_naming_symbols.async_methods.required_modifiers = async
+
+dotnet_naming_symbols.private_static_fields.applicable_kinds = field
+dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_fields.required_modifiers = static
+
+dotnet_naming_symbols.constants.applicable_kinds = field
+dotnet_naming_symbols.constants.applicable_accessibilities = *
+dotnet_naming_symbols.constants.required_modifiers = const
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.required_modifiers = 
+
 dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 dotnet_naming_symbols.interface.required_modifiers = 
@@ -158,6 +187,26 @@ dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, int
 dotnet_naming_symbols.non_field_members.required_modifiers = 
 
 # Стили именования
+
+dotnet_naming_style.ends_with_async.required_prefix = 
+dotnet_naming_style.ends_with_async.required_suffix = Async
+dotnet_naming_style.ends_with_async.word_separator = 
+dotnet_naming_style.ends_with_async.capitalization = pascal_case
+
+dotnet_naming_style.begins_with_s_.required_prefix = s_
+dotnet_naming_style.begins_with_s_.required_suffix =
+dotnet_naming_style.begins_with_s_.word_separator = 
+dotnet_naming_style.begins_with_s_.capitalization = camel_case
+
+dotnet_naming_style.upper_case.required_prefix =
+dotnet_naming_style.upper_case.required_suffix =
+dotnet_naming_style.upper_case.word_separator = _
+dotnet_naming_style.upper_case.capitalization = all_upper
+
+dotnet_naming_style.begins_with__.required_prefix = _
+dotnet_naming_style.begins_with__.required_suffix =
+dotnet_naming_style.begins_with__.word_separator =
+dotnet_naming_style.begins_with__.capitalization = camel_case
 
 dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.required_suffix = 
@@ -174,7 +223,7 @@ dotnet_naming_style.pascal_case.required_suffix =
 dotnet_naming_style.pascal_case.word_separator = 
 dotnet_naming_style.pascal_case.capitalization = pascal_case
 csharp_space_around_binary_operators = before_and_after
-csharp_style_throw_expression = true:suggestion
+csharp_style_throw_expression = true:error
 csharp_style_prefer_null_check_over_type_check = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
 csharp_style_prefer_local_over_anonymous_function = true:silent
@@ -186,14 +235,14 @@ csharp_indent_labels = one_less_than_current
 csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:suggestion
 csharp_style_unused_value_expression_statement_preference = discard_variable:silent
-csharp_style_conditional_delegate_call = true:suggestion
+csharp_style_conditional_delegate_call = true:error
 csharp_style_prefer_switch_expression = true:suggestion
 csharp_style_prefer_pattern_matching = true:suggestion
 csharp_style_pattern_matching_over_is_with_cast_check = true:error
 csharp_style_prefer_not_pattern = true:warning
 csharp_style_prefer_extended_property_pattern = true:warning
 csharp_prefer_simple_using_statement = true:suggestion
-csharp_style_namespace_declarations = block_scoped:silent
+csharp_style_namespace_declarations = file_scoped:error
 csharp_using_directive_placement = outside_namespace:silent
 csharp_style_allow_embedded_statements_on_same_line_experimental = true:silent
 csharp_style_allow_blank_lines_between_consecutive_braces_experimental = true:silent
@@ -252,13 +301,23 @@ dotnet_naming_style.всечастиспрописнойбуквы.word_separato
 dotnet_naming_style.всечастиспрописнойбуквы.capitalization = pascal_case
 
 [*.{cs,vb}]
+
+###Форматирование###
+
+
+
+#Usings
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = true
+
+
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4
 indent_size = 4
-dotnet_style_coalesce_expression = true:suggestion
-dotnet_style_null_propagation = true:suggestion
+dotnet_style_coalesce_expression = true:error
+dotnet_style_null_propagation = true:error
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:error
-dotnet_style_prefer_auto_properties = true:silent
+dotnet_style_prefer_auto_properties = true:suggestion
 dotnet_style_object_initializer = true:suggestion
 dotnet_style_collection_initializer = true:suggestion
 dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
