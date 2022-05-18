@@ -4,6 +4,7 @@ using FluentAssertions;
 using Xunit;
 
 using QuickMaths.FunctionsBLL.Functions;
+using QuickMaths.General.Abstractions;
 
 namespace QuickMaths.FunctionsBLL.Tests.Functions;
 

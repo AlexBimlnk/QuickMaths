@@ -7,4 +7,8 @@
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\QuickMaths.General\QuickMaths.General.csproj" />
+  </ItemGroup>
+
 </Project>

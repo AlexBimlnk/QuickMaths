@@ -1,5 +1,7 @@
 ﻿using System.Text;
 
+using QuickMaths.General.Abstractions;
+
 namespace QuickMaths.FunctionsBLL.Functions;
 
 /// <summary xml:lang = "ru">

@@ -1,4 +1,4 @@
-﻿namespace QuickMaths.FunctionsBLL.Functions;
+﻿namespace QuickMaths.General.Abstractions;
 
 /// <summary xml:lang = "ru">
 /// Интерфейс функции.
