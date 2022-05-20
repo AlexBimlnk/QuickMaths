@@ -16,30 +16,23 @@ internal class OperatorNode : INode
 
     public OperatorNode(MathOperator @operator, INode firstNode, INode secondNode)
     {
-        if (firstNode is null || secondNode is null)
-        {
-            throw new ArgumentNullException("Input node is null");
-        }
-
+        _firsNode = firstNode ?? throw new ArgumentNullException(nameof(firstNode));
+        _secondNode = secondNode ?? throw new ArgumentNullException(nameof(secondNode));
         Operator = @operator;
-        _firsNode = firstNode;
-        _secondNode = secondNode;
     }
 
-    public MathOperator Operator { get; private set; }
+    public MathOperator Operator { get; }
 
-    private static int GetOperatorPriority(MathOperator @operator)
+    private static int GetOperatorPriority(MathOperator @operator) => (@operator) switch
     {
-        switch (@operator)
-        {
-            case MathOperator.Plus: return 1;
-            case MathOperator.Minus: return 1;
-            case MathOperator.Multiply: return 2;
-            case MathOperator.Divide: return 2;
-        }
-
-        throw new ArgumentException("Unchecked MathOperator Enum condition");
-    }
+        //Todo: Priority -> create enum.
+        MathOperator.Plus => 1,
+        MathOperator.Minus => 1,
+        MathOperator.Multiply => 2,
+        MathOperator.Divide => 2,
+        MathOperator.Power => throw new NotImplementedException(),
+        _ => throw new NotImplementedException()
+    };
 
     public double Calculate() => throw new NotImplementedException();
     public IArithmeticable GetDerivative() => throw new NotImplementedException();
@@ -47,20 +40,14 @@ internal class OperatorNode : INode
     public void SetVariables(Dictionary<string, double> variables) => throw new NotImplementedException();
     public override string ToString()
     {
-        string firstNodeString = _firsNode.ToString();
+        var firstNodeAsString = _firsNode.GetPriority() < GetPriority()
+                                ? $"({_firsNode}) "
+                                : $"{_firsNode}";
 
-        if (_firsNode.GetPriority() < GetPriority())
-        {
-            firstNodeString = $"({firstNodeString}) ";
-        }
+        var secondNodeAsString = _secondNode.GetPriority() < GetPriority()
+                                 ? $" ({_secondNode})"
+                                 : $"{_secondNode}";
 
-        string secondNodeString = _secondNode.ToString();
-
-        if (_firsNode.GetPriority() < GetPriority())
-        {
-            secondNodeString = $" ({secondNodeString})";
-        }
-
-        return firstNodeString + Operator + secondNodeString;
+        return firstNodeAsString + Operator + secondNodeAsString;
     }
 }

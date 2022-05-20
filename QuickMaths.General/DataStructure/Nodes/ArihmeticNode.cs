@@ -12,20 +12,13 @@ internal class ArihmeticNode : INode
 {
     private IArithmeticable _arithmeticElement;
 
-    public ArihmeticNode(IArithmeticable arithmeticElement)
-    {
-        if (arithmeticElement is null)
-        {
-            throw new ArgumentNullException("Arihmetic element is null");
-        }
-
-        _arithmeticElement = arithmeticElement;
-    }
+    public ArihmeticNode(IArithmeticable arithmeticElement) => 
+        _arithmeticElement = arithmeticElement ?? throw new ArgumentNullException(nameof(arithmeticElement));
 
     public double Calculate() => throw new NotImplementedException();
     public IArithmeticable GetDerivative() => throw new NotImplementedException();
     public int GetPriority() => 3;
     public void SetVariables(Dictionary<string, double> variables) => throw new NotImplementedException();
 
-    public override string ToString() => _arithmeticElement.ToString();
+    public override string? ToString() => _arithmeticElement.ToString();
 }
