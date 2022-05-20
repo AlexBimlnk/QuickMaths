@@ -20,7 +20,7 @@ public class Tree
         {
             throw new ArgumentNullException("Arihmetic elelent for head node is null");
         }
-        _head = new ArihmrticNode(arithmeticElement);
+        _head = new ArihmeticNode(arithmeticElement);
     }
 
     public void AddAriphmeticElement(MathOperator @operator, IArithmeticable arithmeticElement)
@@ -35,7 +35,7 @@ public class Tree
             throw new ArgumentNullException("Head noed is null");
         }
 
-        var nodeForConnect = new ArihmrticNode(arithmeticElement);
+        var nodeForConnect = new ArihmeticNode(arithmeticElement);
         _head = new OperatorNode(@operator, _head, nodeForConnect);
     }
 
@@ -43,7 +43,7 @@ public class Tree
     {
         if (tree._head is null)
         {
-            throw new ArgumentNullException($"{nameof(Tree)} for {nameof(ArihmrticNode)} is null");
+            throw new ArgumentNullException($"{nameof(Tree)} for {nameof(ArihmeticNode)} is null");
         }
 
         if (_head is null)
@@ -61,6 +61,6 @@ public class Tree
             throw new ArgumentNullException("Arihmetic elelent for node is null");
         }
 
-        _head = new ArihmrticNode(arihmeticElement);
+        _head = new ArihmeticNode(arihmeticElement);
     }
 }

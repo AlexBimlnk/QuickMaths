@@ -3,7 +3,7 @@
 /// <summary xml:lang = "ru">
 /// Интерфейс функции.
 /// </summary>
-public interface IFunction : IEquatable<IFunction>
+public interface IFunction : IEquatable<IFunction>, IArithmeticable
 {
     /// <summary xml:lang = "ru">
     /// Возвращает результат математической функции. 
