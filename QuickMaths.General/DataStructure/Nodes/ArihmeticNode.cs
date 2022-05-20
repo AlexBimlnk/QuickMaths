@@ -16,7 +16,7 @@ internal class ArihmeticNode : INode
     {
         if (arithmeticElement is null)
         {
-            throw new ArgumentNullException("Arihmetic element cat'be null");
+            throw new ArgumentNullException("Arihmetic element is null");
         }
 
         _arithmeticElement = arithmeticElement;

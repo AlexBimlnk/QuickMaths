@@ -9,12 +9,11 @@ namespace QuickMaths.General.DataStructure;
 
 public class Tree
 {
-    internal INode? _head;
+    private INode? _head;
 
     public Tree() => _head = null;
 
     public Tree(IArithmeticable arithmeticElement)
-    //arithmeticElement
     {
         if (arithmeticElement is null)
         {
@@ -27,7 +26,7 @@ public class Tree
     {
         if (arithmeticElement is null)
         {
-            throw new ArgumentNullException("Arihmetic elelent for node is null");
+            throw new ArgumentNullException($"Arihmetic elelent for {nameof(ArihmeticNode)} is null");
         }
 
         if (_head is null)
@@ -48,7 +47,7 @@ public class Tree
 
         if (_head is null)
         {
-            throw new ArgumentNullException("Head noed is null");
+            throw new ArgumentNullException($"Head node is null");
         }
 
         _head = new OperatorNode(@operator, _head, tree._head);
@@ -58,7 +57,7 @@ public class Tree
     {
         if (arihmeticElement is null)
         {
-            throw new ArgumentNullException("Arihmetic elelent for node is null");
+            throw new ArgumentNullException($"Arihmetic elelent for {nameof(ArihmeticNode)} is null");
         }
 
         _head = new ArihmeticNode(arihmeticElement);

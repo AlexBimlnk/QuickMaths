@@ -18,7 +18,7 @@ internal class OperatorNode : INode
     {
         if (firstNode is null || secondNode is null)
         {
-            throw new ArgumentNullException("Node is null");
+            throw new ArgumentNullException("Input node is null");
         }
 
         Operator = @operator;
