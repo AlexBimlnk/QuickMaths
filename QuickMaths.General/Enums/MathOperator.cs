@@ -2,6 +2,7 @@
 
 public enum MathOperator
 {
+    None = 0,
     Plus = '+',
     Minus = '-',
     Multiply = '*',

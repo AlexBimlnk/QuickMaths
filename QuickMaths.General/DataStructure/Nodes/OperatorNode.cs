@@ -31,7 +31,7 @@ internal class OperatorNode : INode
         MathOperator.Multiply => 2,
         MathOperator.Divide => 2,
         MathOperator.Power => throw new NotImplementedException(),
-        _ => throw new NotImplementedException()
+        _ => throw new NotSupportedException(nameof(@operator))
     };
 
     public double Calculate() => throw new NotImplementedException();
@@ -48,6 +48,6 @@ internal class OperatorNode : INode
                                  ? $" ({_secondNode})"
                                  : $"{_secondNode}";
 
-        return firstNodeAsString + Operator + secondNodeAsString;
+        return firstNodeAsString + (char)Operator + secondNodeAsString;
     }
 }

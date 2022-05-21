@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using QuickMaths.CMD.Cmd;
 using QuickMaths.FunctionsBLL.Functions;
 using QuickMaths.General.Abstractions;
+using QuickMaths.General.DataStructure;
+using QuickMaths.General.Enums;
 
 namespace QuickMaths.CMD;
 
