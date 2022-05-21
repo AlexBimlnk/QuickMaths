@@ -11,17 +11,17 @@ namespace QuickMaths.General.DataStructure.Nodes;
 
 internal class OperatorNode : INode
 {
-    private INode _firsNode;
+    private INode _firstNode;
     private INode _secondNode;
 
     public OperatorNode(MathOperator @operator, INode firstNode, INode secondNode)
     {
-        _firsNode = firstNode ?? throw new ArgumentNullException(nameof(firstNode));
+        _firstNode = firstNode ?? throw new ArgumentNullException(nameof(firstNode));
         _secondNode = secondNode ?? throw new ArgumentNullException(nameof(secondNode));
         Operator = @operator;
     }
 
-    public MathOperator Operator { get; }
+    public MathOperator Operator { get; private set; }
 
     private static int GetOperatorPriority(MathOperator @operator) => (@operator) switch
     {
@@ -40,9 +40,9 @@ internal class OperatorNode : INode
     public void SetVariables(Dictionary<string, double> variables) => throw new NotImplementedException();
     public override string ToString()
     {
-        var firstNodeAsString = _firsNode.GetPriority() < GetPriority()
-                                ? $"({_firsNode}) "
-                                : $"{_firsNode}";
+        var firstNodeAsString = _firstNode.GetPriority() < GetPriority()
+                                ? $"({_firstNode}) "
+                                : $"{_firstNode}";
 
         var secondNodeAsString = _secondNode.GetPriority() < GetPriority()
                                  ? $" ({_secondNode})"

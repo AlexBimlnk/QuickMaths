@@ -8,11 +8,11 @@ using QuickMaths.General.Abstractions;
 
 namespace QuickMaths.General.DataStructure.Nodes;
 
-internal class ArihmeticNode : INode
+internal class ArithmeticNode : INode
 {
     private IArithmeticable _arithmeticElement;
 
-    public ArihmeticNode(IArithmeticable arithmeticElement) => 
+    public ArithmeticNode(IArithmeticable arithmeticElement) => 
         _arithmeticElement = arithmeticElement ?? throw new ArgumentNullException(nameof(arithmeticElement));
 
     public double Calculate() => throw new NotImplementedException();

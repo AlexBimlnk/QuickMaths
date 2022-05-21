@@ -6,18 +6,18 @@ namespace QuickMaths.General.DataStructure;
 
 public class Tree
 {
-    private INode _head;
-
     public Tree(IArithmeticable arithmeticElement) => 
-        _head = new ArihmeticNode(arithmeticElement ?? throw new ArgumentNullException(nameof(arithmeticElement)));
+        Head = new ArithmeticNode(arithmeticElement ?? throw new ArgumentNullException(nameof(arithmeticElement)));
 
-    public void AddAriphmeticElement(MathOperator @operator, IArithmeticable arithmeticElement)
+    internal INode Head { get; private set; }
+
+    public void AddArithmeticElement(MathOperator @operator, IArithmeticable arithmeticElement)
     {
-        var nodeForConnect = new ArihmeticNode(arithmeticElement ?? throw new ArgumentNullException(nameof(arithmeticElement)));
+        var nodeForConnect = new ArithmeticNode(arithmeticElement ?? throw new ArgumentNullException(nameof(arithmeticElement)));
 
-        _head = new OperatorNode(@operator, _head, nodeForConnect);
+        Head = new OperatorNode(@operator, Head, nodeForConnect);
     }
 
-    public void SetHeadElement(IArithmeticable arihmeticElement) => 
-        _head = new ArihmeticNode(arihmeticElement ?? throw new ArgumentNullException(nameof(arihmeticElement)));
+    public void AddArithmeticElement(MathOperator @operator, Tree tree) => 
+        Head = new OperatorNode(@operator, Head, tree?.Head ?? throw new ArgumentNullException(nameof(tree)));
 }
