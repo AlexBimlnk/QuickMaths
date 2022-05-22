@@ -12,10 +12,10 @@ namespace QuickMaths.MatrixBLL.Parser;
 /// <summary xml:lang = "ru">
 /// Парсер для матриц.
 /// </summary>
-public class MatrixParser : ParserBase<IArithmeticable>
+public class MatrixParser : ParserBase<Matrix>
 {
     /// <inheritdoc/>
-    public override IArithmeticable Parse(string inputString) => throw new NotImplementedException();
+    public override Matrix Parse(string inputString) => throw new NotImplementedException();
     /// <inheritdoc/>
-    public override bool TryParse(string inputString, out IArithmeticable result) => throw new NotImplementedException();
+    public override bool TryParse(string inputString, out Matrix result) => throw new NotImplementedException();
 }

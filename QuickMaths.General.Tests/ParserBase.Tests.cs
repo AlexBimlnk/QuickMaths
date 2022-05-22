@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
-using Xunit;
 using FluentAssertions;
+using Xunit;
 using Moq;
 
 using QuickMaths.General.Abstractions;
-using System.Threading;
 
 namespace QuickMaths.General.Tests;
 
