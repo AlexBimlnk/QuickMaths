@@ -1,9 +1,11 @@
-﻿namespace QuickMaths.MatrixBLL;
+﻿using QuickMaths.General.Abstractions;
+
+namespace QuickMaths.MatrixBLL;
 
 /// <summary>
 /// Класс реализует представление математической матрицы.
 /// </summary>
-public struct Matrix : IEquatable<Matrix>
+public struct Matrix : IEquatable<Matrix>, IArithmeticable
 {
     public Matrix() => throw new NotImplementedException();
     public Matrix(long rows, long columns)
