@@ -59,7 +59,7 @@ public abstract class ParserBase<TEntity> where TEntity : IArithmeticable
     /// <returns xml:lang = "ru">
     /// Задача типа <see cref="Task{TResult}"/>.
     /// </returns>
-    public Task<TEntity> ParseAsync(string inputString, CancellationToken token)
+    public virtual Task<TEntity> ParseAsync(string inputString, CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
 
