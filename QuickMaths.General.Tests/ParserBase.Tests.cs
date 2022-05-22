@@ -19,40 +19,45 @@ public class ParserBaseTests
 
     [Fact(DisplayName = "Can not parse when token was canceled.")]
     [Trait("Category", "Methods")]
-    public void CanNotParseAsyncWhenTokenWasCanceledAsync()
+    public async void CanNotParseAsyncWhenTokenWasCanceledAsync()
     {
         // Arrange
         var cts = new CancellationTokenSource();
-        cts.Cancel();
         var moqParser = new Mock<ParserBase<IArithmeticable>>(MockBehavior.Strict);
         moqParser.Setup(x => x.ParseAsync(It.IsAny<string>(), cts.Token))
                  .ThrowsAsync(new OperationCanceledException());
 
         // Act
-        var exception = Record.ExceptionAsync(async () =>
+        cts.Cancel();
+        var exception = await Record.ExceptionAsync(async () =>
             await moqParser.Object.ParseAsync(inputString: "someStr", cts.Token));
 
         // Assert
-        exception.Result.Should().NotBeNull().And.BeOfType<OperationCanceledException>();
+        exception.Should().NotBeNull().And.BeOfType<OperationCanceledException>();
     }
 
     [Fact(DisplayName = "Can call parse async.")]
     [Trait("Category", "Methods")]
-    public void CanParseAsync()
+    public async void CanParseAsync()
     {
         // Arrange
         var cts = new CancellationTokenSource();
-        var moqArithmetic = new Mock<IArithmeticable>();
+
+        var arithmetic = new Mock<IArithmeticable>().Object;
+
         var moqParser = new Mock<ParserBase<IArithmeticable>>(MockBehavior.Strict);
+        moqParser.Setup(x => x.Parse(It.IsAny<string>()))
+                 .Returns(arithmetic);
         moqParser.Setup(x => x.ParseAsync(It.IsAny<string>(), cts.Token))
-                 .ReturnsAsync(moqArithmetic.Object);
+                 .Callback(() => moqParser.Object.Parse(It.IsAny<string>()))
+                 .ReturnsAsync(arithmetic);
 
         // Act
-        var exception = Record.ExceptionAsync(async () =>
+        var exception = await Record.ExceptionAsync(async () =>
             await moqParser.Object.ParseAsync(inputString: "someStr", cts.Token));
 
         // Assert
-        exception.Result.Should().BeNull();
+        exception.Should().BeNull();
     }
     #endregion
 }
