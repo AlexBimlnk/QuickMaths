@@ -33,7 +33,7 @@ public class TreeExpression<TEntity> : ITreeExpression<TEntity>
     /// <param name="entity" xml:lang = "ru">
     /// Сущность, которую нужно добавить в дерево.
     /// </param>
-    public virtual void Add(MathOperator @operator, TEntity entity) => 
+    public virtual void Add(ArithmeticOperator @operator, TEntity entity) => 
         Root = new OperatorNodePrototype(@operator, Root, new EntityNode<TEntity>(entity));
 
     /// <summary xml:lang = "ru">
@@ -46,6 +46,6 @@ public class TreeExpression<TEntity> : ITreeExpression<TEntity>
     /// <param name="entity" xml:lang = "ru">
     /// Дерево выражений, которое нужно соединить с деревом.
     /// </param>
-    public virtual void Add(MathOperator @operator, ITreeExpression<TEntity> entity) =>
+    public virtual void Add(ArithmeticOperator @operator, ITreeExpression<TEntity> entity) =>
         Root = new OperatorNodePrototype(@operator, Root, entity?.Root ?? throw new ArgumentNullException(nameof(entity)));
 }

@@ -24,7 +24,7 @@ public interface ITreeExpression<TEntity> : IArithmeticable
     /// <param name="entity" xml:lang = "ru">
     /// Сущность, которую нужно добавить в дерево.
     /// </param>
-    public void Add(MathOperator @operator, TEntity entity);
+    public void Add(ArithmeticOperator @operator, TEntity entity);
 
     /// <summary xml:lang = "ru">
     /// Добавляет дерево выражений, наполненное сущностями типа <typeparamref name="TEntity"/>
@@ -36,5 +36,5 @@ public interface ITreeExpression<TEntity> : IArithmeticable
     /// <param name="entity" xml:lang = "ru">
     /// Дерево выражений, которое нужно соединить с деревом.
     /// </param>
-    public void Add(MathOperator @operator, ITreeExpression<TEntity> entity);
+    public void Add(ArithmeticOperator @operator, ITreeExpression<TEntity> entity);
 }

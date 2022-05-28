@@ -14,23 +14,23 @@ internal class OperatorNode : INode
     private INode _firstNode;
     private INode _secondNode;
 
-    public OperatorNode(MathOperator @operator, INode firstNode, INode secondNode)
+    public OperatorNode(ArithmeticOperator @operator, INode firstNode, INode secondNode)
     {
         _firstNode = firstNode ?? throw new ArgumentNullException(nameof(firstNode));
         _secondNode = secondNode ?? throw new ArgumentNullException(nameof(secondNode));
         Operator = @operator;
     }
 
-    public MathOperator Operator { get; private set; }
+    public ArithmeticOperator Operator { get; private set; }
 
-    private static int GetOperatorPriority(MathOperator @operator) => (@operator) switch
+    private static int GetOperatorPriority(ArithmeticOperator @operator) => (@operator) switch
     {
         //Todo: Priority -> create enum.
-        MathOperator.Plus => 1,
-        MathOperator.Minus => 1,
-        MathOperator.Multiply => 2,
-        MathOperator.Divide => 2,
-        MathOperator.Power => throw new NotImplementedException(),
+        ArithmeticOperator.Plus => 1,
+        ArithmeticOperator.Minus => 1,
+        ArithmeticOperator.Multiply => 2,
+        ArithmeticOperator.Divide => 2,
+        ArithmeticOperator.Power => throw new NotImplementedException(),
         _ => throw new NotSupportedException(nameof(@operator))
     };
 

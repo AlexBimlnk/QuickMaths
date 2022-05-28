@@ -11,13 +11,13 @@ public class Tree
 
     internal INode Head { get; private set; }
 
-    public void AddArithmeticElement(MathOperator @operator, IArithmeticable arithmeticElement)
+    public void AddArithmeticElement(ArithmeticOperator @operator, IArithmeticable arithmeticElement)
     {
         var nodeForConnect = new ArithmeticNode(arithmeticElement ?? throw new ArgumentNullException(nameof(arithmeticElement)));
 
         Head = new OperatorNode(@operator, Head, nodeForConnect);
     }
 
-    public void AddArithmeticElement(MathOperator @operator, Tree tree) => 
+    public void AddArithmeticElement(ArithmeticOperator @operator, Tree tree) => 
         Head = new OperatorNode(@operator, Head, tree?.Head ?? throw new ArgumentNullException(nameof(tree)));
 }
