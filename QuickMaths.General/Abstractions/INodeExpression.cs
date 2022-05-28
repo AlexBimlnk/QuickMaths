@@ -5,7 +5,7 @@ namespace QuickMaths.General.Abstractions;
 /// <summary xml:lang = "ru">
 /// Интерфейс, определяющий контракт поведения всех узлов в дереве выражений.
 /// </summary>
-public interface INodeExpression : IArithmeticable
+public interface INodeExpression
 {
     /// <summary xml:lang = "ru">
     /// Приоритет узла.

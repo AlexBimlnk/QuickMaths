@@ -8,7 +8,7 @@ namespace QuickMaths.General.Abstractions;
 /// <typeparam name="TEntity" xml:lang = "ru">
 /// Сущность из которых будет состоять дерево выражений.
 /// </typeparam>
-public interface ITreeExpression<TEntity> : IArithmeticable 
+public interface ITreeExpression<TEntity> 
 {
     /// <summary xml:lang = "ru">
     /// Корень дерева.
