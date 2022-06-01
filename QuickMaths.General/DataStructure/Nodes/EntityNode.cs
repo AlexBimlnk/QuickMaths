@@ -9,7 +9,7 @@ namespace QuickMaths.General.DataStructure.Nodes;
 /// <typeparam name="TEntity" xml:lang = "ru">
 /// Тип сущности, который будет содержать данный узел.
 /// </typeparam>
-public sealed class EntityNode<TEntity> : INodeExpression
+public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
 {
     private TEntity _entity;
 
@@ -24,4 +24,7 @@ public sealed class EntityNode<TEntity> : INodeExpression
 
     /// <inheritdoc/>
     public Priority Priority => throw new NotImplementedException();
+
+    /// <inheritdoc/>
+    public TEntity Source => _entity;
 }
