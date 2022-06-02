@@ -1,7 +1,8 @@
 ﻿namespace QuickMaths.General.Enums;
 
-public enum MathOperator
+public enum ArithmeticOperator
 {
+    None = 0,
     Plus = '+',
     Minus = '-',
     Multiply = '*',
