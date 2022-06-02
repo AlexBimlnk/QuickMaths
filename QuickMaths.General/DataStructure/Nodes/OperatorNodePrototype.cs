@@ -6,7 +6,7 @@ namespace QuickMaths.General.DataStructure.Nodes;
 /// <summary xml:lang = "ru">
 /// Узел, представляющий математический оператор.
 /// </summary>
-public sealed class OperatorNodePrototype : INodeExpression
+public sealed class OperatorNodePrototype : IOperatorNode
 {
     private INodeExpression _firstNode;
     private INodeExpression _secondNode;
@@ -34,11 +34,9 @@ public sealed class OperatorNodePrototype : INodeExpression
         Operator = @operator;
     }
 
-    /// <summary xml:lang = "ru">
-    /// Арифметический оператор.
-    /// </summary>
-    public ArithmeticOperator Operator { get; }
-
     /// <inheritdoc/>
     public Priority Priority => throw new NotImplementedException();
+
+    /// <inheritdoc/>
+    public ArithmeticOperator Operator { get; }
 }
