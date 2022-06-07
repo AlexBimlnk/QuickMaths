@@ -1,6 +1,3 @@
-# Rules in this file were initially inferred by Visual Studio IntelliCode from the C:\Диск Alex\C#\Проекты в разработке (прямо сейчас)\Совместный математический проект\QuickMaths codebase based on best match to current usage at 03.05.2022
-# You can modify the rules from these initially generated values to suit your own policies
-# You can learn more about editorconfig here: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
 [*.cs]
 
 
@@ -28,6 +25,11 @@ csharp_new_line_before_else = true
 csharp_new_line_before_members_in_object_initializers = false
 #require braces to be on a new line for accessors, methods, control_blocks, properties, and types (also known as "Allman" style)
 csharp_new_line_before_open_brace = all
+
+#Formatting - organize using options
+
+#sort System.* using directives alphabetically, and place them before other usings
+dotnet_sort_system_directives_first = true
 
 #Formatting - spacing options
 
