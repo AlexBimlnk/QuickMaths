@@ -1,17 +1,51 @@
 ﻿using System;
 using System.Threading;
-
+using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
 using Moq;
 
 using QuickMaths.General.Abstractions;
+using QuickMaths.General.Enums;
 
 namespace QuickMaths.General.Tests;
 
 public class ParserBaseTests
 {
     #region Методы
+
+    [Fact(DisplayName = "Can split input strign by arithmetics operators")]
+    [Trait("Category", "Methods")]
+    public void CanSplitStringOnOperators()
+    {
+        //Arrange
+        string inputString = "a*b/d+sasdas-f*sd";
+        var splitResult = new List<List<Tuple<ArithmeticOperator, string>>>()
+        {
+            new List<Tuple<ArithmeticOperator, string>>()
+            { 
+                (ArithmeticOperator.Multiply, "a").ToTuple(), 
+                (ArithmeticOperator.Divide, "b").ToTuple(), 
+                (ArithmeticOperator.Plus, "d").ToTuple() 
+            },
+            new List<Tuple<ArithmeticOperator, string>>()
+            { 
+                (ArithmeticOperator.Minus, "sasdas").ToTuple() 
+            },
+            new List<Tuple<ArithmeticOperator, string>>()
+            { 
+                (ArithmeticOperator.Multiply, "f").ToTuple(), 
+                (ArithmeticOperator.Plus, "sd").ToTuple() 
+            }
+        };
+
+        //Act
+        var splitInput = ParserBase<string>.SplitOnOperators(inputString);
+
+
+        //Assert
+        Assert.Equal(splitResult, splitInput);
+    }
 
     [Fact(DisplayName = "Can not parse when token was canceled.")]
     [Trait("Category", "Methods")]

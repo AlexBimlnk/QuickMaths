@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using QuickMaths.General.Enums;
+
 namespace QuickMaths.General.Abstractions;
 
 /// <summary xml:lang = "ru">
@@ -14,9 +16,55 @@ namespace QuickMaths.General.Abstractions;
 /// </typeparam>
 public abstract class ParserBase<TEntity>
 {
-    // Вариативно, сигнатура может быть другая
-    // Метод разбивающий строку по операторам общий для всех парсеров
-    protected void SplitOnOperators() => throw new NotImplementedException();
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public static List<List<Tuple<ArithmeticOperator, string>>> SplitOnOperators(string input) 
+    {
+        const char endInputStringChar = '+';
+        
+        var operatorsPriority = new Dictionary<char, int> 
+        {
+            {(char) ArithmeticOperator.Minus, 1 },
+            {(char) ArithmeticOperator.Plus, 1 },
+            {(char) ArithmeticOperator.Multiply, 0 },
+            {(char) ArithmeticOperator.Divide, 0 },
+
+        };
+
+        input = input + endInputStringChar;
+
+        int startIndex = 0;
+
+        List<Tuple<ArithmeticOperator, string>>? stack = null;
+
+        var lq = new List<List<Tuple<ArithmeticOperator, string>>>();
+
+        for (int i = 0; i < input.Length; i++)
+        {
+            if (operatorsPriority.ContainsKey(input[i]))
+            {
+                string newFragment = input.Substring(startIndex, i - startIndex);
+
+                (stack = stack ?? new List<Tuple<ArithmeticOperator, string>>()).Add(((ArithmeticOperator)input[i], newFragment).ToTuple());
+
+                if (operatorsPriority[input[i]] == 1)
+                {
+                    lq.Add(stack);
+
+                    stack = null;
+                }
+
+                startIndex = i + 1;
+                continue;
+            }
+
+        }    
+
+        return lq;
+    }
 
     /// <summary xml:lang = "ru">
     /// Создает дерево выражений с сущностями типа <typeparamref name="TEntity"/> по входной строке.

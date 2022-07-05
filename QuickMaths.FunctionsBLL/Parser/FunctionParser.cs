@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using QuickMaths.General.Abstractions;
 using QuickMaths.General.DataStructure;
+using System.Text.RegularExpressions;
 
 namespace QuickMaths.FunctionsBLL.Parser;
 
