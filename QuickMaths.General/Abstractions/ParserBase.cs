@@ -19,51 +19,94 @@ public abstract class ParserBase<TEntity>
     /// <summary>
     /// 
     /// </summary>
+    protected static HashSet<char> _usedOperators;
+
+    static ParserBase() => SetSplitOperators(ArithmeticOperator.Plus, ArithmeticOperator.Multiply, ArithmeticOperator.Divide, ArithmeticOperator.Minus);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="operators"></param>
+    public static void SetSplitOperators(params ArithmeticOperator[] operators)
+    {
+        _usedOperators = new HashSet<char>();
+
+        foreach(var singleOperator in operators)
+        {
+            _usedOperators.Add((char)singleOperator);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public static List<List<Tuple<ArithmeticOperator, string>>> SplitOnOperators(string input) 
+    public static List<Tuple<ArithmeticOperator, string, int>> SplitOnOperators(string input) 
     {
-        const char endInputStringChar = '+';
-        
-        var operatorsPriority = new Dictionary<char, int> 
+        const ArithmeticOperator nonValuableOperator = ArithmeticOperator.Plus;
+
+        var splitSymbols =  new StringBuilder("()");
+
+        var newFragment = new StringBuilder();
+
+        if (input is null)
         {
-            {(char) ArithmeticOperator.Minus, 1 },
-            {(char) ArithmeticOperator.Plus, 1 },
-            {(char) ArithmeticOperator.Multiply, 0 },
-            {(char) ArithmeticOperator.Divide, 0 },
+            throw new ArgumentNullException(nameof(input));
+        }
 
-        };
+        if (input.Length == 0)
+        {
+            throw new ArgumentException("The length of input string is zero");
+        }
 
-        input = input + endInputStringChar;
+        input += (char)nonValuableOperator;
 
-        int startIndex = 0;
+        _usedOperators.ToList().ForEach(charOperator => splitSymbols.Append(charOperator)); 
 
-        List<Tuple<ArithmeticOperator, string>>? stack = null;
+        int indexToAdd = 0;
+        ArithmeticOperator lastOperator = nonValuableOperator;
 
-        var lq = new List<List<Tuple<ArithmeticOperator, string>>>();
+        var splittedString = new List<Tuple<ArithmeticOperator, string, int>>();
+        var bracketStack = new Stack<Tuple<int,Tuple<ArithmeticOperator, string>>>();
 
         for (int i = 0; i < input.Length; i++)
         {
-            if (operatorsPriority.ContainsKey(input[i]))
+            if (splitSymbols.ToString().Contains(input[i]))
             {
-                string newFragment = input.Substring(startIndex, i - startIndex);
-
-                (stack = stack ?? new List<Tuple<ArithmeticOperator, string>>()).Add(((ArithmeticOperator)input[i], newFragment).ToTuple());
-
-                if (operatorsPriority[input[i]] == 1)
+                if (_usedOperators.Contains(input[i]))
                 {
-                    lq.Add(stack);
+                    splittedString.Insert(indexToAdd, (lastOperator, newFragment.ToString(), bracketStack.Count).ToTuple());
+                    
+                    newFragment.Clear();
+                    lastOperator = (ArithmeticOperator)input[i];
+                    indexToAdd = splittedString.Count;
+                }
+                else if (input[i] == '(')
+                {
+                    bracketStack.Push((splittedString.Count, (lastOperator, newFragment.Append('(').ToString()).ToTuple()).ToTuple());
 
-                    stack = null;
+                    newFragment.Clear();
+                    lastOperator = nonValuableOperator;
+                }
+                else
+                {
+                    splittedString.Insert(indexToAdd, (lastOperator, newFragment.ToString(), bracketStack.Count).ToTuple());
+                    
+                    newFragment.Clear();
+                    var bracketFragment = bracketStack.Pop();
+                    indexToAdd = bracketFragment.Item1;
+                    lastOperator = bracketFragment.Item2.Item1;
+                    newFragment = new StringBuilder(bracketFragment.Item2.Item2).Append(')');
                 }
 
-                startIndex = i + 1;
                 continue;
             }
 
+            newFragment.Append(input[i]);
         }    
 
-        return lq;
+        return splittedString;
     }
 
     /// <summary xml:lang = "ru">

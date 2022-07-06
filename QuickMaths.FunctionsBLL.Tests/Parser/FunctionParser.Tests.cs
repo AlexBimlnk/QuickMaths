@@ -22,7 +22,7 @@ public class FunctionParserTests
         string inputString = "4";
         IFunction expectedFunc = new NumberFunction(4); 
         var parser = new FunctionParser();
-
+        
         // Act
         var result = parser.Parse(inputString);
 
