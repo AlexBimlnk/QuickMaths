@@ -7,8 +7,11 @@ namespace QuickMaths.General.Abstractions;
 /// </summary>
 public interface IOperatorNode : INodeExpression
 {
-    /// <summary xml:lang = "ru">
-    /// Арифметический оператор.
+    /// <summary>
+    /// Добавление новго операнда
     /// </summary>
-    public ArithmeticOperator Operator { get; }
+    /// <param name="operand">Операнд</param>
+    /// <param name="operator">Оператор</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public void AddOperand(ArithmeticOperator @operator, INodeExpression operand);
 }

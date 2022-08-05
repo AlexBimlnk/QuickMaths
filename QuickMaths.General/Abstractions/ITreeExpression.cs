@@ -10,12 +10,8 @@ namespace QuickMaths.General.Abstractions;
 /// </typeparam>
 public interface ITreeExpression<TEntity> 
 {
-    /// <summary xml:lang = "ru">
-    /// Корень дерева.
-    /// </summary>
-    public INodeExpression Root { get; }
 
-    /// <summary xml:lang = "ru">
+    /*/// <summary xml:lang = "ru">
     /// Добавляет новую сущность типа <typeparamref name="TEntity"/> в дерево с помощью оператора связи.
     /// </summary>
     /// <param name="operator" xml:lang = "ru">
@@ -37,4 +33,8 @@ public interface ITreeExpression<TEntity>
     /// Дерево выражений, которое нужно соединить с деревом.
     /// </param>
     public void Add(ArithmeticOperator @operator, ITreeExpression<TEntity> entity);
+
+    public void SetRoot(TEntity rootEntity);
+
+    public INodeExpression Root { get; }*/
 }
