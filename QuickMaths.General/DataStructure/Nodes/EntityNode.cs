@@ -11,6 +11,8 @@ namespace QuickMaths.General.DataStructure.Nodes;
 /// </typeparam>
 public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
 {
+    private static readonly int s_allEntityNodesPriority = ArithmeticOperator.None.GetOperatorMetaData().Priority;
+
     /// <summary xml:lang = "ru">
     /// Создает новый экземпляр типа <see cref="EntityNode{TEntity}"/>.
     /// </summary>
@@ -24,7 +26,7 @@ public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
     public TEntity Source { get; }
 
     /// <inheritdoc/>
-    public int Priority => ArithmeticOperator.None.GetOperatorMetaData().Priority;
+    public int Priority => s_allEntityNodesPriority;
 
     /// <inheritdoc/>
     public IList<Tuple<ArithmeticOperator, INodeExpression>> GetChildEntities()
@@ -37,29 +39,27 @@ public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
     /// <inheritdoc/>
     public INodeExpression MergeNodes(ArithmeticOperator @operator, INodeExpression node)
     {
-        INodeExpression nodeExpr;
+        if (@operator == ArithmeticOperator.None)
+            throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
+        if (node is null)
+            throw new ArgumentNullException($"Given node of {typeof(INodeExpression)} is null");
 
         if (node.Priority == @operator.GetOperatorMetaData().Priority)
         {
-            nodeExpr = node.MergeNodes(@operator, new EntityNode<TEntity>(Source));
+            return node.MergeNodes(@operator, new EntityNode<TEntity>(Source));
         }
         else
         {
-            var nodeExpr1 = new OperatorNodePrototype(@operator);
+            var newOperNode = new OperatorNodePrototype(@operator);
 
-            nodeExpr1.AddOperand(@operator, node);
-            nodeExpr1.AddOperand(@operator, new EntityNode<TEntity>(Source));
+            newOperNode.AddOperand(@operator, node);
+            newOperNode.AddOperand(@operator, new EntityNode<TEntity>(Source));
             
-            return nodeExpr1;
+            return newOperNode;
         }
-
-        return nodeExpr;
     }
     /// <inheritdoc/>
-    public override string ToString()
-    {
-        if (Source is not null)
-            return Source.ToString();
-        return "###null####";
-    }
+    public override string ToString() =>
+        Source.ToString()!;
+    
 }

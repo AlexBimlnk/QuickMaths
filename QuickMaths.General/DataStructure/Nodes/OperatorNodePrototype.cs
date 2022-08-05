@@ -21,6 +21,9 @@ public sealed class OperatorNodePrototype : IOperatorNode
     /// 
     public OperatorNodePrototype(ArithmeticOperator baseOperator)
     {
+        if (baseOperator == ArithmeticOperator.None)
+            throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
+
         _curentOperatorPriority = baseOperator.GetOperatorMetaData().Priority;
         _assignedOpersnds = new List<Tuple<ArithmeticOperator, INodeExpression>>();
     }
@@ -37,6 +40,11 @@ public sealed class OperatorNodePrototype : IOperatorNode
     /// <inheritdoc/>
     public INodeExpression MergeNodes(ArithmeticOperator @operator, INodeExpression node)
     {
+        if (@operator == ArithmeticOperator.None)
+            throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
+        if (node is null)
+            throw new ArgumentNullException($"Given node of {typeof(INodeExpression)} is null");
+
         int operatorPriority = @operator.GetOperatorMetaData().Priority;
         
         var newOperNode = (operatorPriority == node.Priority 
@@ -64,11 +72,13 @@ public sealed class OperatorNodePrototype : IOperatorNode
     /// <inheritdoc/>
     public void AddOperand(ArithmeticOperator @operator, INodeExpression operand)
     {
-        //ToDo exceptions
+        if (@operator == ArithmeticOperator.None)
+            throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
+        if (operand is null)
+            throw new ArgumentNullException($"Given operand of {typeof(INodeExpression)} is null");
         if (@operator.GetOperatorMetaData().Priority < Priority)
-        {
-            throw new ArgumentException("Wrond operator");
-        }
+            throw new ArgumentException($"Incorect given {typeof(ArithmeticOperator)} priority");
+
         if (@operator.GetOperatorMetaData().Priority == Priority)
         {
             _assignedOpersnds.Add(new Tuple<ArithmeticOperator, INodeExpression>(@operator, operand));

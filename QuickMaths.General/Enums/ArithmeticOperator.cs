@@ -19,8 +19,17 @@ public enum ArithmeticOperator
 
 }
 
+/// <summary>
+/// Дополнительные методы для перечесления <see cref="ArithmeticOperator"/>
+/// </summary>
 public static class ArithmeticOperatorExtensions
 {
+    /// <summary>
+    /// Получение доступа к <see cref="ArithmeticOperatorMetaDataAttribute"/> для кадого значения <see cref="ArithmeticOperator"/>
+    /// </summary>
+    /// <param name="operator">Арифмитический оператор</param>
+    /// <returns>Доступ к полям <see cref="ArithmeticOperatorMetaDataAttribute"/></returns>
+    /// <exception cref="NullReferenceException"></exception>
     public static ArithmeticOperatorMetaDataAttribute GetOperatorMetaData(this ArithmeticOperator @operator)
     {
         var type = @operator.GetType();
@@ -34,7 +43,6 @@ public static class ArithmeticOperatorExtensions
 }
 
 [System.AttributeUsage(System.AttributeTargets.Field)]
-
 public sealed class ArithmeticOperatorMetaDataAttribute : Attribute
 {
     public int Priority { get; set; }
