@@ -24,6 +24,4 @@ public interface INodeExpression
     /// <param name="node">узел который добавляет к текущему</param>
     /// <returns></returns>
     public INodeExpression MergeNodes(ArithmeticOperator @operator, INodeExpression node);
-
-    public string ToStr();
 }

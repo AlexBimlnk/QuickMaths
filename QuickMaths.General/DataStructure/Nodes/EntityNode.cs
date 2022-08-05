@@ -21,8 +21,45 @@ public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
     public EntityNode(TEntity entity) => Source = entity ?? throw new ArgumentNullException(nameof(entity));
 
     /// <inheritdoc/>
-    public Priority Priority => throw new NotImplementedException();
+    public TEntity Source { get; }
 
     /// <inheritdoc/>
-    public TEntity Source { get; }
+    public int Priority => ArithmeticOperator.None.GetOperatorMetaData().Priority;
+
+    /// <inheritdoc/>
+    public IList<Tuple<ArithmeticOperator, INodeExpression>> GetChildEntities()
+    {
+        var entityList = new List<Tuple<ArithmeticOperator, INodeExpression>>(1);
+        entityList.Add(new Tuple<ArithmeticOperator, INodeExpression>(ArithmeticOperator.None, new EntityNode<TEntity>(Source)));
+        return entityList;
+    }
+       
+    /// <inheritdoc/>
+    public INodeExpression MergeNodes(ArithmeticOperator @operator, INodeExpression node)
+    {
+        INodeExpression nodeExpr;
+
+        if (node.Priority == @operator.GetOperatorMetaData().Priority)
+        {
+            nodeExpr = node.MergeNodes(@operator, new EntityNode<TEntity>(Source));
+        }
+        else
+        {
+            var nodeExpr1 = new OperatorNodePrototype(@operator);
+
+            nodeExpr1.AddOperand(@operator, node);
+            nodeExpr1.AddOperand(@operator, new EntityNode<TEntity>(Source));
+            
+            return nodeExpr1;
+        }
+
+        return nodeExpr;
+    }
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        if (Source is not null)
+            return Source.ToString();
+        return "###null####";
+    }
 }

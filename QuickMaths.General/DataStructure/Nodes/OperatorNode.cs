@@ -9,9 +9,9 @@ using QuickMaths.General.Enums;
 
 namespace QuickMaths.General.DataStructure.Nodes;
 
-internal class OperatorNode : INode
+internal class OperatorNode
 {
-    private INode _firstNode;
+    /*private INode _firstNode;
     private INode _secondNode;
 
     public OperatorNode(ArithmeticOperator @operator, INode firstNode, INode secondNode)
@@ -21,22 +21,10 @@ internal class OperatorNode : INode
         Operator = @operator;
     }
 
-    public ArithmeticOperator Operator { get; private set; }
-
-    private static int GetOperatorPriority(ArithmeticOperator @operator) => (@operator) switch
-    {
-        //Todo: Priority -> create enum.
-        ArithmeticOperator.Plus => 1,
-        ArithmeticOperator.Minus => 1,
-        ArithmeticOperator.Multiply => 2,
-        ArithmeticOperator.Divide => 2,
-        ArithmeticOperator.Power => throw new NotImplementedException(),
-        _ => throw new NotSupportedException(nameof(@operator))
-    };
-
+    //public ArithmeticOperator Operator { get; private set; }
     public double Calculate() => throw new NotImplementedException();
     public IArithmeticable GetDerivative() => throw new NotImplementedException();
-    public int GetPriority() => GetOperatorPriority(Operator);
+    //public int GetPriority() => Operator.GetOperatorMetaData().Priority;
     public void SetVariables(Dictionary<string, double> variables) => throw new NotImplementedException();
     public override string ToString()
     {
@@ -49,5 +37,5 @@ internal class OperatorNode : INode
                                  : $"{_secondNode}";
 
         return firstNodeAsString + (char)Operator + secondNodeAsString;
-    }
+    }*/
 }

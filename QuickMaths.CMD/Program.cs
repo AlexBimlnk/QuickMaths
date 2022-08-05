@@ -15,6 +15,98 @@ internal class Program
     {
         Console.WriteLine("Hello World!");
 
+        var a = new VariableFunction("a");
+        var b = new VariableFunction("b");
+        var c = new VariableFunction("c");
+        var d = new VariableFunction("d");
+        var e = new VariableFunction("e");
+        var f = new VariableFunction("f");
+
+        /*var treea = new TreeExpression<IFunction>();
+        treea.SetRoot(a);
+        //treea.Add(ArithmeticOperator.Multiply, a);
+
+
+        var treeb = new TreeExpression<IFunction>();
+        treeb.SetRoot(b);
+        treeb.Add(ArithmeticOperator.Multiply, b);
+        //treeb.Add(ArithmeticOperator.Multiply, b);
+
+        Console.WriteLine(treea);
+        Console.WriteLine(treeb);
+
+        treea.Add(ArithmeticOperator.Multiply, treeb);
+
+        Console.WriteLine(treea);
+        Console.WriteLine(treeb);
+
+        treeb.Add(ArithmeticOperator.Multiply, b);
+
+        Console.WriteLine(treea);
+        Console.WriteLine(treeb);*/
+
+        /*var treea = new TreeExpression<IFunction>();
+        treea.SetRoot(a);
+        treea.Add(ArithmeticOperator.Multiply, a);
+
+
+        var treeb = new TreeExpression<IFunction>();
+        treeb.SetRoot(b);
+        treeb.Add(ArithmeticOperator.Multiply, b);
+
+        treea.Add(ArithmeticOperator.Plus, treeb);
+
+        Console.WriteLine(treea);
+        Console.WriteLine(treeb);
+
+        treea.Add(ArithmeticOperator.Multiply, a);
+        treeb.Add(ArithmeticOperator.Multiply, b);
+        Console.WriteLine(treea);
+        Console.WriteLine(treeb);*/
+
+
+        /*        //a + b + c
+
+                var tree1 = new TreeExpression<IFunction>();
+                tree1.Add(ArithmeticOperator.Plus, a);
+                tree1.Add(ArithmeticOperator.Plus, b);
+                tree1.Add(ArithmeticOperator.Plus, c);
+
+
+                var tree4 = new TreeExpression<IFunction>();
+                tree4.Add(ArithmeticOperator.Multiply, a);
+                tree4.Add(ArithmeticOperator.Multiply, c);
+
+
+
+                var tree3 = new TreeExpression<IFunction>();
+                tree3.Add(ArithmeticOperator.Plus, a);
+                tree3.Add(ArithmeticOperator.Plus, b);
+                tree3.Add(ArithmeticOperator.Plus, c);
+
+
+
+                //b * c * d + d * a
+
+                var tree2 = new TreeExpression<IFunction>();
+                tree2.Add(ArithmeticOperator.Plus, b);
+                tree2.Add(ArithmeticOperator.Multiply, c);
+                tree2.Add(ArithmeticOperator.Multiply, d);
+                tree2.Add(ArithmeticOperator.Plus, d);
+                tree2.Add(ArithmeticOperator.Multiply, a);
+
+
+
+                tree1.Add(ArithmeticOperator.Plus,tree3);
+                tree3.Add(ArithmeticOperator.Plus, a);
+                tree3.Add(ArithmeticOperator.Plus, b);
+                tree3.Add(ArithmeticOperator.Plus, c);
+
+                Console.WriteLine(tree3);
+                Console.WriteLine(tree1);*/
+
+        Console.ReadLine();
+
         var list = new List<IFunction>()
         {
             new NumberFunction(1),
