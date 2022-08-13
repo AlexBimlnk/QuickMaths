@@ -1,7 +1,87 @@
 ﻿namespace QuickMaths.General.Enums;
 
 //ToDo comments
-public enum ArithmeticOperator
+/// <summary>
+/// 
+/// </summary>
+public readonly struct ArithmeticOperator
+{
+    private static readonly ArithmeticOperator s_plusOperator;
+    private static readonly ArithmeticOperator s_minusOperator;
+    private static readonly ArithmeticOperator s_multiplyOperator;
+    private static readonly ArithmeticOperator s_divideOperator;
+    private static readonly ArithmeticOperator s_powerOperator;
+    private static readonly ArithmeticOperator s_emptyOperator;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static ArithmeticOperator Plus => s_plusOperator;
+    /// <summary>
+    /// 
+    /// </summary>
+    public static ArithmeticOperator Minus => s_minusOperator;
+    /// <summary>
+    /// 
+    /// </summary>
+    public static ArithmeticOperator Multiply => s_multiplyOperator;
+    /// <summary>
+    /// 
+    /// </summary>
+    public static ArithmeticOperator Divide => s_divideOperator;
+    /// <summary>
+    /// 
+    /// </summary>
+    public static ArithmeticOperator Power => s_powerOperator;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static ArithmeticOperator Empty => s_emptyOperator;
+
+    static ArithmeticOperator()
+    {
+        s_plusOperator = new ArithmeticOperator(1, true, true, '+');
+        s_minusOperator = new ArithmeticOperator(1, true, true, '-');
+        s_multiplyOperator = new ArithmeticOperator(2, true, true, '*');
+        s_divideOperator = new ArithmeticOperator(2, true, false, '/');
+        s_powerOperator = new ArithmeticOperator(3, true, false, '^');
+        s_emptyOperator = new ArithmeticOperator();
+    }
+
+    private readonly int _priority = -1;
+    private readonly bool _isUnary = false;
+    private readonly bool _isBinary = false;
+    private readonly char _charView = '\0';
+    
+    private ArithmeticOperator(int operatorPriority, bool isOperatorIsBinary, bool isOperatorIsUnary, char operatorCharView)
+    {
+        _priority = operatorPriority;
+        _isBinary = isOperatorIsBinary;
+        _isUnary = isOperatorIsUnary;
+        _charView = operatorCharView;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int Priority => _priority;
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsUnary => _isUnary;
+    /// <summary>
+    /// 
+    /// </summary>
+    public bool IsBinary => _isBinary;
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    public char CharView => _charView;
+}
+
+/*public enum EArithmeticOperator
 {
     //None priority using for entity node
     [ArithmeticOperatorMetaData(Priority = 3,IsUnary = false,IsBinary = false)]
@@ -50,3 +130,4 @@ public sealed class ArithmeticOperatorMetaDataAttribute : Attribute
     public bool IsBinary { get; set; }
     //public bool IsSkippedInBegin { get; set; }
 }
+*/

@@ -11,8 +11,6 @@ namespace QuickMaths.General.DataStructure.Nodes;
 /// </typeparam>
 public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
 {
-    private static readonly int s_allEntityNodesPriority = ArithmeticOperator.None.GetOperatorMetaData().Priority;
-
     /// <summary xml:lang = "ru">
     /// Создает новый экземпляр типа <see cref="EntityNode{TEntity}"/>.
     /// </summary>
@@ -26,25 +24,25 @@ public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
     public TEntity Source { get; }
 
     /// <inheritdoc/>
-    public int Priority => s_allEntityNodesPriority;
+    public int Priority => ArithmeticOperator.Empty.Priority;
 
     /// <inheritdoc/>
     public IList<Tuple<ArithmeticOperator, INodeExpression>> GetChildEntities()
     {
         var entityList = new List<Tuple<ArithmeticOperator, INodeExpression>>(1);
-        entityList.Add(new Tuple<ArithmeticOperator, INodeExpression>(ArithmeticOperator.None, new EntityNode<TEntity>(Source)));
+        entityList.Add(new Tuple<ArithmeticOperator, INodeExpression>(ArithmeticOperator.Empty, new EntityNode<TEntity>(Source)));
         return entityList;
     }
        
     /// <inheritdoc/>
     public INodeExpression MergeNodes(ArithmeticOperator @operator, INodeExpression node)
     {
-        if (@operator == ArithmeticOperator.None)
+        if (@operator.Priority == -1)
             throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
         if (node is null)
             throw new ArgumentNullException($"Given node of {typeof(INodeExpression)} is null");
 
-        if (node.Priority == @operator.GetOperatorMetaData().Priority)
+        if (node.Priority == @operator.Priority)
         {
             return node.MergeNodes(@operator, new EntityNode<TEntity>(Source));
         }

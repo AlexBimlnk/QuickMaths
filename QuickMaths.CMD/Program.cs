@@ -22,15 +22,15 @@ internal class Program
         var e = new VariableFunction("e");
         var f = new VariableFunction("f");
 
-        /*var treea = new TreeExpression<IFunction>();
+        var treea = new TreeExpression<IFunction>();
         treea.SetRoot(a);
-        //treea.Add(ArithmeticOperator.Multiply, a);
+        treea.Add(ArithmeticOperator.Multiply, a);
 
 
         var treeb = new TreeExpression<IFunction>();
         treeb.SetRoot(b);
         treeb.Add(ArithmeticOperator.Multiply, b);
-        //treeb.Add(ArithmeticOperator.Multiply, b);
+        treeb.Add(ArithmeticOperator.Multiply, b);
 
         Console.WriteLine(treea);
         Console.WriteLine(treeb);
@@ -43,7 +43,7 @@ internal class Program
         treeb.Add(ArithmeticOperator.Multiply, b);
 
         Console.WriteLine(treea);
-        Console.WriteLine(treeb);*/
+        Console.WriteLine(treeb);
 
         /*var treea = new TreeExpression<IFunction>();
         treea.SetRoot(a);

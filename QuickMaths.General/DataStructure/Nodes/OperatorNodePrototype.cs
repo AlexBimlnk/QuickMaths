@@ -10,7 +10,7 @@ public sealed class OperatorNodePrototype : IOperatorNode
 {
     private IList<Tuple<ArithmeticOperator, INodeExpression>> _assignedOpersnds;
     private readonly int _curentOperatorPriority;
-
+    private Lookup<ArithmeticOperator, INodeExpression> _assignedOp;
     /// <summary xml:lang = "ru">
     /// Создает новый экземпляр типа <see cref="OperatorNodePrototype"/>.
     /// </summary>
@@ -21,10 +21,10 @@ public sealed class OperatorNodePrototype : IOperatorNode
     /// 
     public OperatorNodePrototype(ArithmeticOperator baseOperator)
     {
-        if (baseOperator == ArithmeticOperator.None)
+        if (baseOperator.Priority == -1)
             throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
 
-        _curentOperatorPriority = baseOperator.GetOperatorMetaData().Priority;
+        _curentOperatorPriority = baseOperator.Priority;
         _assignedOpersnds = new List<Tuple<ArithmeticOperator, INodeExpression>>();
     }
 
@@ -40,12 +40,12 @@ public sealed class OperatorNodePrototype : IOperatorNode
     /// <inheritdoc/>
     public INodeExpression MergeNodes(ArithmeticOperator @operator, INodeExpression node)
     {
-        if (@operator == ArithmeticOperator.None)
+        if (@operator.Priority == -1)
             throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
         if (node is null)
             throw new ArgumentNullException($"Given node of {typeof(INodeExpression)} is null");
 
-        int operatorPriority = @operator.GetOperatorMetaData().Priority;
+        int operatorPriority = @operator.Priority;
         
         var newOperNode = (operatorPriority == node.Priority 
             ? new OperatorNodePrototype(node.Priority,node.GetChildEntities()) 
@@ -59,6 +59,7 @@ public sealed class OperatorNodePrototype : IOperatorNode
             foreach(var elem in _assignedOpersnds)
             {
                 newOperNode.AddOperand(elem.Item1, elem.Item2);
+                
             }
         }
         else
@@ -72,14 +73,14 @@ public sealed class OperatorNodePrototype : IOperatorNode
     /// <inheritdoc/>
     public void AddOperand(ArithmeticOperator @operator, INodeExpression operand)
     {
-        if (@operator == ArithmeticOperator.None)
+        if (@operator.Priority == -1)
             throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
         if (operand is null)
             throw new ArgumentNullException($"Given operand of {typeof(INodeExpression)} is null");
-        if (@operator.GetOperatorMetaData().Priority < Priority)
-            throw new ArgumentException($"Incorect given {typeof(ArithmeticOperator)} priority");
+        if (@operator.Priority < Priority)
+            throw new ArgumentException($"Incorrect given {typeof(ArithmeticOperator)} priority");
 
-        if (@operator.GetOperatorMetaData().Priority == Priority)
+        if (@operator.Priority == Priority)
         {
             _assignedOpersnds.Add(new Tuple<ArithmeticOperator, INodeExpression>(@operator, operand));
             return;
@@ -97,7 +98,7 @@ public sealed class OperatorNodePrototype : IOperatorNode
     }
 
     /// <inheritdoc/>
-    public IList<Tuple<ArithmeticOperator, INodeExpression>> GetChildEntities() => new List<Tuple<ArithmeticOperator, INodeExpression>>(_assignedOpersnds);
+    public IList<Tuple<ArithmeticOperator, INodeExpression>> GetChildEntities() => _assignedOpersnds;
     
     /// <inheritdoc/>
     public override string ToString()
@@ -105,7 +106,7 @@ public sealed class OperatorNodePrototype : IOperatorNode
         var stringBuilder = new System.Text.StringBuilder(" ");
         foreach(var op in _assignedOpersnds)
         {
-            stringBuilder.Append($"_{(char)op.Item1}_{op.Item2}_");
+            stringBuilder.Append($"_{op.Item1.CharView}_{op.Item2}_");
         }
         stringBuilder.Append(" ");
         return stringBuilder.ToString();
