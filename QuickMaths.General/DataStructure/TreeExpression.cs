@@ -11,28 +11,32 @@ namespace QuickMaths.General.Abstractions;
 /// </typeparam>
 public class TreeExpression<TEntity> 
 {
-    private INodeExpression? _root;
+    private INodeExpression _root;
 
-    /// <summary xml:lang = "ru">
-    /// Добавляет новую сущность типа <typeparamref name="TEntity"/> в дерево с помощью оператора связи.
+    /// <summary>
+    /// 
     /// </summary>
-    /// <param name="operator" xml:lang = "ru">
-    /// Математический оператор, опряделяющий связь.
-    /// </param>
-    /// <param name="entity" xml:lang = "ru">
-    /// Сущность, которую нужно добавить в дерево.
-    /// </param>
-    /// <exception cref="NullReferenceException"></exception>
-    /// <exception cref="ArgumentNullException"></exception>
-    public virtual void Add(ArithmeticOperator @operator, TEntity entity)
+    /// <param name="rootEntity"></param>
+    public TreeExpression(TEntity rootEntity) => _root = new EntityNode<TEntity>(rootEntity ?? throw new ArgumentNullException());
+
+/// <summary xml:lang = "ru">
+/// Добавляет новую сущность типа <typeparamref name="TEntity"/> в дерево с помощью оператора связи.
+/// </summary>
+/// <param name="operator" xml:lang = "ru">
+/// Математический оператор, опряделяющий связь.
+/// </param>
+/// <param name="entity" xml:lang = "ru">
+/// Сущность, которую нужно добавить в дерево.
+/// </param>
+/// <exception cref="NullReferenceException"></exception>
+/// <exception cref="ArgumentNullException"></exception>
+public virtual void Add(ArithmeticOperator @operator, TEntity entity)
     {
         if (entity is null)
             throw new ArgumentNullException($"Given entity to add of {typeof(TEntity)} is null");
-        if (@operator == ArithmeticOperator.None)
+        if (@operator.Priority == -1)
             throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
 
-        if (_root is null)
-            _root = new OperatorNodePrototype(@operator);
         if (_root is IEntityNode<TEntity>)
             _root = _root.MergeNodes(@operator, new EntityNode<TEntity>(entity));
         else
@@ -62,15 +66,15 @@ public class TreeExpression<TEntity>
     /// <exception cref="ArgumentNullException"></exception>
     public virtual void Add(ArithmeticOperator @operator, TreeExpression<TEntity> entity)
     {
-        if (@operator == ArithmeticOperator.None)
+        if (@operator.Priority == -1)
             throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
         if (entity is null)
             throw new ArgumentNullException($"Given {typeof(TreeExpression<TEntity>)} is null");
 
-        _root = (_root ?? throw new NullReferenceException($"Root of {typeof(TreeExpression<TEntity>)} is null"))
+        _root = _root
             .MergeNodes(
                 @operator,
-                entity._root ?? throw new NullReferenceException($"Root of given {typeof(TreeExpression<TEntity>)} is null"));
+                entity._root);
     }
         
     
