@@ -1,4 +1,7 @@
-﻿using QuickMaths.General.Abstractions;
+﻿using System;
+using System.Xml.Linq;
+
+using QuickMaths.General.Abstractions;
 using QuickMaths.General.Enums;
 
 namespace QuickMaths.General.DataStructure.Nodes;
@@ -8,9 +11,11 @@ namespace QuickMaths.General.DataStructure.Nodes;
 /// </summary>
 public sealed class OperatorNodePrototype : IOperatorNode
 {
-    private IList<Tuple<ArithmeticOperator, INodeExpression>> _assignedOpersnds;
+    private List<INodeExpression> _assignedOperands;
+    private Dictionary<IArithmeticOperator, List<int>> _operandsConnections;
+    
     private readonly int _curentOperatorPriority;
-    private Lookup<ArithmeticOperator, INodeExpression> _assignedOp;
+
     /// <summary xml:lang = "ru">
     /// Создает новый экземпляр типа <see cref="OperatorNodePrototype"/>.
     /// </summary>
@@ -18,60 +23,76 @@ public sealed class OperatorNodePrototype : IOperatorNode
     /// Арифметический оператор.
     /// </param>
     /// <exception cref="ArgumentNullException"/>
-    /// 
-    public OperatorNodePrototype(ArithmeticOperator baseOperator)
+    public OperatorNodePrototype(IArithmeticOperator baseOperator)
     {
         if (baseOperator.Priority == -1)
             throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
 
         _curentOperatorPriority = baseOperator.Priority;
-        _assignedOpersnds = new List<Tuple<ArithmeticOperator, INodeExpression>>();
+
+        _assignedOperands = new List<INodeExpression>();
+        _operandsConnections = new Dictionary<IArithmeticOperator, List<int>>();
     }
 
-    private OperatorNodePrototype(int curentOperatorPriority, IList<Tuple<ArithmeticOperator, INodeExpression>>? assignedOpersnds = null)
+    private OperatorNodePrototype(int curentOperatorPriority, ILookup<IArithmeticOperator, INodeExpression> assignedOperands = null)
     {
-        _assignedOpersnds = assignedOpersnds ?? new List<Tuple<ArithmeticOperator, INodeExpression>>();
         _curentOperatorPriority = curentOperatorPriority;
+
+        _assignedOperands = new List<INodeExpression>();
+        _operandsConnections = new Dictionary<IArithmeticOperator, List<int>>();
+
+        foreach (var elem in assignedOperands ?? Enumerable.Empty<INodeExpression>().ToLookup(x => (IArithmeticOperator)ArithmeticOperator.Empty,x => x))
+        {
+            foreach(var operand in elem)
+            {
+                _assignedOperands.Add(operand);
+
+                if (!_operandsConnections.ContainsKey(elem.Key))
+                {
+                    _operandsConnections[elem.Key] = new List<int>();
+                }
+
+                _operandsConnections[elem.Key].Add(_assignedOperands.Count - 1);
+            }
+        }
     }
 
     /// <inheritdoc/>
     public int Priority => _curentOperatorPriority;
     
     /// <inheritdoc/>
-    public INodeExpression MergeNodes(ArithmeticOperator @operator, INodeExpression node)
+    public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node)
     {
         if (@operator.Priority == -1)
             throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
         if (node is null)
             throw new ArgumentNullException($"Given node of {typeof(INodeExpression)} is null");
 
-        int operatorPriority = @operator.Priority;
-        
-        var newOperNode = (operatorPriority == node.Priority 
-            ? new OperatorNodePrototype(node.Priority,node.GetChildEntities()) 
-            : new OperatorNodePrototype(operatorPriority));
+        var newOperNode = new OperatorNodePrototype(@operator.Priority, @operator.Priority == node.Priority ? node.GetChildEntities() : null);
 
-        if (node.Priority != operatorPriority)
+        if (node.Priority != @operator.Priority)
             newOperNode.AddOperand(@operator,new OperatorNodePrototype(node.Priority,node.GetChildEntities()));
 
-        if (Priority == operatorPriority)
+        if (Priority == @operator.Priority)
         {
-            foreach(var elem in _assignedOpersnds)
+            foreach(var elem in _operandsConnections)
             {
-                newOperNode.AddOperand(elem.Item1, elem.Item2);
-                
+                foreach (var operandId in elem.Value)
+                {
+                    newOperNode.AddOperand(elem.Key, _assignedOperands[operandId]);
+                }
             }
         }
         else
         {
-            newOperNode.AddOperand(@operator, new OperatorNodePrototype(Priority,_assignedOpersnds));
+            newOperNode.AddOperand(@operator, this);
         }
 
         return newOperNode;
     }
 
     /// <inheritdoc/>
-    public void AddOperand(ArithmeticOperator @operator, INodeExpression operand)
+    public void AddOperand(IArithmeticOperator @operator, INodeExpression operand)
     {
         if (@operator.Priority == -1)
             throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
@@ -82,23 +103,50 @@ public sealed class OperatorNodePrototype : IOperatorNode
 
         if (@operator.Priority == Priority)
         {
-            _assignedOpersnds.Add(new Tuple<ArithmeticOperator, INodeExpression>(@operator, operand));
+            _assignedOperands.Add(operand);
+
+            if (!_operandsConnections.ContainsKey(@operator))
+            {
+                _operandsConnections[@operator] = new List<int>();
+            }
+            _operandsConnections[@operator].Add(_assignedOperands.Count);
+
             return;
         }
-        var lastNode = _assignedOpersnds.Last().Item2;
-        var lastOperator = _assignedOpersnds.Last().Item1;
-        _assignedOpersnds.RemoveAt(_assignedOpersnds.Count - 1);
+
+        var lastNode = _assignedOperands.Last();
 
         if (lastNode is IOperatorNode node)
             node.AddOperand(@operator, operand);
         else
             lastNode = lastNode.MergeNodes(@operator, operand);
 
-        _assignedOpersnds.Add(new Tuple<ArithmeticOperator, INodeExpression>(lastOperator, lastNode));
+        _assignedOperands[_assignedOperands.Count - 1] = lastNode;
     }
 
     /// <inheritdoc/>
-    public IList<Tuple<ArithmeticOperator, INodeExpression>> GetChildEntities() => _assignedOpersnds;
+    public ILookup<IArithmeticOperator, INodeExpression> GetChildEntities()
+    {
+        return _assignedOperands.ToLookup(o => foundOperator(o), o => o);
+
+        IArithmeticOperator foundOperator(INodeExpression node)
+        {
+            int curNodeIndex = _assignedOperands.IndexOf(node);
+
+            foreach (var elem in _operandsConnections)
+            {
+                foreach (var nodeIndex in elem.Value)
+                {
+                    if (nodeIndex == curNodeIndex)
+                    {
+                        return elem.Key;
+                    }
+                }
+            }
+
+            return ArithmeticOperator.Empty;
+        }
+    }
     
     /// <inheritdoc/>
     public override string ToString()

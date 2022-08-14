@@ -1,10 +1,12 @@
-﻿namespace QuickMaths.General.Enums;
+﻿using QuickMaths.General.Abstractions;
+
+namespace QuickMaths.General.Enums;
 
 //ToDo comments
 /// <summary>
 /// 
 /// </summary>
-public readonly struct ArithmeticOperator
+public readonly struct ArithmeticOperator : IArithmeticOperator
 {
     private static readonly ArithmeticOperator s_plusOperator;
     private static readonly ArithmeticOperator s_minusOperator;
@@ -62,22 +64,15 @@ public readonly struct ArithmeticOperator
         _charView = operatorCharView;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
+
+    /// <inheritdoc />
     public int Priority => _priority;
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <inheritdoc />
     public bool IsUnary => _isUnary;
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <inheritdoc />
     public bool IsBinary => _isBinary;
-    
-    /// <summary>
-    /// 
-    /// </summary>
+
+    /// <inheritdoc />
     public char CharView => _charView;
 }
 

@@ -19,6 +19,15 @@ public class TreeExpression<TEntity>
     /// <param name="rootEntity"></param>
     public TreeExpression(TEntity rootEntity) => _root = new EntityNode<TEntity>(rootEntity ?? throw new ArgumentNullException());
 
+    public TreeExpression(TEntity rootEntity, ArithmeticOperator rootUnaryOperator)
+    {
+        if (!rootUnaryOperator.IsUnary)
+            throw new ArgumentException();
+        var operatorNodeRoot = new OperatorNodePrototype(rootUnaryOperator);
+        operatorNodeRoot.AddOperand(rootUnaryOperator, new EntityNode<TEntity>(rootEntity ?? throw new ArgumentNullException()));
+        _root = operatorNodeRoot;
+    }
+
 /// <summary xml:lang = "ru">
 /// Добавляет новую сущность типа <typeparamref name="TEntity"/> в дерево с помощью оператора связи.
 /// </summary>

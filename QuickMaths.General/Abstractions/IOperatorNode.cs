@@ -13,5 +13,5 @@ public interface IOperatorNode : INodeExpression
     /// <param name="operand">Операнд</param>
     /// <param name="operator">Оператор</param>
     /// <exception cref="ArgumentNullException"></exception>
-    public void AddOperand(ArithmeticOperator @operator, INodeExpression operand);
+    public void AddOperand(IArithmeticOperator @operator, INodeExpression operand);
 }

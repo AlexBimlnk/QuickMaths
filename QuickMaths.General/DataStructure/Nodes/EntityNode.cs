@@ -27,15 +27,11 @@ public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
     public int Priority => ArithmeticOperator.Empty.Priority;
 
     /// <inheritdoc/>
-    public IList<Tuple<ArithmeticOperator, INodeExpression>> GetChildEntities()
-    {
-        var entityList = new List<Tuple<ArithmeticOperator, INodeExpression>>(1);
-        entityList.Add(new Tuple<ArithmeticOperator, INodeExpression>(ArithmeticOperator.Empty, new EntityNode<TEntity>(Source)));
-        return entityList;
-    }
+    public ILookup<IArithmeticOperator, INodeExpression> GetChildEntities() =>
+        new List<INodeExpression>(1).Append(new EntityNode<TEntity>(Source)).ToLookup(o => (IArithmeticOperator)ArithmeticOperator.Empty);
        
     /// <inheritdoc/>
-    public INodeExpression MergeNodes(ArithmeticOperator @operator, INodeExpression node)
+    public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node)
     {
         if (@operator.Priority == -1)
             throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
