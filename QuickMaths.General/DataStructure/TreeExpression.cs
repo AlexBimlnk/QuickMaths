@@ -13,53 +13,19 @@ public class TreeExpression<TEntity>
 {
     private INodeExpression _root;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="rootEntity"></param>
-    public TreeExpression(TEntity rootEntity) => _root = new EntityNode<TEntity>(rootEntity ?? throw new ArgumentNullException());
-
-    public TreeExpression(TEntity rootEntity, ArithmeticOperator rootUnaryOperator)
+    public TreeExpression(TEntity rootEntity, IArithmeticOperator? rootUnaryOperator = null) => SetRoot(rootEntity, rootUnaryOperator);
+        
+    public virtual void SetRoot(TEntity rootEntity, IArithmeticOperator? rootUnaryOperator = null)
     {
-        if (!rootUnaryOperator.IsUnary)
-            throw new ArgumentException();
-        var operatorNodeRoot = new OperatorNodePrototype(rootUnaryOperator);
-        operatorNodeRoot.AddOperand(rootUnaryOperator, new EntityNode<TEntity>(rootEntity ?? throw new ArgumentNullException()));
-        _root = operatorNodeRoot;
+        _root = (rootUnaryOperator ?? ArithmeticOperator.None) switch
+        {
+            { IsUnary: false } => throw new ArgumentException(),
+            { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } =>
+                new EntityNode<TEntity>(rootEntity ?? throw new ArgumentNullException()),
+            _ => new OperatorNodePrototype(rootUnaryOperator)
+                .AppendOperand(rootUnaryOperator, new EntityNode<TEntity>(rootEntity ?? throw new ArgumentNullException()))
+        };
     }
-
-/// <summary xml:lang = "ru">
-/// Добавляет новую сущность типа <typeparamref name="TEntity"/> в дерево с помощью оператора связи.
-/// </summary>
-/// <param name="operator" xml:lang = "ru">
-/// Математический оператор, опряделяющий связь.
-/// </param>
-/// <param name="entity" xml:lang = "ru">
-/// Сущность, которую нужно добавить в дерево.
-/// </param>
-/// <exception cref="NullReferenceException"></exception>
-/// <exception cref="ArgumentNullException"></exception>
-public virtual void Add(ArithmeticOperator @operator, TEntity entity)
-    {
-        if (entity is null)
-            throw new ArgumentNullException($"Given entity to add of {typeof(TEntity)} is null");
-        if (@operator.Priority == -1)
-            throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
-
-        if (_root is IEntityNode<TEntity>)
-            _root = _root.MergeNodes(@operator, new EntityNode<TEntity>(entity));
-        else
-            ((IOperatorNode)_root).AddOperand(@operator, new EntityNode<TEntity>(entity));
-    }
-    /// <summary>
-    /// Установка корневого узла в дереве
-    /// </summary>
-    /// <param name="rootEntity">сущность</param>
-    /// <exception cref="NullReferenceException"></exception>
-    /// <exception cref="ArgumentNullException"></exception>
-    public virtual void SetRoot(TEntity rootEntity) => 
-        _root = new EntityNode<TEntity>(
-            rootEntity ?? throw new ArgumentNullException($"Given root entity of {typeof(TEntity)} is null"));
 
     /// <summary xml:lang = "ru">
     /// Добавляет дерево выражений, наполненное сущностями типа <typeparamref name="TEntity"/>
@@ -88,5 +54,10 @@ public virtual void Add(ArithmeticOperator @operator, TEntity entity)
         
     
     /// <inheritdoc/>
-    public override string ToString() => _root.ToString();
+    public override string ToString() => _root.ToString()!;
+
+    public string GetStringView()
+    {
+
+    }
 }
