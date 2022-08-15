@@ -28,30 +28,16 @@ public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
 
     /// <inheritdoc/>
     public ILookup<IArithmeticOperator, INodeExpression> GetChildEntities() =>
-        new List<INodeExpression>(1).Append(new EntityNode<TEntity>(Source)).ToLookup(o => (IArithmeticOperator)ArithmeticOperator.None);
+        new List<INodeExpression>(1).Append(new EntityNode<TEntity>(Source)).ToLookup(o => ArithmeticOperator.None);
        
     /// <inheritdoc/>
-    public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node)
-    {
-        if (@operator.Priority == -1)
-            throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
-        if (node is null)
-            throw new ArgumentNullException($"Given node of {typeof(INodeExpression)} is null");
-
-        if (node.Priority == @operator.Priority)
+    public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node) =>
+        @operator switch
         {
-            return node.MergeNodes(@operator, new EntityNode<TEntity>(Source));
-        }
-        else
-        {
-            var newOperNode = new OperatorNodePrototype(@operator);
-
-            newOperNode.AddOperand(@operator, node);
-            newOperNode.AddOperand(@operator, new EntityNode<TEntity>(Source));
-            
-            return newOperNode;
-        }
-    }
+            { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } => throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None"),
+            _ when node is null => throw new ArgumentNullException($"Given node of {typeof(INodeExpression)} is null"),
+            _ => new OperatorNodePrototype(@operator).AppendOperand(ArithmeticOperator.None, this).AppendOperand(@operator, node)
+        };
     /// <inheritdoc/>
     public override string ToString() =>
         Source.ToString()!;

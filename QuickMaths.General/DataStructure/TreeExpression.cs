@@ -39,20 +39,29 @@ public class TreeExpression<TEntity>
     /// </param>
     /// <exception cref="NullReferenceException"></exception>
     /// <exception cref="ArgumentNullException"></exception>
-    public virtual void Add(ArithmeticOperator @operator, TreeExpression<TEntity> entity)
-    {
-        if (@operator.Priority == -1)
-            throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
-        if (entity is null)
-            throw new ArgumentNullException($"Given {typeof(TreeExpression<TEntity>)} is null");
-
-        _root = _root
+    public virtual void Add(IArithmeticOperator @operator, TreeExpression<TEntity> entity) =>
+        _root = @operator switch
+        {
+            { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } =>
+                throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None"),
+            _ when entity is null => throw new ArgumentNullException(nameof(entity)),
+            _ => _root
             .MergeNodes(
                 @operator,
-                entity._root);
-    }
-        
-    
+                entity._root)
+        };
+
+    public virtual void Add(IArithmeticOperator @operator, TEntity? entity) =>
+        _root = @operator switch
+        {
+            { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } =>
+                throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None"),
+            _ => _root
+            .MergeNodes(
+                @operator,
+                new EntityNode<TEntity>(entity ?? throw new ArgumentNullException($"Given {typeof(TreeExpression<TEntity>)} is null")))
+        };
+
     /// <inheritdoc/>
     public override string ToString() => _root.ToString()!;
 

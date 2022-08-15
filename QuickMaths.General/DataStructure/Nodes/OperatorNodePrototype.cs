@@ -74,7 +74,7 @@ public sealed class OperatorNodePrototype : IOperatorNode
     public void AddOperand(IArithmeticOperator @operator, INodeExpression operand)
     {
         if (@operator.Priority == -1)
-            throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
+            @operator = ArithmeticOperator.GetDefaultOperator(_curentOperatorPriority);
         if (operand is null)
             throw new ArgumentNullException($"Given operand of {typeof(INodeExpression)} is null");
         if (@operator.Priority != Priority)

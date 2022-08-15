@@ -72,6 +72,26 @@ public readonly struct ArithmeticOperator : IArithmeticOperator
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="operatorPriority"></param>
+    /// <returns></returns>
+    public static IArithmeticOperator GetDefaultOperator(int operatorPriority)
+    {
+        switch(operatorPriority)
+        {
+            case PLUS_MINUS_OPERATORS_PRIORITY_VALUE:
+                return Plus;
+            case MULTIPLY_DIVIDE_OPERATOR_PRIORITY_VALUE:
+                return Multiply;
+            case POWER_OPERATOR_PRIORITY_VALUE:
+                return Power;
+            default:
+                return None;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static IArithmeticOperator Plus => s_plusOperator;
     /// <summary>
     /// 
