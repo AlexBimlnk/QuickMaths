@@ -25,8 +25,9 @@ public sealed class OperatorNodePrototype : IOperatorNode
     /// <exception cref="ArgumentNullException"/>
     public OperatorNodePrototype(IArithmeticOperator baseOperator)
     {
+        ArgumentNullException.ThrowIfNull(baseOperator, nameof(baseOperator));
         if (baseOperator.Priority == -1)
-            throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
+            throw new ArgumentException($"Given {nameof(baseOperator)} is {nameof(ArithmeticOperator.None)}");
 
         _curentOperatorPriority = baseOperator.Priority;
 
@@ -62,25 +63,26 @@ public sealed class OperatorNodePrototype : IOperatorNode
 
     /// <inheritdoc/>
     public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node) =>
-        ((@operator ?? throw new ArgumentException()) switch
+        ((@operator ?? throw new ArgumentNullException($"{nameof(@operator)}")) switch
         {
             { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE }
-                => throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None"),
+                => throw new ArgumentException($"Given {nameof(@operator)} is {nameof(ArithmeticOperator.None)}"),
             _ when Priority.Equals(@operator.Priority) => this,
             _ => new OperatorNodePrototype(@operator.Priority).AppendOperand(@operator, this)
-        }).AppendOperand(@operator, node ?? throw new ArgumentNullException($"Given node of {typeof(INodeExpression)} is null"));
+        }).AppendOperand(@operator, node ?? throw new ArgumentNullException(nameof(node)));
 
     /// <inheritdoc/>
     public void AddOperand(IArithmeticOperator @operator, INodeExpression operand)
     {
         if (@operator.Priority == -1)
             @operator = ArithmeticOperator.GetDefaultOperator(_curentOperatorPriority);
-        if (operand is null)
-            throw new ArgumentNullException($"Given operand of {typeof(INodeExpression)} is null");
+
+        ArgumentNullException.ThrowIfNull(operand, nameof(operand));
+
         if (@operator.Priority != Priority)
-            throw new ArgumentException($"Incorrect given {typeof(ArithmeticOperator)} priority");
+            throw new ArgumentException($"Incorrect {nameof(@operator.Priority)} of given {nameof(@operator)}");
         if (!@operator.IsUnary && _assignedOperands.Count == 0)
-            throw new ArgumentException($"");
+            throw new ArgumentException($"Given {nameof(@operator)} can't be unary");
 
         if (operand.Priority == Priority)
         {

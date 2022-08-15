@@ -35,8 +35,8 @@ public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
     public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node) =>
         @operator switch
         {
-            { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } => throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None"),
-            _ when node is null => throw new ArgumentNullException($"Given node of {typeof(INodeExpression)} is null"),
+            { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } => throw new ArgumentException($"Given {nameof(@operator)} is {nameof(ArithmeticOperator.None)}"),
+            _ when node is null => throw new ArgumentNullException(nameof(node)),
             _ => new OperatorNodePrototype(@operator).AppendOperand(ArithmeticOperator.None, this).AppendOperand(@operator, node)
         };
     /// <inheritdoc/>

@@ -19,11 +19,11 @@ public class TreeExpression<TEntity>
     {
         _root = (rootUnaryOperator ?? ArithmeticOperator.None) switch
         {
-            { IsUnary: false } => throw new ArgumentException(),
+            { IsUnary: false } => throw new ArgumentException("Not unary operator was given."),
             { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } =>
-                new EntityNode<TEntity>(rootEntity ?? throw new ArgumentNullException()),
+                new EntityNode<TEntity>(rootEntity ?? throw new ArgumentNullException(nameof(rootEntity))),
             _ => new OperatorNodePrototype(rootUnaryOperator)
-                .AppendOperand(rootUnaryOperator, new EntityNode<TEntity>(rootEntity ?? throw new ArgumentNullException()))
+                .AppendOperand(rootUnaryOperator, new EntityNode<TEntity>(rootEntity ?? throw new ArgumentNullException(nameof(rootEntity))))
         };
     }
 
@@ -43,7 +43,7 @@ public class TreeExpression<TEntity>
         _root = @operator switch
         {
             { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } =>
-                throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None"),
+                throw new ArgumentException($"Given {nameof(@operator)} is {nameof(ArithmeticOperator.None)}"),
             _ when entity is null => throw new ArgumentNullException(nameof(entity)),
             _ => _root
             .MergeNodes(
@@ -55,11 +55,11 @@ public class TreeExpression<TEntity>
         _root = @operator switch
         {
             { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } =>
-                throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None"),
+                throw new ArgumentException($"Given {nameof(@operator)} is {nameof(ArithmeticOperator.None)}"),
             _ => _root
             .MergeNodes(
                 @operator,
-                new EntityNode<TEntity>(entity ?? throw new ArgumentNullException($"Given {typeof(TreeExpression<TEntity>)} is null")))
+                new EntityNode<TEntity>(entity ?? throw new ArgumentNullException(nameof(entity))))
         };
 
     /// <inheritdoc/>

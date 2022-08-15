@@ -41,21 +41,17 @@ public struct ArithmeticOperator : IArithmeticOperator
         s_noneOperator = new ArithmeticOperator(NONE_OPERATOR_PRIORITY_VALUE,false, true, NONE_OPERATOR_CHAR_VIEW, true);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="firstOperator"></param>
-    /// <param name="secondOperator"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
     public static IArithmeticOperator MergeOperator(IArithmeticOperator firstOperator, IArithmeticOperator secondOperator)
     {
+        ArgumentNullException.ThrowIfNull(firstOperator, nameof(firstOperator));
+        ArgumentNullException.ThrowIfNull(secondOperator, nameof(secondOperator));
+
         if (firstOperator.Priority != secondOperator.Priority)
-            throw new ArgumentException();
+            throw new ArgumentException($"{nameof(firstOperator)} and {nameof(secondOperator)} has different {nameof(Priority)}");
         
         return firstOperator switch
         {
-            { Priority: NONE_OPERATOR_PRIORITY_VALUE } => throw new ArgumentException(),
+            { Priority: NONE_OPERATOR_PRIORITY_VALUE } => throw new ArgumentException($"Given {nameof(firstOperator)} and {secondOperator} are {nameof(None)}"),
             { Priority: PLUS_MINUS_OPERATORS_PRIORITY_VALUE } =>
                 firstOperator.CharView == MINUS_OPERATOR_CHAR_VIEW || secondOperator.CharView == MINUS_OPERATOR_CHAR_VIEW
                     ? Minus
@@ -65,7 +61,7 @@ public struct ArithmeticOperator : IArithmeticOperator
                     ? Multiply
                     : Divide,
             { Priority: POWER_OPERATOR_PRIORITY_VALUE } => Power,
-            _ => throw new ArgumentException(),
+            _ => throw new ArgumentException($"Given operators with incorect {nameof(Priority)}"),
         };
     }
 
