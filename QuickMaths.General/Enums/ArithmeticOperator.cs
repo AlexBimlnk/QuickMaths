@@ -6,7 +6,7 @@ namespace QuickMaths.General.Enums;
 /// <summary>
 /// 
 /// </summary>
-public readonly struct ArithmeticOperator : IArithmeticOperator
+public struct ArithmeticOperator : IArithmeticOperator
 {
     private static readonly ArithmeticOperator s_plusOperator;
     private static readonly ArithmeticOperator s_minusOperator;
@@ -33,12 +33,12 @@ public readonly struct ArithmeticOperator : IArithmeticOperator
 
     static ArithmeticOperator()
     {
-        s_plusOperator = new ArithmeticOperator(PLUS_MINUS_OPERATORS_PRIORITY_VALUE, true, true, PLUS_OPERATOR_CHAR_VIEW);
-        s_minusOperator = new ArithmeticOperator(PLUS_MINUS_OPERATORS_PRIORITY_VALUE, true, true, MINUS_OPERATOR_CHAR_VIEW);
-        s_multiplyOperator = new ArithmeticOperator(MULTIPLY_DIVIDE_OPERATOR_PRIORITY_VALUE, true, true, MULTIPLY_OPERATOR_CHAR_VIEW);
-        s_divideOperator = new ArithmeticOperator(MULTIPLY_DIVIDE_OPERATOR_PRIORITY_VALUE, true, false, DIVIDE_OPERATOR_CHAR_VIEW);
-        s_powerOperator = new ArithmeticOperator(POWER_OPERATOR_PRIORITY_VALUE, true, false, POWER_OPERATOR_CHAR_VIEW);
-        s_noneOperator = new ArithmeticOperator();
+        s_plusOperator = new ArithmeticOperator(PLUS_MINUS_OPERATORS_PRIORITY_VALUE, true, true, PLUS_OPERATOR_CHAR_VIEW, true);
+        s_minusOperator = new ArithmeticOperator(PLUS_MINUS_OPERATORS_PRIORITY_VALUE, true, true, MINUS_OPERATOR_CHAR_VIEW, false);
+        s_multiplyOperator = new ArithmeticOperator(MULTIPLY_DIVIDE_OPERATOR_PRIORITY_VALUE, true, true, MULTIPLY_OPERATOR_CHAR_VIEW, true);
+        s_divideOperator = new ArithmeticOperator(MULTIPLY_DIVIDE_OPERATOR_PRIORITY_VALUE, true, false, DIVIDE_OPERATOR_CHAR_VIEW,false);
+        s_powerOperator = new ArithmeticOperator(POWER_OPERATOR_PRIORITY_VALUE, true, false, POWER_OPERATOR_CHAR_VIEW, false);
+        s_noneOperator = new ArithmeticOperator(NONE_OPERATOR_PRIORITY_VALUE,false, true, NONE_OPERATOR_CHAR_VIEW, true);
     }
 
     /// <summary>
@@ -115,19 +115,20 @@ public readonly struct ArithmeticOperator : IArithmeticOperator
     /// </summary>
     public static IArithmeticOperator None => s_noneOperator;
 
-    private readonly int _priority = NONE_OPERATOR_PRIORITY_VALUE;
-    private readonly bool _isUnary = true;
-    private readonly bool _isBinary = false;
-    private readonly char _charView = NONE_OPERATOR_CHAR_VIEW;
-    
-    private ArithmeticOperator(int operatorPriority, bool isOperatorIsBinary, bool isOperatorIsUnary, char operatorCharView)
+    private readonly int _priority;
+    private readonly bool _isUnary;
+    private readonly bool _isBinary;
+    private readonly char _charView;
+    private readonly bool _isSkipOnBeginInStringView;
+
+    private ArithmeticOperator(int operatorPriority, bool isOperatorIsBinary, bool isOperatorIsUnary, char operatorCharView, bool isSkipOnBeginInStringView)
     {
         _priority = operatorPriority;
         _isBinary = isOperatorIsBinary;
         _isUnary = isOperatorIsUnary;
         _charView = operatorCharView;
+        _isSkipOnBeginInStringView = isSkipOnBeginInStringView;
     }
-
 
     /// <inheritdoc />
     public int Priority => _priority;
@@ -135,9 +136,10 @@ public readonly struct ArithmeticOperator : IArithmeticOperator
     public bool IsUnary => _isUnary;
     /// <inheritdoc />
     public bool IsBinary => _isBinary;
-
     /// <inheritdoc />
     public char CharView => _charView;
+    /// <inheritdoc />
+    public bool IsSkipOnBeginInStringView => _isSkipOnBeginInStringView;
 }
 
 /*public enum EArithmeticOperator

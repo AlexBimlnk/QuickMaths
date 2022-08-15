@@ -29,7 +29,8 @@ public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
     /// <inheritdoc/>
     public ILookup<IArithmeticOperator, INodeExpression> GetChildEntities() =>
         new List<INodeExpression>(1).Append(new EntityNode<TEntity>(Source)).ToLookup(o => ArithmeticOperator.None);
-       
+    
+
     /// <inheritdoc/>
     public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node) =>
         @operator switch
@@ -41,5 +42,10 @@ public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
     /// <inheritdoc/>
     public override string ToString() =>
         Source.ToString()!;
-    
+
+    /// <inheritdoc/>
+    public string GetStringView() => 
+        Source.ToString()!;
+
+
 }

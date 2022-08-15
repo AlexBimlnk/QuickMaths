@@ -65,8 +65,9 @@ public class TreeExpression<TEntity>
     /// <inheritdoc/>
     public override string ToString() => _root.ToString()!;
 
-    public string GetStringView()
-    {
-
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public string GetStringView() => _root.GetStringView();
 }

@@ -27,4 +27,6 @@ public interface IArithmeticOperator
     /// </summary>
     public char CharView { get; }
 
+    public bool IsSkipOnBeginInStringView { get; }
+
 }

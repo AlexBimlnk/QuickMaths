@@ -24,4 +24,10 @@ public interface INodeExpression
     /// <param name="node">узел который добавляет к текущему</param>
     /// <returns></returns>
     public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public string GetStringView();
 }
