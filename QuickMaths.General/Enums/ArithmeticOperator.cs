@@ -2,9 +2,8 @@
 
 namespace QuickMaths.General.Enums;
 
-//ToDo comments
 /// <summary>
-/// 
+/// Значимый тип описывающий произвольный математический оператор.
 /// </summary>
 public struct ArithmeticOperator : IArithmeticOperator
 {
@@ -20,7 +19,7 @@ public struct ArithmeticOperator : IArithmeticOperator
     private const int POWER_OPERATOR_PRIORITY_VALUE = 3;
 
     /// <summary>
-    /// 
+    /// Приоритет пустого оператора.
     /// </summary>
     public const int NONE_OPERATOR_PRIORITY_VALUE = -1;
 
@@ -40,7 +39,21 @@ public struct ArithmeticOperator : IArithmeticOperator
         s_powerOperator = new ArithmeticOperator(POWER_OPERATOR_PRIORITY_VALUE, true, false, POWER_OPERATOR_CHAR_VIEW, false);
         s_noneOperator = new ArithmeticOperator(NONE_OPERATOR_PRIORITY_VALUE,false, true, NONE_OPERATOR_CHAR_VIEW, true);
     }
-
+    /// <summary>
+    /// Объединение двух операторов одного приоритета в один в соответствии с правилами математики.
+    /// <list>
+    /// <listheader>Правила, по которым происходят слияния:</listheader>
+    /// <item>(+,-) -> -</item> 
+    /// <item>(-,-) -> +</item> 
+    /// <item>(*,/) -> /</item> 
+    /// <item>(*,/) -> /</item> 
+    /// <item> (/,/) -> *</item> 
+    /// </list>
+    /// </summary>
+    /// <param name="firstOperator">Первый оператор для объединения</param>
+    /// <param name="secondOperator">Второй оператор для объединения</param>
+    /// <returns>Полученный опретор полсе объединения двух, переданных в метод.</returns>
+    /// <exception cref="ArgumentException">Если переданны операторы разного приоритета или пустые или не являющиеся стандартынми математическими операторами.</exception>
     public static IArithmeticOperator MergeOperator(IArithmeticOperator firstOperator, IArithmeticOperator secondOperator)
     {
         ArgumentNullException.ThrowIfNull(firstOperator, nameof(firstOperator));
@@ -53,9 +66,9 @@ public struct ArithmeticOperator : IArithmeticOperator
         {
             { Priority: NONE_OPERATOR_PRIORITY_VALUE } => throw new ArgumentException($"Given {nameof(firstOperator)} and {secondOperator} are {nameof(None)}"),
             { Priority: PLUS_MINUS_OPERATORS_PRIORITY_VALUE } =>
-                firstOperator.CharView == MINUS_OPERATOR_CHAR_VIEW || secondOperator.CharView == MINUS_OPERATOR_CHAR_VIEW
-                    ? Minus
-                    : Plus,
+                firstOperator.CharView == MINUS_OPERATOR_CHAR_VIEW ^ secondOperator.CharView == MINUS_OPERATOR_CHAR_VIEW
+                    ? Plus
+                    : Minus,
             { Priority: MULTIPLY_DIVIDE_OPERATOR_PRIORITY_VALUE } =>
                 firstOperator.CharView == MULTIPLY_OPERATOR_CHAR_VIEW ^ secondOperator.CharView == MULTIPLY_OPERATOR_CHAR_VIEW
                     ? Multiply
@@ -66,10 +79,10 @@ public struct ArithmeticOperator : IArithmeticOperator
     }
 
     /// <summary>
-    /// 
+    /// Получение стандартного оператора для соответвующего приоритета.
     /// </summary>
-    /// <param name="operatorPriority"></param>
-    /// <returns></returns>
+    /// <param name="operatorPriority">Приоритет для опредления группы операторов.</param>
+    /// <returns>Стандартный оператор для группы соответсвующей данному приоритету.</returns>
     public static IArithmeticOperator GetDefaultOperator(int operatorPriority)
     {
         switch(operatorPriority)
@@ -86,28 +99,28 @@ public struct ArithmeticOperator : IArithmeticOperator
     }
 
     /// <summary>
-    /// 
+    /// Предсталвяет стандартный математический оператор - Плюс.
     /// </summary>
     public static IArithmeticOperator Plus => s_plusOperator;
     /// <summary>
-    /// 
+    /// Предсталвяет стандартный математический оператор - Минус.
     /// </summary>
     public static IArithmeticOperator Minus => s_minusOperator;
     /// <summary>
-    /// 
+    /// Предсталвяет стандартный математический оператор - Умножить.
     /// </summary>
     public static IArithmeticOperator Multiply => s_multiplyOperator;
     /// <summary>
-    /// 
+    /// Предсталвяет стандартный математический оператор - Разделить.
     /// </summary>
     public static IArithmeticOperator Divide => s_divideOperator;
     /// <summary>
-    /// 
+    /// Предсталвяет стандартный математический оператор - Возвести в степень.
     /// </summary>
     public static IArithmeticOperator Power => s_powerOperator;
 
     /// <summary>
-    /// 
+    /// Предсталвяет математический пустой математический оператор.
     /// </summary>
     public static IArithmeticOperator None => s_noneOperator;
 

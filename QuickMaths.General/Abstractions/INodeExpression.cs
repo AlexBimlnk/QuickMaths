@@ -8,26 +8,26 @@ namespace QuickMaths.General.Abstractions;
 public interface INodeExpression
 {
     /// <summary xml:lang = "ru">
-    /// Возвращает список всех узлов-потомков для данного узла
+    /// Возвращает список всех узлов-потомков с соответсующими операторами.
     /// </summary>
     /// <returns>Список всех узлов-потомков с их операторами</returns>
     public ILookup<IArithmeticOperator,INodeExpression> GetChildEntities();
     /// <summary xml:lang = "ru">
-    /// Приоритет узла
+    /// Значение определяющее по какой группе операторов строятсят связи.
     /// </summary>
     public int Priority { get; }
 
     /// <summary xml:lang = "ru">
-    /// Объединяет текущем узел с заданным по оператору
+    /// Производит слияние двух узлов по связи задаваемой оператором.
     /// </summary>
-    /// <param name="operator">оператор по которому проводится объединение</param>
-    /// <param name="node">узел который добавляет к текущему</param>
+    /// <param name="operator">Оператор, оперделяющий связь между узлами.</param>
+    /// <param name="node">Узел, который будет добавлен к текущему.</param>
     /// <returns></returns>
     public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node);
 
     /// <summary>
-    /// 
+    /// Получение строкового представления узла и всех хранящихся внутри него узлов потомков.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Строковое представление.</returns>
     public string GetStringView();
 }

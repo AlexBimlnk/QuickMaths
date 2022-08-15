@@ -20,7 +20,7 @@ public sealed class OperatorNodePrototype : IOperatorNode
     /// Создает новый экземпляр типа <see cref="OperatorNodePrototype"/>.
     /// </summary>
     /// <param name="baseOperator" xml:lang = "ru">
-    /// Арифметический оператор.
+    /// Арифметический оператор, оперделяющий группу операторов с использованием которой будут строиться все новый связи между узлами-потомками.
     /// </param>
     /// <exception cref="ArgumentNullException"/>
     public OperatorNodePrototype(IArithmeticOperator baseOperator)
