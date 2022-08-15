@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Xml.Linq;
 
 using QuickMaths.General.Abstractions;
@@ -11,9 +12,8 @@ namespace QuickMaths.General.DataStructure.Nodes;
 /// </summary>
 public sealed class OperatorNodePrototype : IOperatorNode
 {
-    private List<INodeExpression> _assignedOperands;
-    private Dictionary<IArithmeticOperator, List<int>> _operandsConnections;
-    
+    private readonly List<INodeExpression> _assignedOperands;
+    private readonly Dictionary<IArithmeticOperator, List<int>> _operandsConnections;
     private readonly int _curentOperatorPriority;
 
     /// <summary xml:lang = "ru">
@@ -34,14 +34,14 @@ public sealed class OperatorNodePrototype : IOperatorNode
         _operandsConnections = new Dictionary<IArithmeticOperator, List<int>>();
     }
 
-    private OperatorNodePrototype(int curentOperatorPriority, ILookup<IArithmeticOperator, INodeExpression> assignedOperands = null)
+    private OperatorNodePrototype(int curentOperatorPriority, ILookup<IArithmeticOperator, INodeExpression>? assignedOperands = null)
     {
         _curentOperatorPriority = curentOperatorPriority;
 
         _assignedOperands = new List<INodeExpression>();
         _operandsConnections = new Dictionary<IArithmeticOperator, List<int>>();
 
-        foreach (var elem in assignedOperands ?? Enumerable.Empty<INodeExpression>().ToLookup(x => (IArithmeticOperator)ArithmeticOperator.Empty,x => x))
+        foreach (var elem in assignedOperands ?? Enumerable.Empty<INodeExpression>().ToLookup(x => ArithmeticOperator.None,x => x))
         {
             foreach(var operand in elem)
             {
@@ -61,35 +61,14 @@ public sealed class OperatorNodePrototype : IOperatorNode
     public int Priority => _curentOperatorPriority;
     
     /// <inheritdoc/>
-    public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node)
-    {
-        if (@operator.Priority == -1)
-            throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
-        if (node is null)
-            throw new ArgumentNullException($"Given node of {typeof(INodeExpression)} is null");
-
-        var newOperNode = new OperatorNodePrototype(@operator.Priority, @operator.Priority == node.Priority ? node.GetChildEntities() : null);
-
-        if (node.Priority != @operator.Priority)
-            newOperNode.AddOperand(@operator,new OperatorNodePrototype(node.Priority,node.GetChildEntities()));
-
-        if (Priority == @operator.Priority)
+    public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node) =>
+        ((@operator ?? throw new ArgumentException()) switch
         {
-            foreach(var elem in _operandsConnections)
-            {
-                foreach (var operandId in elem.Value)
-                {
-                    newOperNode.AddOperand(elem.Key, _assignedOperands[operandId]);
-                }
-            }
-        }
-        else
-        {
-            newOperNode.AddOperand(@operator, this);
-        }
-
-        return newOperNode;
-    }
+            { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } 
+                => throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None"),
+            _ when Priority.Equals(@operator.Priority) => this,
+            _ => new OperatorNodePrototype(@operator.Priority).AppendOperand(@operator, this)
+        }).AppendOperand(@operator, node ?? throw new ArgumentNullException($"Given node of {typeof(INodeExpression)} is null"));
 
     /// <inheritdoc/>
     public void AddOperand(IArithmeticOperator @operator, INodeExpression operand)
@@ -98,30 +77,30 @@ public sealed class OperatorNodePrototype : IOperatorNode
             throw new ArgumentException($"Given {typeof(ArithmeticOperator)} is None");
         if (operand is null)
             throw new ArgumentNullException($"Given operand of {typeof(INodeExpression)} is null");
-        if (@operator.Priority < Priority)
+        if (@operator.Priority != Priority)
             throw new ArgumentException($"Incorrect given {typeof(ArithmeticOperator)} priority");
 
-        if (@operator.Priority == Priority)
+        if(operand.Priority == Priority)
         {
+            foreach (var elem in operand.GetChildEntities())
+            {
+                foreach (var node in elem)
+                {
+                    AddOperand(ArithmeticOperator.MergeOperator(elem.Key,@operator), node);
+                }
+            }
+        }
+        else
+        {
+            // Potential compositing
+
             _assignedOperands.Add(operand);
 
             if (!_operandsConnections.ContainsKey(@operator))
-            {
                 _operandsConnections[@operator] = new List<int>();
-            }
-            _operandsConnections[@operator].Add(_assignedOperands.Count);
 
-            return;
+            _operandsConnections[@operator].Add(_assignedOperands.Count - 1);
         }
-
-        var lastNode = _assignedOperands.Last();
-
-        if (lastNode is IOperatorNode node)
-            node.AddOperand(@operator, operand);
-        else
-            lastNode = lastNode.MergeNodes(@operator, operand);
-
-        _assignedOperands[_assignedOperands.Count - 1] = lastNode;
     }
 
     /// <inheritdoc/>
@@ -144,19 +123,29 @@ public sealed class OperatorNodePrototype : IOperatorNode
                 }
             }
 
-            return ArithmeticOperator.Empty;
+            return ArithmeticOperator.None;
         }
     }
     
     /// <inheritdoc/>
     public override string ToString()
     {
-        var stringBuilder = new System.Text.StringBuilder(" ");
-        foreach(var op in _assignedOpersnds)
+        var stringBuilder = new System.Text.StringBuilder("_");
+        foreach(var operands in _operandsConnections)
         {
-            stringBuilder.Append($"_{op.Item1.CharView}_{op.Item2}_");
+            foreach(var operand in operands.Value)
+            {
+                stringBuilder.Append($" {operands.Key.CharView} {operand}");
+            }
         }
-        stringBuilder.Append(" ");
+        stringBuilder.Append("_");
         return stringBuilder.ToString();
+    }
+
+    /// <inheritdoc/>
+    public IOperatorNode AppendOperand(IArithmeticOperator @operator, INodeExpression operand)
+    {
+        AddOperand(@operator, operand);
+        return this;
     }
 }

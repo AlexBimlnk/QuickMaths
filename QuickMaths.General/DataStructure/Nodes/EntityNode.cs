@@ -24,11 +24,11 @@ public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
     public TEntity Source { get; }
 
     /// <inheritdoc/>
-    public int Priority => ArithmeticOperator.Empty.Priority;
+    public int Priority => ArithmeticOperator.None.Priority;
 
     /// <inheritdoc/>
     public ILookup<IArithmeticOperator, INodeExpression> GetChildEntities() =>
-        new List<INodeExpression>(1).Append(new EntityNode<TEntity>(Source)).ToLookup(o => (IArithmeticOperator)ArithmeticOperator.Empty);
+        new List<INodeExpression>(1).Append(new EntityNode<TEntity>(Source)).ToLookup(o => (IArithmeticOperator)ArithmeticOperator.None);
        
     /// <inheritdoc/>
     public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node)
