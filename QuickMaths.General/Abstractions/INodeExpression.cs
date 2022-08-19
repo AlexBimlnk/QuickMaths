@@ -10,7 +10,7 @@ public interface INodeExpression
     /// <summary xml:lang = "ru">
     /// Возвращает список всех узлов-потомков с соответсующими операторами.
     /// </summary>
-    /// <returns>Список всех узлов-потомков с их операторами</returns>
+    /// <returns xml:lang = "ru">Список всех узлов-потомков с их операторами</returns>
     public ILookup<IArithmeticOperator,INodeExpression> GetChildEntities();
     /// <summary xml:lang = "ru">
     /// Значение определяющее по какой группе операторов строятсят связи.
@@ -20,14 +20,14 @@ public interface INodeExpression
     /// <summary xml:lang = "ru">
     /// Производит слияние двух узлов по связи задаваемой оператором.
     /// </summary>
-    /// <param name="operator">Оператор, оперделяющий связь между узлами.</param>
-    /// <param name="node">Узел, который будет добавлен к текущему.</param>
-    /// <returns></returns>
+    /// <param name="operator" xml:lang = "ru">Оператор, оперделяющий связь между узлами.</param>
+    /// <param name="node" xml:lang = "ru">Узел, который будет добавлен к текущему.</param>
+    /// <returns xml:lang = "ru"></returns>
     public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node);
 
-    /// <summary>
+    /// <summary xml:lang = "ru">
     /// Получение строкового представления узла и всех хранящихся внутри него узлов потомков.
     /// </summary>
-    /// <returns>Строковое представление.</returns>
+    /// <returns xml:lang = "ru">Строковое представление.</returns>
     public string GetStringView();
 }

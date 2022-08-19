@@ -96,10 +96,10 @@ internal class Program
         tree2.Add(ArithmeticOperator.Multiply, c);
         tree2.Add(ArithmeticOperator.Multiply, d);
 
-        var tree2_1 = new TreeExpression<IFunction>(d);
-        tree2_1.Add(ArithmeticOperator.Multiply, a);
+        var tree21 = new TreeExpression<IFunction>(d);
+        tree21.Add(ArithmeticOperator.Multiply, a);
 
-        tree2.Add(ArithmeticOperator.Plus, tree2_1);
+        tree2.Add(ArithmeticOperator.Plus, tree21);
 
         Console.WriteLine(tree2.GetStringView());
 

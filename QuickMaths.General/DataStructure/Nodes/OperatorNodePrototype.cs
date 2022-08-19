@@ -22,7 +22,8 @@ public sealed class OperatorNodePrototype : IOperatorNode
     /// <param name="baseOperator" xml:lang = "ru">
     /// Арифметический оператор, оперделяющий группу операторов с использованием которой будут строиться все новый связи между узлами-потомками.
     /// </param>
-    /// <exception cref="ArgumentNullException"/>
+    /// <exception cref="ArgumentException">
+    /// </exception>
     public OperatorNodePrototype(IArithmeticOperator baseOperator)
     {
         ArgumentNullException.ThrowIfNull(baseOperator, nameof(baseOperator));
@@ -62,6 +63,27 @@ public sealed class OperatorNodePrototype : IOperatorNode
     public int Priority => _curentOperatorPriority;
 
     /// <inheritdoc/>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentException"></exception>
+    
+    private IArithmeticOperator FoundOperatorForNode(INodeExpression node)
+    {
+        int curNodeIndex = _assignedOperands.IndexOf(node);
+
+        foreach (var elem in _operandsConnections)
+        {
+            foreach (var nodeIndex in elem.Value)
+            {
+                if (nodeIndex == curNodeIndex)
+                {
+                    return elem.Key;
+                }
+            }
+        }
+
+        return ArithmeticOperator.None;
+    }
+
     public INodeExpression MergeNodes(IArithmeticOperator @operator, INodeExpression node) =>
         ((@operator ?? throw new ArgumentNullException($"{nameof(@operator)}")) switch
         {
@@ -72,6 +94,7 @@ public sealed class OperatorNodePrototype : IOperatorNode
         }).AppendOperand(@operator, node ?? throw new ArgumentNullException(nameof(node)));
 
     /// <inheritdoc/>
+    /// <exception cref="ArgumentException"></exception>
     public void AddOperand(IArithmeticOperator @operator, INodeExpression operand)
     {
         if (@operator.Priority == -1)
@@ -108,28 +131,7 @@ public sealed class OperatorNodePrototype : IOperatorNode
     }
 
     /// <inheritdoc/>
-    public ILookup<IArithmeticOperator, INodeExpression> GetChildEntities()
-    {
-        return _assignedOperands.ToLookup(o => foundOperator(o), o => o);
-
-        IArithmeticOperator foundOperator(INodeExpression node)
-        {
-            int curNodeIndex = _assignedOperands.IndexOf(node);
-
-            foreach (var elem in _operandsConnections)
-            {
-                foreach (var nodeIndex in elem.Value)
-                {
-                    if (nodeIndex == curNodeIndex)
-                    {
-                        return elem.Key;
-                    }
-                }
-            }
-
-            return ArithmeticOperator.None;
-        }
-    }
+    public ILookup<IArithmeticOperator, INodeExpression> GetChildEntities() => _assignedOperands.ToLookup(o => FoundOperatorForNode(o), o => o);
 
     /// <inheritdoc/>
     public override string ToString()

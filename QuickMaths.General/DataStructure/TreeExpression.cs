@@ -12,20 +12,20 @@ namespace QuickMaths.General.Abstractions;
 public class TreeExpression<TEntity> 
 {
     private INodeExpression _root;
-    /// <summary>
+    /// <summary xml:lang="ru">
     /// Создает экземпляр дерева и назанчаени переданную сущность и оператор в качестве корня.
     /// </summary>
-    /// <param name="rootEntity">Сущность, которая будет храниться в корне дерева.</param>
-    /// <param name="rootUnaryOperator">Математический унарный опретор, связанный с корневой сущностью</param>
+    /// <param name="rootEntity" xml:lang="ru">Сущность, которая будет храниться в корне дерева.</param>
+    /// <param name="rootUnaryOperator" xml:lang="ru">Математический унарный опретор, связанный с корневой сущностью</param>
     public TreeExpression(TEntity rootEntity, IArithmeticOperator? rootUnaryOperator = null) => SetRoot(rootEntity, rootUnaryOperator);
-    
-    /// <summary>
+
+    /// <summary xml:lang="ru">
     /// Назначает в качестве корня дерева новый узел, созданный из сущности и её оператора.
     /// </summary>
-    /// <param name="rootEntity">Сущность, которая будет храниться в корне дерева.</param>
-    /// <param name="rootUnaryOperator">Математический унарный оператор, связанный с новой корневой сущностью.</param>
-    /// <exception cref="ArgumentException">Если передан не унарный оператор.</exception>
-    /// <exception cref="ArgumentNullException">Если переданная сущность null.</exception>
+    /// <param name="rootEntity" xml:lang="ru">Сущность, которая будет храниться в корне дерева.</param>
+    /// <param name="rootUnaryOperator" xml:lang="ru">Математический унарный оператор, связанный с новой корневой сущностью.</param>
+    /// <exception cref="ArgumentException" xml:lang="ru">Если передан не унарный оператор.</exception>
+    /// <exception cref="ArgumentNullException" xml:lang="ru">Если переданная сущность null.</exception>
     public virtual void SetRoot(TEntity rootEntity, IArithmeticOperator? rootUnaryOperator = null)
     {
         _root = (rootUnaryOperator ?? ArithmeticOperator.None) switch
@@ -47,7 +47,7 @@ public class TreeExpression<TEntity>
     /// <param name="entity" xml:lang = "ru">
     /// Дерево выражений, которое нужно соединить с деревом.
     /// </param>
-    /// <exception cref="ArgumentNullException"> Если один из параметров метода null.</exception>
+    /// <exception cref="ArgumentNullException" xml:lang="ru"> Если один из параметров метода null.</exception>
     public virtual void Add(IArithmeticOperator @operator, TreeExpression<TEntity> entity) =>
         _root = @operator switch
         {
@@ -59,13 +59,15 @@ public class TreeExpression<TEntity>
                 @operator,
                 entity._root)
         };
-    /// <summary>
+    /// <summary xml:lang="ru">
     /// Добавление единичной сущности к дереву.
     /// </summary>
-    /// <param name="operator">Математический оператор, который определяет связь сущности с остальным деревом.</param>
-    /// <param name="entity">Сущность, которую добавляют в дерево.</param>
-    /// <exception cref="ArgumentException">Если передан не один из стандартых операторов.</exception>
-    /// <exception cref="ArgumentNullException">Есди один из параметров метода null.</exception>
+    /// <param name="operator" xml:lang="ru">Математический оператор, который определяет связь сущности с остальным деревом.</param>
+    /// <param name="entity" xml:lang="ru">Сущность, которую добавляют в дерево.</param>
+    /// <exception cref="ArgumentException" xml:lang="ru">Если передан не один из стандартых операторов.</exception>
+    /// <exception cref="ArgumentNullException" xml:lang="ru">
+    /// Если какой-либо из параметров метода <see langword="null"/>.
+    /// </exception>
     public virtual void Add(IArithmeticOperator @operator, TEntity entity) =>
         _root = @operator switch
         {
@@ -80,9 +82,9 @@ public class TreeExpression<TEntity>
     /// <inheritdoc/>
     public override string ToString() => _root.ToString()!;
 
-    /// <summary>
+    /// <summary xml:lang="ru">
     /// Получение строкового представления дерева выражений.
     /// </summary>
-    /// <returns>Стоковое представление дерева выражений.</returns>
+    /// <returns xml:lang="ru">Стоковое представление дерева выражений.</returns>
     public string GetStringView() => _root.GetStringView();
 }

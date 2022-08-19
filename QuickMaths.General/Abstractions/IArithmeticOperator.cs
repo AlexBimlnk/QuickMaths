@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using QuickMaths.General.Enums;
 
 namespace QuickMaths.General.Abstractions;
+
+/// <summary>
+/// 
+/// </summary>
 public interface IArithmeticOperator
 {
     /// <summary>
