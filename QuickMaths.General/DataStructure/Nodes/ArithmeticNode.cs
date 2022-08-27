@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using QuickMaths.General.Abstractions;
+﻿using QuickMaths.General.Abstractions;
 
 namespace QuickMaths.General.DataStructure.Nodes;
 
@@ -12,7 +6,7 @@ internal class ArithmeticNode : INode
 {
     private IArithmeticable _arithmeticElement;
 
-    public ArithmeticNode(IArithmeticable arithmeticElement) => 
+    public ArithmeticNode(IArithmeticable arithmeticElement) =>
         _arithmeticElement = arithmeticElement ?? throw new ArgumentNullException(nameof(arithmeticElement));
 
     public double Calculate() => throw new NotImplementedException();

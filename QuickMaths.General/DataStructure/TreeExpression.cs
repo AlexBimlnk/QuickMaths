@@ -1,7 +1,8 @@
-﻿using QuickMaths.General.Enums;
+﻿using QuickMaths.General.Abstractions;
 using QuickMaths.General.DataStructure.Nodes;
+using QuickMaths.General.Enums;
 
-namespace QuickMaths.General.Abstractions;
+namespace QuickMaths.General.DataStructure;
 
 /// <summary xml:lang = "ru">
 /// Дерево выражений, хранящее в себе устройство произвольного математического выражения.
@@ -9,7 +10,7 @@ namespace QuickMaths.General.Abstractions;
 /// <typeparam name="TEntity" xml:lang = "ru">
 /// Тип сущности, которыми будет наполнено дерево.
 /// </typeparam>
-public class TreeExpression<TEntity> 
+public class TreeExpression<TEntity>
 {
     private INodeExpression _root;
     /// <summary xml:lang="ru">
@@ -18,6 +19,8 @@ public class TreeExpression<TEntity>
     /// <param name="rootEntity" xml:lang="ru">Сущность, которая будет храниться в корне дерева.</param>
     /// <param name="rootUnaryOperator" xml:lang="ru">Математический унарный опретор, связанный с корневой сущностью</param>
     public TreeExpression(TEntity rootEntity, IArithmeticOperator? rootUnaryOperator = null) => SetRoot(rootEntity, rootUnaryOperator);
+
+    public INodeExpression Root => _root;
 
     /// <summary xml:lang="ru">
     /// Назначает в качестве корня дерева новый узел, созданный из сущности и её оператора.
@@ -81,10 +84,4 @@ public class TreeExpression<TEntity>
 
     /// <inheritdoc/>
     public override string ToString() => _root.ToString()!;
-
-    /// <summary xml:lang="ru">
-    /// Получение строкового представления дерева выражений.
-    /// </summary>
-    /// <returns xml:lang="ru">Стоковое представление дерева выражений.</returns>
-    public string GetStringView() => _root.GetStringView();
 }

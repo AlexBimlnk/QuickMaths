@@ -47,7 +47,4 @@ public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
         };
     /// <inheritdoc/>
     public override string ToString() => Source.ToString()!;
-
-    /// <inheritdoc/>
-    public string GetStringView() => Source.ToString()!;
 }

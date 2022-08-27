@@ -1,8 +1,4 @@
-﻿using QuickMaths.General.Abstractions;
-using QuickMaths.General.DataStructure.Nodes;
-using QuickMaths.General.Enums;
-
-namespace QuickMaths.General.DataStructure;
+﻿namespace QuickMaths.General.DataStructure;
 
 public class Tree
 {

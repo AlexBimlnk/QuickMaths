@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Xml.Linq;
-
-using QuickMaths.General.Abstractions;
+﻿using QuickMaths.General.Abstractions;
 using QuickMaths.General.Enums;
 
 namespace QuickMaths.General.DataStructure.Nodes;
@@ -36,6 +32,16 @@ public sealed class OperatorNodePrototype : IOperatorNode
         _operandsConnections = new Dictionary<IArithmeticOperator, List<int>>();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="baseOperator"></param>
+    /// <param name="assignedOperands"></param>
+    public OperatorNodePrototype(IArithmeticOperator baseOperator, ILookup<IArithmeticOperator, INodeExpression> assignedOperands) : this(baseOperator.Priority, assignedOperands)
+    { 
+    
+    }
+
     private OperatorNodePrototype(int curentOperatorPriority, ILookup<IArithmeticOperator, INodeExpression>? assignedOperands = null)
     {
         _curentOperatorPriority = curentOperatorPriority;
@@ -65,7 +71,7 @@ public sealed class OperatorNodePrototype : IOperatorNode
     /// <inheritdoc/>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
-    
+
     private IArithmeticOperator FoundOperatorForNode(INodeExpression node)
     {
         int curNodeIndex = _assignedOperands.IndexOf(node);
@@ -89,8 +95,8 @@ public sealed class OperatorNodePrototype : IOperatorNode
         {
             { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE }
                 => throw new ArgumentException($"Given {nameof(@operator)} is {nameof(ArithmeticOperator.None)}"),
-            _ when Priority.Equals(@operator.Priority) => this,
-            _ => new OperatorNodePrototype(@operator.Priority).AppendOperand(@operator, this)
+            _ when Priority.Equals(@operator.Priority) => new OperatorNodePrototype(Priority, GetChildEntities()),
+            _ => new OperatorNodePrototype(@operator.Priority).AppendOperand(ArithmeticOperator.GetDefaultOperator(@operator.Priority), this)
         }).AppendOperand(@operator, node ?? throw new ArgumentNullException(nameof(node)));
 
     /// <inheritdoc/>
@@ -104,8 +110,8 @@ public sealed class OperatorNodePrototype : IOperatorNode
 
         if (@operator.Priority != Priority)
             throw new ArgumentException($"Incorrect {nameof(@operator.Priority)} of given {nameof(@operator)}");
-        if (!@operator.IsUnary && _assignedOperands.Count == 0)
-            throw new ArgumentException($"Given {nameof(@operator)} can't be unary");
+        /*if (!@operator.IsUnary && _assignedOperands.Count == 0)
+            throw new ArgumentException($"Given {nameof(@operator)} can't be unary");*/
 
         if (operand.Priority == Priority)
         {
@@ -134,19 +140,7 @@ public sealed class OperatorNodePrototype : IOperatorNode
     public ILookup<IArithmeticOperator, INodeExpression> GetChildEntities() => _assignedOperands.ToLookup(o => FoundOperatorForNode(o), o => o);
 
     /// <inheritdoc/>
-    public override string ToString()
-    {
-        var stringBuilder = new System.Text.StringBuilder("_");
-        foreach (var operands in _operandsConnections)
-        {
-            foreach (var operand in operands.Value)
-            {
-                stringBuilder.Append($" {operands.Key.CharView} {_assignedOperands[operand]}");
-            }
-        }
-        stringBuilder.Append("_");
-        return stringBuilder.ToString();
-    }
+    public override string ToString() => GetStringView();
 
     /// <inheritdoc/>
     public IOperatorNode AppendOperand(IArithmeticOperator @operator, INodeExpression operand)
@@ -155,8 +149,7 @@ public sealed class OperatorNodePrototype : IOperatorNode
         return this;
     }
 
-    /// <inheritdoc/>
-    public string GetStringView()
+    private string GetStringView()
     {
         var stringBuilder = new System.Text.StringBuilder(string.Empty);
         bool firstOperNode = true;
@@ -165,13 +158,13 @@ public sealed class OperatorNodePrototype : IOperatorNode
         {
             foreach (var operand in operands.Value)
             {
-                
-                stringBuilder.Append((firstOperNode && operands.Key.IsSkipOnBeginInStringView) ? string.Empty : $" {operands.Key.CharView}");
+
+                stringBuilder.Append((firstOperNode && operands.Key.IsSkipOnBeginInStringView) ? string.Empty : $" {operands.Key.CharView} ");
                 firstOperNode = firstOperNode && false;
 
                 var node = _assignedOperands[operand];
-                
-                stringBuilder.Append(string.Format((node.Priority > 0 && node.Priority < Priority ? " ({0})" : " {0}"), node.GetStringView()));
+
+                stringBuilder.Append(string.Format((node.Priority > 0 && node.Priority < Priority ? "({0})" : "{0}"), node.ToString()));
             }
         }
 
