@@ -2,7 +2,7 @@
 
 namespace QuickMaths.MatrixBLL;
 
-/// <summary>
+/// <summary xml:lang = "ru">
 /// Класс реализует представление математической матрицы.
 /// </summary>
 public struct Matrix : IEquatable<Matrix>, IArithmeticable

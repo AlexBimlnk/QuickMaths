@@ -2,7 +2,7 @@
 
 namespace QuickMaths.FunctionsBLL.Functions;
 
-/// <summary>
+/// <summary xml:lang = "ru">
 /// Представляет функцию, являющейся переменной.
 /// </summary>
 public sealed class VariableFunction : IFunction

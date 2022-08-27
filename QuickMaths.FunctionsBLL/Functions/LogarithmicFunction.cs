@@ -2,7 +2,7 @@
 
 namespace QuickMaths.FunctionsBLL.Functions;
 
-/// <summary>
+/// <summary xml:lang = "ru">
 /// Логарифмическая функция.
 /// <list type="bullet">
 ///     <item>

@@ -65,7 +65,7 @@ csharp_prefer_braces = false:suggestion
 #prefer block bodies for accessors
 csharp_style_expression_bodied_accessors = when_on_single_line:error
 #prefer block bodies for constructors
-csharp_style_expression_bodied_constructors = when_on_single_line:error
+csharp_style_expression_bodied_constructors = false:error
 #prefer block bodies for indexers
 csharp_style_expression_bodied_indexers = false:error
 #prefer block bodies for methods
@@ -253,6 +253,9 @@ csharp_prefer_static_local_function = true:suggestion
 csharp_style_expression_bodied_lambdas = true:warning
 csharp_style_expression_bodied_local_functions = when_on_single_line:error
 dotnet_diagnostic.CA1507.severity = error
+csharp_style_prefer_utf8_string_literals = true:suggestion
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
 
 [*.vb]
 #### Стили именования ####

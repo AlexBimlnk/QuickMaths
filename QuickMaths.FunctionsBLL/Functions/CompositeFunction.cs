@@ -3,7 +3,7 @@
 namespace QuickMaths.FunctionsBLL.Functions;
 
 //TODO: Класс "Функция"
-/// <summary>
+/// <summary xml:lang = "ru">
 /// Составная функция.
 /// </summary>
 public class CompositeFunction : IFunction

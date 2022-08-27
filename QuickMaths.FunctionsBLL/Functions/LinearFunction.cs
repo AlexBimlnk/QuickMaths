@@ -14,7 +14,11 @@ public class LinearFunction : IFunction
     /// Аргумент в линейной функции.
     /// </param>
     /// <exception cref="ArgumentNullException"></exception>
-    public LinearFunction(IFunction argument) => Argument = argument ?? throw new ArgumentNullException(nameof(argument));
+    public LinearFunction(IFunction argument)
+    {
+        Argument = argument ?? throw new ArgumentNullException(nameof(argument));
+    }
+
     /// <summary xml:lang = "ru">
     /// Конструктор линейной функции.
     /// </summary>

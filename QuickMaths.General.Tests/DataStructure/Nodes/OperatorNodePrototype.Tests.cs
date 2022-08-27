@@ -116,7 +116,7 @@ public class OperatorNodePrototypeTests
     public void CanAddOperand(OperatorNodePrototype operatorNode, IArithmeticOperator @operator, INodeExpression toAddOperand, INodeExpression expextedResult)
     {
         //Arrange
-        var func = (OperatorNodePrototype node, IArithmeticOperator @operator, INodeExpression operand) => node.AddOperand(@operator, operand);
+        var func = (OperatorNodePrototype node, IArithmeticOperator @operator, INodeExpression operand) => node.AppendOperand(@operator, operand);
 
         var result = default(INodeExpression);
 

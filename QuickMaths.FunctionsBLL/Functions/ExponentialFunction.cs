@@ -2,7 +2,7 @@
 
 namespace QuickMaths.FunctionsBLL.Functions;
 
-/// <summary>
+/// <summary xml:lang = "ru">
 /// Показательная функция.
 /// <list type="bullet">
 ///     <item>

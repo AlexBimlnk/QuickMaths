@@ -37,8 +37,8 @@ internal class EntityNodeTestsData
         get
         {
             s_operatorNode4 = new OperatorNodePrototype(ArithmeticOperator.Plus);
-            s_operatorNode4.AddOperand(ArithmeticOperator.Plus, s_simpleEntityNode2);
-            s_operatorNode4.AddOperand(ArithmeticOperator.Minus, s_simpleEntityNode3);
+            s_operatorNode4.AppendOperand(ArithmeticOperator.Plus, s_simpleEntityNode2);
+            s_operatorNode4.AppendOperand(ArithmeticOperator.Minus, s_simpleEntityNode3);
 
             return s_operatorNode4;
         }
@@ -50,8 +50,8 @@ internal class EntityNodeTestsData
             if (s_result1Minus2OperatorNode is null)
             {
                 s_result1Minus2OperatorNode = new OperatorNodePrototype(ArithmeticOperator.Plus);
-                s_result1Minus2OperatorNode.AddOperand(ArithmeticOperator.Plus, s_simpleEntityNode1);
-                s_result1Minus2OperatorNode.AddOperand(s_merge1Minus2Operator, s_simpleEntityNode2);
+                s_result1Minus2OperatorNode.AppendOperand(ArithmeticOperator.Plus, s_simpleEntityNode1);
+                s_result1Minus2OperatorNode.AppendOperand(s_merge1Minus2Operator, s_simpleEntityNode2);
             }
 
             return s_result1Minus2OperatorNode;
@@ -64,8 +64,8 @@ internal class EntityNodeTestsData
             if (s_result1Divide4OperatorNode is null)
             {
                 s_result1Divide4OperatorNode = new OperatorNodePrototype(ArithmeticOperator.Multiply);
-                s_result1Divide4OperatorNode.AddOperand(ArithmeticOperator.Multiply, s_simpleEntityNode1);
-                s_result1Divide4OperatorNode.AddOperand(s_merge1Divide4Operator, OperatorNode4);
+                s_result1Divide4OperatorNode.AppendOperand(ArithmeticOperator.Multiply, s_simpleEntityNode1);
+                s_result1Divide4OperatorNode.AppendOperand(s_merge1Divide4Operator, OperatorNode4);
             }
 
             return s_result1Divide4OperatorNode;
@@ -78,9 +78,9 @@ internal class EntityNodeTestsData
             if (s_result1Minus4OperatorNode is null)
             {
                 s_result1Minus4OperatorNode = new OperatorNodePrototype(ArithmeticOperator.Plus);
-                s_result1Minus4OperatorNode.AddOperand(ArithmeticOperator.Plus, s_simpleEntityNode1);
-                s_result1Minus4OperatorNode.AddOperand(ArithmeticOperator.Minus, s_simpleEntityNode2);
-                s_result1Minus4OperatorNode.AddOperand(ArithmeticOperator.Plus, s_simpleEntityNode3);
+                s_result1Minus4OperatorNode.AppendOperand(ArithmeticOperator.Plus, s_simpleEntityNode1);
+                s_result1Minus4OperatorNode.AppendOperand(ArithmeticOperator.Minus, s_simpleEntityNode2);
+                s_result1Minus4OperatorNode.AppendOperand(ArithmeticOperator.Plus, s_simpleEntityNode3);
 
             }
 
