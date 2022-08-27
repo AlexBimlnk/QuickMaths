@@ -1,6 +1,7 @@
 ﻿using System;
 
 using FluentAssertions;
+
 using Xunit;
 
 namespace QuickMaths.MatrixBLL.Tests;

@@ -1,10 +1,11 @@
 ﻿using System;
 
-using Xunit;
 using FluentAssertions;
 
-using QuickMaths.General.Abstractions;
 using QuickMaths.FunctionsBLL.Functions;
+using QuickMaths.General.Abstractions;
+
+using Xunit;
 
 namespace QuickMaths.FunctionsBLL.Parser.Tests;
 
@@ -20,7 +21,7 @@ public class FunctionParserTests
         //тесты на парсинг, примеры в NF, VF.
         // Arrange
         string inputString = "4";
-        IFunction expectedFunc = new NumberFunction(4); 
+        IFunction expectedFunc = new NumberFunction(4);
         var parser = new FunctionParser();
 
         // Act

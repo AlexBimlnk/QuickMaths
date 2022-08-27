@@ -2,10 +2,12 @@
 using System.Threading;
 
 using FluentAssertions;
-using Xunit;
+
 using Moq;
 
 using QuickMaths.General.Abstractions;
+
+using Xunit;
 
 namespace QuickMaths.General.Tests;
 

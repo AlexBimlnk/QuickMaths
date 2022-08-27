@@ -1,9 +1,10 @@
 ﻿using System;
 
-using Xunit;
 using FluentAssertions;
 
 using QuickMaths.General.Abstractions;
+
+using Xunit;
 
 namespace QuickMaths.MatrixBLL.Parser.Tests;
 
@@ -19,7 +20,7 @@ public class FunctionParserTests
         //тесты на парсинг, примеры в NF, VF.
         // Arrange
         string inputString = "4";
-        IArithmeticable expectedMatrix = new Matrix(3,3);
+        IArithmeticable expectedMatrix = new Matrix(3, 3);
         var parser = new MatrixParser();
 
         // Act
@@ -56,7 +57,7 @@ public class FunctionParserTests
         // Arrange
         var inputString = "a[(1,2,3)(1,2,3)(1,2,3)]";
         var expectedResult = true;
-        var expectedMatrix = new Matrix(3,3);
+        var expectedMatrix = new Matrix(3, 3);
         var parser = new MatrixParser();
 
         // Act

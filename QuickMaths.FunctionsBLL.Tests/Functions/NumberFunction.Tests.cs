@@ -1,10 +1,11 @@
 ﻿using System;
 
 using FluentAssertions;
-using Xunit;
 
 using QuickMaths.FunctionsBLL.Functions;
 using QuickMaths.General.Abstractions;
+
+using Xunit;
 
 namespace QuickMaths.FunctionsBLL.Tests.Functions;
 
