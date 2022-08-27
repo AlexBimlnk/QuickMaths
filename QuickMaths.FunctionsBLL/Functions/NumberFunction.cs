@@ -61,8 +61,13 @@ public sealed class NumberFunction : IFunction
     }
 
     /// <inheritdoc/>
-    public bool Equals(IFunction? other) => other is NumberFunction numberFunction && numberFunction.Value == Value;
-    
+    public bool Equals(IFunction? other) => other switch
+    {
+        NumberFunction number => Value == number.Value,
+        LinearFunction linear => linear.Argument.Equals(linear.Koef) && linear.Argument.Equals(this),
+        _ => false
+    };
+
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Value, nameof(NumberFunction));
     

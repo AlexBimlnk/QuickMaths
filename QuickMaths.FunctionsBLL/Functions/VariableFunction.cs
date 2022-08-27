@@ -66,7 +66,12 @@ public sealed class VariableFunction : IFunction
     }
 
     /// <inheritdoc/>
-    public bool Equals(IFunction? other) => other is VariableFunction variable && variable.Name == Name && variable.Value == Value;
+    public bool Equals(IFunction? other) => other switch
+    {
+        VariableFunction variable => Name == variable.Name && Value == variable.Value,
+        LinearFunction linear => linear.Koef is NumberFunction { Value: 1 } && linear.Argument.Equals(this),
+        _ => false
+    };
     
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Value, Name, nameof(VariableFunction));

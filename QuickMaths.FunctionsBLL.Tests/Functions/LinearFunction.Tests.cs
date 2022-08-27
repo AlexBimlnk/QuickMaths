@@ -20,14 +20,32 @@ public class LinearFunctionTests
         // Arrange
         var argument = new VariableFunction("x");
         var koef = new NumberFunction(12);
+        LinearFunction func = null!;
 
         // Act
-        var exception1 = Record.Exception(() => new LinearFunction(argument));
-        var exception2 = Record.Exception(() => new LinearFunction(argument, koef));
+        var exception = Record.Exception(() => func = new LinearFunction(argument, koef));
 
         // Assert
-        exception1.Should().BeNull();
-        exception2.Should().BeNull();
+        exception.Should().BeNull();
+        func.Argument.Should().Be(argument);
+        func.Koef.Should().Be(koef);
+    }
+
+    [Fact(DisplayName = "Can be created without koef.")]
+    [Trait("Category", "Constructors")]
+    public void CanBeCreatedWithoutKoef()
+    {
+        // Arrange
+        var argument = new VariableFunction("x");
+        LinearFunction func = null!;
+
+        // Act
+        var exception = Record.Exception(() => func = new LinearFunction(argument));
+
+        // Assert
+        exception.Should().BeNull();
+        func.Argument.Should().Be(argument);
+        func.Koef.Should().BeEquivalentTo(new NumberFunction(1));
     }
 
     [Fact(DisplayName = "Cannot be created when arguments is null.")]
@@ -35,91 +53,28 @@ public class LinearFunctionTests
     public void CanNotBeCreatedWhenArgumentsIsNull()
     {
         // Act
-        var exception1 = Record.Exception(() => new LinearFunction(null!));
-        var exception2 = Record.Exception(() => new LinearFunction(new VariableFunction("x"), null!));
-        var exception3 = Record.Exception(() => new LinearFunction(null!, null!));
+        var exception = Record.Exception(() => new LinearFunction(null!));
 
         // Assert
-        new Exception[] { exception1, exception2, exception3 }.Should().AllBeOfType<ArgumentNullException>();
-    }
-    #endregion
-
-    #region Свойства
-
-    [Theory(DisplayName = "Can get koef as function.")]
-    [Trait("Category", "Properties")]
-    [MemberData(nameof(LinearFunctionTestsData.GetKoefData), MemberType = typeof(LinearFunctionTestsData))]
-    public void CanGetKoef(LinearFunction linear, IFunction expectedFunction)
-    {
-        // Act
-        IFunction result = linear.Koef;
-
-        // Assert
-        result.Should().BeEquivalentTo(expectedFunction);
+        exception.Should().BeOfType<ArgumentNullException>();
     }
 
-    [Theory(DisplayName = "Can get argument as function.")]
-    [Trait("Category", "Properties")]
-    [MemberData(nameof(LinearFunctionTestsData.GetArgumentData), MemberType = typeof(LinearFunctionTestsData))]
-
-    public void CanGetArgument(LinearFunction linear, IFunction expectedFunction)
+    [Fact(DisplayName = "Cannot be created when arguments is null.")]
+    [Trait("Category", "Constructors")]
+    public void CanNotBeCreatedWhenKoefIsNull()
     {
+        // Arrange
+        var argument = new VariableFunction("x");
+
         // Act
-        IFunction result = linear.Argument;
+        var exception = Record.Exception(() => new LinearFunction(argument, null!));
 
         // Assert
-        result.Should().BeEquivalentTo(expectedFunction);
+        exception.Should().BeOfType<ArgumentNullException>();
     }
     #endregion
 
     #region Методы
-
-    [Fact(DisplayName = "Can calulate.")]
-    [Trait("Category", "Methods")]
-    public void CanCalculate()
-    {
-        // Arrange
-
-
-        // Act
-
-
-        // Assert
-
-    }
-
-    [Fact(DisplayName = "Cannot calulate when value in argument or koef is missing.")]
-    [Trait("Category", "Methods")]
-    public void CanNotCalculate()
-    {
-        // Act
-
-        // Assert
-
-    }
-
-    [Fact(DisplayName = "Can get derivative.")]
-    [Trait("Category", "Methods")]
-    public void CanGetDerivative()
-    {
-        // Act
-
-
-        // Assert
-
-    }
-
-    [Theory(DisplayName = "Equals LF and object works.")]
-    [Trait("Category", "Methods")]
-    [MemberData(nameof(LinearFunctionTestsData.EqualsLFAndObjectData), MemberType = typeof(LinearFunctionTestsData))]
-    public void EqualsLFAndObjectFunctionWork(LinearFunction function, object other, bool expectedValue)
-    {
-        // Act
-        bool result = function.Equals(other);
-
-        // Assert
-        result.Should().Be(expectedValue);
-    }
 
     [Theory(DisplayName = "Equals LF and other function works.")]
     [Trait("Category", "Methods")]
@@ -127,29 +82,37 @@ public class LinearFunctionTests
     public void EqualsLFAndOtherFunctionWork(LinearFunction function, IFunction other, bool expectedValue)
     {
         // Act
-        bool result = function.Equals(other);
+        var result = function.Equals(other);
 
         // Assert
         result.Should().Be(expectedValue);
     }
 
-    [Theory(DisplayName = "GetHashCode works.")]
+    [Fact(DisplayName = "GetHashCode works.")]
     [Trait("Category", "Methods")]
-    [MemberData(nameof(LinearFunctionTestsData.GetHashCodeData), MemberType = typeof(LinearFunctionTestsData))]
-    public void GetHashCodeWork(LinearFunction linear, int expectedResult)
+    public void GetHashCodeWork()
     {
+        // Arrange
+        var argument = new VariableFunction("x");
+        var koef = new NumberFunction(3);
+        var linear = new LinearFunction(argument, koef);
+        var expectedHashCode = HashCode.Combine(koef, argument, nameof(LinearFunction));
+
         // Act
         var result = linear.GetHashCode();
 
         // Assert
-        result.Should().Be(expectedResult);
+        result.Should().Be(expectedHashCode);
     }
 
-    [Theory(DisplayName = "ToString works.")]
+    [Fact(DisplayName = "ToString works.")]
     [Trait("Category", "Methods")]
-    [MemberData(nameof(LinearFunctionTestsData.ToStringData), MemberType = typeof(LinearFunctionTestsData))]
-    public void ToStringWork(LinearFunction linear, string expectedString)
+    public void ToStringWork()
     {
+        // Arrange
+        var linear = new LinearFunction(new VariableFunction("x"), new NumberFunction(3));
+        var expectedString = "3*x";
+
         // Act
         var result = linear.ToString();
 
