@@ -88,20 +88,21 @@ public sealed class OperatorNodePrototype : IOperatorNode
     {
         ArgumentNullException.ThrowIfNull(node);
 
-        var operatorNode = @operator switch
-        {
-            { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE }
-                => throw new ArgumentException($"Given {nameof(@operator)} is {nameof(ArithmeticOperator.None)}"),
+        //var operatorNode = @operator switch
+        //{
+        //    { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE }
+        //        => throw new ArgumentException($"Given {nameof(@operator)} is {nameof(ArithmeticOperator.None)}"),
 
-            null => throw new ArgumentNullException(nameof(@operator)),
+        //    null => throw new ArgumentNullException(nameof(@operator)),
 
-            _ when Priority.Equals(@operator.Priority) => new OperatorNodePrototype(Priority, GetChildEntities()),
+        //    _ when Priority.Equals(@operator.Priority) => new OperatorNodePrototype(Priority, GetChildEntities()),
 
-            _ => new OperatorNodePrototype(@operator.Priority)
-                    .AppendOperand(ArithmeticOperator.GetDefaultOperator(@operator.Priority), this)
-        };
+        //    _ => new OperatorNodePrototype(@operator.Priority)
+        //            .AppendOperand(ArithmeticOperator.GetDefaultOperator(@operator.Priority), this)
+        //};
 
-        return operatorNode.AppendOperand(@operator, node);
+        //return operatorNode.AppendOperand(@operator, node);
+        return null!;
     }
 
     /// <inheritdoc/>

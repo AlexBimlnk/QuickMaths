@@ -8,42 +8,50 @@ namespace QuickMaths.FunctionsBLL.Functions;
 public sealed class NumberFunction : IFunction
 {
     /// <summary xml:lang = "ru">
-    /// Конструктор числовой функции.
+    /// Создает новый объект типа <see cref="NumberFunction"/>.
     /// </summary>
     /// <param name="stringFunction" xml:lang = "ru"> 
     /// Представление функции в виде строки. 
     /// </param>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="FormatException"></exception>
+    /// <exception cref="ArgumentException">
+    /// Когда входная строка была пустой или <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="FormatException">
+    /// Если полученную строку невозможно привести к числу.
+    /// </exception>
     public NumberFunction(string stringFunction)
     {
-        if (string.IsNullOrEmpty(stringFunction))
-            throw new ArgumentNullException(nameof(stringFunction));
+        if (string.IsNullOrWhiteSpace(stringFunction))
+            throw new ArgumentException("Input string can't be null, empty or whitespace", nameof(stringFunction));
 
-        if (!double.TryParse(stringFunction, out double number))
-            throw new FormatException($"Input string has invalid format");
+        if (!double.TryParse(stringFunction, out var number))
+            throw new FormatException("Input string has invalid format");
 
         Value = number;
     }
+
     /// <summary xml:lang = "ru">
-    /// Конструктор числовой функции.
+    /// Создает новый объект типа <see cref="NumberFunction"/>.
     /// </summary>
     /// <param name="value" xml:lang = "ru">
     /// Число, представляющее функцию.
     /// </param>
-    public NumberFunction(double value) => Value = value;
-
+    public NumberFunction(double value)
+    {
+        Value = value;
+    }
 
     /// <summary xml:lang = "ru">
     /// Значение числовой функции.
     /// </summary>
     public double Value { get; }
 
-
     /// <inheritdoc/>
     public double Calculate() => Value;
+
     /// <inheritdoc/>
     IFunction IFunction.Derivative() => null!;
+
     /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
@@ -51,10 +59,13 @@ public sealed class NumberFunction : IFunction
             return Equals(function);
         return false;
     }
+
     /// <inheritdoc/>
     public bool Equals(IFunction? other) => other is NumberFunction numberFunction && numberFunction.Value == Value;
+    
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Value, nameof(NumberFunction));
+    
     /// <inheritdoc/>
     public override string ToString() => Value.ToString();
 }

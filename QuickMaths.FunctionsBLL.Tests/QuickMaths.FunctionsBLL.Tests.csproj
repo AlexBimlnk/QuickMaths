@@ -26,4 +26,8 @@
     <ProjectReference Include="..\QuickMaths.General\QuickMaths.General.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Parser\" />
+  </ItemGroup>
+
 </Project>
