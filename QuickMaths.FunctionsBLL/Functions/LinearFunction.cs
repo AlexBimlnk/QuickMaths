@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using QuickMaths.General.Abstractions;
+﻿using QuickMaths.General.Abstractions;
 
 namespace QuickMaths.FunctionsBLL.Functions;
 
@@ -57,7 +55,7 @@ public class LinearFunction : IFunction
         return false;
     }
     /// <inheritdoc/>
-    public bool Equals(IFunction? other) => other is LinearFunction linearFunction && 
+    public bool Equals(IFunction? other) => other is LinearFunction linearFunction &&
         Koef.Equals(linearFunction.Koef) && Argument.Equals(linearFunction.Argument);
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Koef, Argument, nameof(LinearFunction));

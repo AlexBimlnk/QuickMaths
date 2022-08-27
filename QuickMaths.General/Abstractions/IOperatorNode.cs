@@ -1,6 +1,4 @@
-﻿using QuickMaths.General.Enums;
-
-namespace QuickMaths.General.Abstractions;
+﻿namespace QuickMaths.General.Abstractions;
 
 /// <summary xml:lang = "ru">
 /// Интерфейс, описывающий узлы-операторы в дереве выражений.

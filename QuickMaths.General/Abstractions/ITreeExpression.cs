@@ -1,6 +1,4 @@
-﻿using QuickMaths.General.Enums;
-
-namespace QuickMaths.General.Abstractions;
+﻿namespace QuickMaths.General.Abstractions;
 
 /// <summary xml:lang = "ru">
 /// Интерфейс, описывающий контракт любых деревьев выражений.
@@ -8,7 +6,7 @@ namespace QuickMaths.General.Abstractions;
 /// <typeparam name="TEntity" xml:lang = "ru">
 /// Сущность из которых будет состоять дерево выражений.
 /// </typeparam>
-public interface ITreeExpression<TEntity> 
+public interface ITreeExpression<TEntity>
 {
 
     /*/// <summary xml:lang = "ru">

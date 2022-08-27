@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using QuickMaths.General.Abstractions;
-using QuickMaths.General.DataStructure;
+﻿using QuickMaths.General.Abstractions;
 
 namespace QuickMaths.FunctionsBLL.Parser;
 
