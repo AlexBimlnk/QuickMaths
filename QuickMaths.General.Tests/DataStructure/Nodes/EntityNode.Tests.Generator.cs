@@ -2,7 +2,6 @@
 using System.Linq;
 
 using QuickMaths.General.Abstractions;
-using QuickMaths.General.Enums;
 
 using Xunit;
 
@@ -19,37 +18,37 @@ internal class EntityNodeTestsData
     private static string s_simpleEntity3 = "3";
     private static EntityNode<string> s_simpleEntityNode3 = new EntityNode<string>(s_simpleEntity3);
 
-    private static OperatorNodePrototype? s_operatorNode4;
+    private static OperatorNode? s_operatorNode4;
 
     private static IArithmeticOperator s_noneOerator = ArithmeticOperator.None;
 
-    private static OperatorNodePrototype? s_result1Minus2OperatorNode;
+    private static OperatorNode? s_result1Minus2OperatorNode;
     private static IArithmeticOperator s_merge1Minus2Operator = ArithmeticOperator.Minus;
 
-    private static OperatorNodePrototype? s_result1Divide4OperatorNode;
+    private static OperatorNode? s_result1Divide4OperatorNode;
     private static IArithmeticOperator s_merge1Divide4Operator = ArithmeticOperator.Divide;
 
-    private static OperatorNodePrototype? s_result1Minus4OperatorNode;
+    private static OperatorNode? s_result1Minus4OperatorNode;
     private static IArithmeticOperator s_merge1Minus4Operator = ArithmeticOperator.Minus;
 
-    private static OperatorNodePrototype OperatorNode4
+    private static OperatorNode OperatorNode4
     {
         get
         {
-            s_operatorNode4 = new OperatorNodePrototype(ArithmeticOperator.Plus);
+            s_operatorNode4 = new OperatorNode(ArithmeticOperator.Plus);
             s_operatorNode4.AppendOperand(ArithmeticOperator.Plus, s_simpleEntityNode2);
             s_operatorNode4.AppendOperand(ArithmeticOperator.Minus, s_simpleEntityNode3);
 
             return s_operatorNode4;
         }
     }
-    private static OperatorNodePrototype MergeResult1Minus2
+    private static OperatorNode MergeResult1Minus2
     {
         get
         {
             if (s_result1Minus2OperatorNode is null)
             {
-                s_result1Minus2OperatorNode = new OperatorNodePrototype(ArithmeticOperator.Plus);
+                s_result1Minus2OperatorNode = new OperatorNode(ArithmeticOperator.Plus);
                 s_result1Minus2OperatorNode.AppendOperand(ArithmeticOperator.Plus, s_simpleEntityNode1);
                 s_result1Minus2OperatorNode.AppendOperand(s_merge1Minus2Operator, s_simpleEntityNode2);
             }
@@ -57,13 +56,13 @@ internal class EntityNodeTestsData
             return s_result1Minus2OperatorNode;
         }
     }
-    private static OperatorNodePrototype MergeResult1Divide4
+    private static OperatorNode MergeResult1Divide4
     {
         get
         {
             if (s_result1Divide4OperatorNode is null)
             {
-                s_result1Divide4OperatorNode = new OperatorNodePrototype(ArithmeticOperator.Multiply);
+                s_result1Divide4OperatorNode = new OperatorNode(ArithmeticOperator.Multiply);
                 s_result1Divide4OperatorNode.AppendOperand(ArithmeticOperator.Multiply, s_simpleEntityNode1);
                 s_result1Divide4OperatorNode.AppendOperand(s_merge1Divide4Operator, OperatorNode4);
             }
@@ -71,13 +70,13 @@ internal class EntityNodeTestsData
             return s_result1Divide4OperatorNode;
         }
     }
-    private static OperatorNodePrototype MergeResult1Minus4
+    private static OperatorNode MergeResult1Minus4
     {
         get
         {
             if (s_result1Minus4OperatorNode is null)
             {
-                s_result1Minus4OperatorNode = new OperatorNodePrototype(ArithmeticOperator.Plus);
+                s_result1Minus4OperatorNode = new OperatorNode(ArithmeticOperator.Plus);
                 s_result1Minus4OperatorNode.AppendOperand(ArithmeticOperator.Plus, s_simpleEntityNode1);
                 s_result1Minus4OperatorNode.AppendOperand(ArithmeticOperator.Minus, s_simpleEntityNode2);
                 s_result1Minus4OperatorNode.AppendOperand(ArithmeticOperator.Plus, s_simpleEntityNode3);

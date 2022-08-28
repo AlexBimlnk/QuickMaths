@@ -1,6 +1,6 @@
 ﻿using QuickMaths.General.Abstractions;
 
-namespace QuickMaths.General.Enums;
+namespace QuickMaths.General;
 
 /// <summary xml:lang = "ru">
 /// Произвольный математический оператор.
@@ -26,10 +26,10 @@ public static class ArithmeticOperator
     static ArithmeticOperator()
     {
         Plus = new CustomOperator(
-            operatorPriority: PLUS_MINUS_OPERATORS_PRIORITY_VALUE, 
-            isOperatorIsBinary: true, 
-            isOperatorIsUnary: true, 
-            operatorCharView: PLUS_OPERATOR_CHAR_VIEW, 
+            operatorPriority: PLUS_MINUS_OPERATORS_PRIORITY_VALUE,
+            isOperatorIsBinary: true,
+            isOperatorIsUnary: true,
+            operatorCharView: PLUS_OPERATOR_CHAR_VIEW,
             isSkipOnBeginInStringView: true);
 
         Minus = new CustomOperator(
@@ -134,11 +134,11 @@ public static class ArithmeticOperator
         {
             { Priority: NONE_OPERATOR_PRIORITY_VALUE } => throw new ArgumentException($"Given {nameof(firstOperator)} and {secondOperator} are {nameof(None)}"),
             { Priority: PLUS_MINUS_OPERATORS_PRIORITY_VALUE } =>
-                (firstOperator.CharView == MINUS_OPERATOR_CHAR_VIEW) != (secondOperator.CharView == MINUS_OPERATOR_CHAR_VIEW)
+                firstOperator.CharView == MINUS_OPERATOR_CHAR_VIEW != (secondOperator.CharView == MINUS_OPERATOR_CHAR_VIEW)
                     ? Minus
                     : Plus,
             { Priority: MULTIPLY_DIVIDE_OPERATOR_PRIORITY_VALUE } =>
-                (firstOperator.CharView == MULTIPLY_OPERATOR_CHAR_VIEW) != (secondOperator.CharView == MULTIPLY_OPERATOR_CHAR_VIEW)
+                firstOperator.CharView == MULTIPLY_OPERATOR_CHAR_VIEW != (secondOperator.CharView == MULTIPLY_OPERATOR_CHAR_VIEW)
                     ? Divide
                     : Multiply,
             { Priority: POWER_OPERATOR_PRIORITY_VALUE } => Power,
@@ -166,10 +166,10 @@ public static class ArithmeticOperator
     private sealed class CustomOperator : IArithmeticOperator
     {
         public CustomOperator(
-            int operatorPriority, 
-            bool isOperatorIsBinary, 
-            bool isOperatorIsUnary, 
-            char operatorCharView, 
+            int operatorPriority,
+            bool isOperatorIsBinary,
+            bool isOperatorIsUnary,
+            char operatorCharView,
             bool isSkipOnBeginInStringView)
         {
             Priority = operatorPriority;

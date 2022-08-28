@@ -1,18 +1,17 @@
 ﻿using QuickMaths.General.Abstractions;
-using QuickMaths.General.Enums;
 
 namespace QuickMaths.General.DataStructure.Nodes;
 
 /// <summary xml:lang = "ru">
 /// Узел, представляющий математический оператор.
 /// </summary>
-public sealed class OperatorNodePrototype : IOperatorNode
+public sealed class OperatorNode : IOperatorNode
 {
     private readonly List<INodeExpression> _assignedOperands = new();
     private readonly Dictionary<IArithmeticOperator, List<int>> _operandsConnections = new();
 
     /// <summary xml:lang = "ru">
-    /// Создает новый экземпляр типа <see cref="OperatorNodePrototype"/>.
+    /// Создает новый экземпляр типа <see cref="OperatorNode"/>.
     /// </summary>
     /// <param name="baseOperator" xml:lang = "ru">
     /// Арифметический оператор, оперделяющий группу операторов с использованием которой будут строиться все новый связи между узлами-потомками.
@@ -23,7 +22,7 @@ public sealed class OperatorNodePrototype : IOperatorNode
     /// <exception cref="ArgumentException" xml:lang = "ru">
     /// Когда приоритет базового оператора равен -1.
     /// </exception>
-    public OperatorNodePrototype(IArithmeticOperator baseOperator)
+    public OperatorNode(IArithmeticOperator baseOperator)
     {
         ArgumentNullException.ThrowIfNull(baseOperator, nameof(baseOperator));
 

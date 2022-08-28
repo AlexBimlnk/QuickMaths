@@ -11,25 +11,6 @@ namespace QuickMaths.FunctionsBLL.Tests.Functions;
 
 public class VariableFunctionTests
 {
-    public static TheoryData<VariableFunction, IFunction, bool> EqualsVFAndOtherFunctionData
-    {
-        get
-        {
-            var data = new TheoryData<VariableFunction, IFunction, bool>();
-
-            data.Add(new VariableFunction("x"), new VariableFunction("x"), true);
-            data.Add(new VariableFunction("x", 14.2), new VariableFunction("x", 14.2), true);
-            data.Add(new VariableFunction("x", 14d), new VariableFunction("x", 14.2), false);
-            data.Add(new VariableFunction("x", 14d), new VariableFunction("x1", 14d), false);
-            data.Add(new VariableFunction("x", 14d), new NumberFunction(14d), false);
-            data.Add(new VariableFunction("x", 14d), new LinearFunction(new VariableFunction("x1"), new NumberFunction(14d)), false);
-            data.Add(new VariableFunction("x1"), new LinearFunction(new VariableFunction("x1")), false);
-            data.Add(new VariableFunction("x1", 14d), new LinearFunction(new VariableFunction("x1")), false);
-
-            return data;
-        }
-    }
-
     #region Конструкторы
 
     [Fact(DisplayName = "Can be created.")]
@@ -123,7 +104,7 @@ public class VariableFunctionTests
     [Theory(DisplayName = "Equals VF and other function works.")]
     [Trait("Category", "Methods")]
     [MemberData(nameof(VariableFunctionTestsData.EqualsVFAndOtherFunctionData), MemberType = typeof(VariableFunctionTestsData))]
-    public void EqualsVFAndObjectFunctionWork(VariableFunction function, IFunction other, bool expectedValue)
+    public void EqualsVFAndOtherFunctionWork(VariableFunction function, IFunction other, bool expectedValue)
     {
         // Act
         var result = function.Equals(other);

@@ -1,6 +1,5 @@
 ﻿using QuickMaths.General.Abstractions;
 using QuickMaths.General.DataStructure.Nodes;
-using QuickMaths.General.Enums;
 
 namespace QuickMaths.General.DataStructure;
 
@@ -54,7 +53,7 @@ public class TreeExpression<TEntity> where TEntity : notnull
 
             { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } => new EntityNode<TEntity>(rootEntity),
 
-            _ => new OperatorNodePrototype(rootUnaryOperator)
+            _ => new OperatorNode(rootUnaryOperator)
                 .AppendOperand(rootUnaryOperator, new EntityNode<TEntity>(rootEntity))
         };
     }
@@ -96,6 +95,7 @@ public class TreeExpression<TEntity> where TEntity : notnull
     /// </exception>
     public virtual void Add(IArithmeticOperator @operator, TEntity entity) => Root = @operator switch
     {
+        null => throw new ArgumentNullException(nameof(@operator)),
         { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } =>
             throw new ArgumentException($"Given {nameof(@operator)} is {nameof(ArithmeticOperator.None)}"),
         _ => Root.MergeNodes(

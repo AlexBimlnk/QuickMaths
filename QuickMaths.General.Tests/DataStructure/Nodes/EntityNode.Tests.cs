@@ -4,7 +4,6 @@ using System.Linq;
 using FluentAssertions;
 
 using QuickMaths.General.Abstractions;
-using QuickMaths.General.Enums;
 
 using Xunit;
 

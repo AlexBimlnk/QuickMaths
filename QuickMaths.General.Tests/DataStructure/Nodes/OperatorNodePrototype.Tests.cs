@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using QuickMaths.General.Abstractions;
-using QuickMaths.General.Enums;
 
 using FluentAssertions;
 using Xunit;
@@ -24,7 +23,7 @@ public class OperatorNodePrototypeTests
         var baseOperator = ArithmeticOperator.Plus;
 
         //Act
-        var exception = Record.Exception(() => new OperatorNodePrototype(baseOperator));
+        var exception = Record.Exception(() => new OperatorNode(baseOperator));
 
         //Assert
         exception.Should().BeNull();
@@ -38,7 +37,7 @@ public class OperatorNodePrototypeTests
         IArithmeticOperator? nullBaseOperator = null;
 
         //Act
-        var exception = Record.Exception(() => new OperatorNodePrototype(nullBaseOperator));
+        var exception = Record.Exception(() => new OperatorNode(nullBaseOperator));
 
         //Assert
         exception.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
@@ -52,7 +51,7 @@ public class OperatorNodePrototypeTests
         IArithmeticOperator incorrectBaseOperator = ArithmeticOperator.None;
 
         //Act
-        var exception = Record.Exception(() => new OperatorNodePrototype(incorrectBaseOperator));
+        var exception = Record.Exception(() => new OperatorNode(incorrectBaseOperator));
 
         //Assert
         exception.Should().NotBeNull().And.BeOfType<ArgumentException>();
@@ -81,7 +80,7 @@ public class OperatorNodePrototypeTests
     {
         //Arrange
         var baseOperator = ArithmeticOperator.Plus;
-        var operatorNode = new OperatorNodePrototype(baseOperator);
+        var operatorNode = new OperatorNode(baseOperator);
 
         //Act
         var result = operatorNode.Priority;
@@ -97,7 +96,7 @@ public class OperatorNodePrototypeTests
     [Theory(DisplayName = "Can get child entities.")]
     [Trait("Category", "Methods")]
     [MemberData(nameof(OperatorNodePrototypeTestsData.GetChildEntitiesData), MemberType = typeof(OperatorNodePrototypeTestsData))]
-    public void CanGetChildEntity(OperatorNodePrototype operatorNode, ILookup<IArithmeticOperator, INodeExpression> expectedChildEntities)
+    public void CanGetChildEntity(OperatorNode operatorNode, ILookup<IArithmeticOperator, INodeExpression> expectedChildEntities)
     {
         //Arrange
         var func = (INodeExpression node) => node.GetChildEntities();
@@ -113,10 +112,10 @@ public class OperatorNodePrototypeTests
     [Theory(DisplayName = "Can add operand.")]
     [Trait("Category", "Methods")]
     [MemberData(nameof(OperatorNodePrototypeTestsData.GetAddOperandData), MemberType = typeof(OperatorNodePrototypeTestsData))]
-    public void CanAddOperand(OperatorNodePrototype operatorNode, IArithmeticOperator @operator, INodeExpression toAddOperand, INodeExpression expextedResult)
+    public void CanAddOperand(OperatorNode operatorNode, IArithmeticOperator @operator, INodeExpression toAddOperand, INodeExpression expextedResult)
     {
         //Arrange
-        var func = (OperatorNodePrototype node, IArithmeticOperator @operator, INodeExpression operand) => node.AppendOperand(@operator, operand);
+        var func = (OperatorNode node, IArithmeticOperator @operator, INodeExpression operand) => node.AppendOperand(@operator, operand);
 
         var result = default(INodeExpression);
 
@@ -140,10 +139,10 @@ public class OperatorNodePrototypeTests
     [Theory(DisplayName = "Can merge entity node with others.")]
     [Trait("Category", "Methods")]
     [MemberData(nameof(OperatorNodePrototypeTestsData.GetMergeNodesData), MemberType = typeof(OperatorNodePrototypeTestsData))]
-    public void CanMergeNodes(OperatorNodePrototype operatorNode, IArithmeticOperator @operator, INodeExpression toMergeNode, INodeExpression epextedMergeResult)
+    public void CanMergeNodes(OperatorNode operatorNode, IArithmeticOperator @operator, INodeExpression toMergeNode, INodeExpression epextedMergeResult)
     {
         //Arrange
-        var func = (OperatorNodePrototype entityNode, IArithmeticOperator @operator, INodeExpression node) => entityNode.MergeNodes(@operator, node);
+        var func = (OperatorNode entityNode, IArithmeticOperator @operator, INodeExpression node) => entityNode.MergeNodes(@operator, node);
 
         var result = default(INodeExpression);
 
@@ -166,10 +165,10 @@ public class OperatorNodePrototypeTests
     [Theory(DisplayName = "Cannot merge nodes with null arguments.")]
     [Trait("Category", "Methods")]
     [MemberData(nameof(OperatorNodePrototypeTestsData.GetMergeNodesWithNullData), MemberType = typeof(OperatorNodePrototypeTestsData))]
-    public void CanNotMergeNodesWhenArgsIsNull(OperatorNodePrototype operatorNode, IArithmeticOperator @operator, INodeExpression toMergeNode)
+    public void CanNotMergeNodesWhenArgsIsNull(OperatorNode operatorNode, IArithmeticOperator @operator, INodeExpression toMergeNode)
     {
         //Arrange
-        var func = (OperatorNodePrototype entityNode, IArithmeticOperator @operator, INodeExpression node) => entityNode.MergeNodes(@operator, node);
+        var func = (OperatorNode entityNode, IArithmeticOperator @operator, INodeExpression node) => entityNode.MergeNodes(@operator, node);
 
         //Act
         var exception = Record.Exception(() => func(operatorNode, @operator, toMergeNode));

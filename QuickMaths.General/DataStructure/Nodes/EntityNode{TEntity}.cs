@@ -1,5 +1,4 @@
 ﻿using QuickMaths.General.Abstractions;
-using QuickMaths.General.Enums;
 
 namespace QuickMaths.General.DataStructure.Nodes;
 
@@ -48,7 +47,7 @@ public sealed class EntityNode<TEntity> : IEntityNode<TEntity> where TEntity : n
     {
         { Priority: ArithmeticOperator.NONE_OPERATOR_PRIORITY_VALUE } => throw new ArgumentException($"Given {nameof(@operator)} is {nameof(ArithmeticOperator.None)}"),
         null => throw new ArgumentNullException(nameof(node)),
-        _ => new OperatorNodePrototype(@operator).AppendOperand(ArithmeticOperator.None, this).AppendOperand(@operator, node)
+        _ => new OperatorNode(@operator).AppendOperand(ArithmeticOperator.None, this).AppendOperand(@operator, node)
     };
 
     /// <inheritdoc/>

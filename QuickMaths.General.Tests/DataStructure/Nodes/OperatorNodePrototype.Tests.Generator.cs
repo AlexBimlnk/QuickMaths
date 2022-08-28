@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 
 using QuickMaths.General.Abstractions;
-using QuickMaths.General.Enums;
 
 using Xunit;
 namespace QuickMaths.General.DataStructure.Nodes.Tests;
@@ -14,7 +13,7 @@ internal class OperatorNodePrototypeTestsData
         (ArithmeticOperator.Minus,new EntityNode<string>(" 1_4 ")),
         (ArithmeticOperator.Minus,new EntityNode<string>(" 1_5 "))
     };
-    private static OperatorNodePrototype s_priority1OperatorNode1 = new OperatorNodePrototype(ArithmeticOperator.Plus, s_fillPriority1_1.ToLookup(o => o.Item1, o => o.Item2));
+    private static OperatorNode s_priority1OperatorNode1 = new OperatorNodePrototype(ArithmeticOperator.Plus, s_fillPriority1_1.ToLookup(o => o.Item1, o => o.Item2));
 
     private static EntityNode<string> s_entityNode2 = new EntityNode<string>(" 2_1 ");
 
@@ -22,31 +21,31 @@ internal class OperatorNodePrototypeTestsData
         (ArithmeticOperator.Minus, new EntityNode<string>(" 3_1 ")),
         (ArithmeticOperator.Plus, new EntityNode<string>(" 3_2 "))
     };
-    private static OperatorNodePrototype s_priority1OperatorNode3 = new OperatorNodePrototype(ArithmeticOperator.Plus, s_fillPriority1_3.ToLookup(o => o.Item1, o => o.Item2));
+    private static OperatorNode s_priority1OperatorNode3 = new OperatorNodePrototype(ArithmeticOperator.Plus, s_fillPriority1_3.ToLookup(o => o.Item1, o => o.Item2));
 
     private static (IArithmeticOperator, INodeExpression)[] s_fillPriority2_4 = new (IArithmeticOperator, INodeExpression)[] {
         (ArithmeticOperator.Multiply, new EntityNode<string>(" 4_2 ")),
         (ArithmeticOperator.Multiply, new EntityNode<string>(" 4_3 ")),
         (ArithmeticOperator.Multiply, new EntityNode<string>(" 4_4 "))
     };
-    private static OperatorNodePrototype s_priority2OperatorNode4 = new OperatorNodePrototype(ArithmeticOperator.Multiply, s_fillPriority2_4.ToLookup(o => o.Item1, o => o.Item2));
+    private static OperatorNode s_priority2OperatorNode4 = new OperatorNodePrototype(ArithmeticOperator.Multiply, s_fillPriority2_4.ToLookup(o => o.Item1, o => o.Item2));
 
     private static IArithmeticOperator s_mergeOperator1Divide2 = ArithmeticOperator.Divide;
-    private static OperatorNodePrototype s_mergeResult1Divide2 = new OperatorNodePrototype(ArithmeticOperator.Divide, 
+    private static OperatorNode s_mergeResult1Divide2 = new OperatorNodePrototype(ArithmeticOperator.Divide, 
         new (IArithmeticOperator, INodeExpression)[] { 
             (ArithmeticOperator.Multiply,s_priority1OperatorNode1),
             (s_mergeOperator1Divide2, s_entityNode2)
         }.ToLookup(o => o.Item1, o => o.Item2));
 
     private static IArithmeticOperator s_mergeOperator1Divide3 = ArithmeticOperator.Divide;
-    private static OperatorNodePrototype s_mergeResult1Divide3 = new OperatorNodePrototype(ArithmeticOperator.Divide,
+    private static OperatorNode s_mergeResult1Divide3 = new OperatorNodePrototype(ArithmeticOperator.Divide,
         new (IArithmeticOperator, INodeExpression)[] {
             (ArithmeticOperator.Multiply,s_priority1OperatorNode1),
             (s_mergeOperator1Divide2, s_priority1OperatorNode3)
         }.ToLookup(o => o.Item1, o => o.Item2));
 
     private static IArithmeticOperator s_mergeOperator1Divide4 = ArithmeticOperator.Divide;
-    private static OperatorNodePrototype s_mergeResult1Divide4 = new OperatorNodePrototype(ArithmeticOperator.Divide,
+    private static OperatorNode s_mergeResult1Divide4 = new OperatorNodePrototype(ArithmeticOperator.Divide,
         s_fillPriority2_4
         .Append((ArithmeticOperator.Multiply, s_priority1OperatorNode1))
         .ToLookup(o => (o.Item1 == ArithmeticOperator.Multiply && o.Item2 != s_priority1OperatorNode1
@@ -54,13 +53,13 @@ internal class OperatorNodePrototypeTestsData
                             : ArithmeticOperator.Multiply), o => o.Item2));
 
     private static IArithmeticOperator s_mergeOperator1Minus4 = ArithmeticOperator.Minus;
-    private static OperatorNodePrototype s_mergeResult1Minus4 = new OperatorNodePrototype(ArithmeticOperator.Minus,
+    private static OperatorNode s_mergeResult1Minus4 = new OperatorNodePrototype(ArithmeticOperator.Minus,
         s_fillPriority1_1
         .Append((s_mergeOperator1Minus4, s_priority2OperatorNode4))
         .ToLookup(o => o.Item1, o => o.Item2));
 
     private static IArithmeticOperator s_mergeOperator1Minus3 = ArithmeticOperator.Minus;
-    private static OperatorNodePrototype s_mergeResult1Minus3 = new OperatorNodePrototype(ArithmeticOperator.Minus,
+    private static OperatorNode s_mergeResult1Minus3 = new OperatorNodePrototype(ArithmeticOperator.Minus,
         s_fillPriority1_1
         .Concat(s_fillPriority1_3.Select(o => ((o.Item1 == ArithmeticOperator.Minus
                             ? ArithmeticOperator.Plus
@@ -68,14 +67,14 @@ internal class OperatorNodePrototypeTestsData
         .ToLookup(o => o.Item1 , o => o.Item2));
 
     private static IArithmeticOperator s_addOperaotr1Minus4 = ArithmeticOperator.Minus;
-    private static OperatorNodePrototype s_addOperand1Minus4 = new OperatorNodePrototype(ArithmeticOperator.Minus,
+    private static OperatorNode s_addOperand1Minus4 = new OperatorNodePrototype(ArithmeticOperator.Minus,
         s_fillPriority1_1.Append((s_addOperaotr1Minus4, s_priority2OperatorNode4)).ToLookup(o => o.Item1, o => o.Item2));
 
     private static IArithmeticOperator s_addOperaotr1Minus2 = ArithmeticOperator.Minus;
-    private static OperatorNodePrototype s_addOperand1Minus2 = new OperatorNodePrototype(ArithmeticOperator.Minus,
+    private static OperatorNode s_addOperand1Minus2 = new OperatorNodePrototype(ArithmeticOperator.Minus,
         s_fillPriority1_1.Append((s_addOperaotr1Minus2,s_entityNode2)).ToLookup(o => o.Item1, o => o.Item2));
 
-    private static OperatorNodePrototype GetPriority1OperatorNode => new OperatorNodePrototype(ArithmeticOperator.Plus, s_fillPriority1_1.ToLookup(o => o.Item1, o => o.Item2));
+    private static OperatorNode GetPriority1OperatorNode => new OperatorNodePrototype(ArithmeticOperator.Plus, s_fillPriority1_1.ToLookup(o => o.Item1, o => o.Item2));
 
     public static TheoryData<IArithmeticOperator ,ILookup<IArithmeticOperator, INodeExpression>> CanCreateWithLookupData
     {
@@ -88,22 +87,22 @@ internal class OperatorNodePrototypeTestsData
             return data;
         }
     }
-    public static TheoryData<OperatorNodePrototype, ILookup<IArithmeticOperator, INodeExpression>> GetChildEntitiesData
+    public static TheoryData<OperatorNode, ILookup<IArithmeticOperator, INodeExpression>> GetChildEntitiesData
     {
         get
         {
-            var data = new TheoryData<OperatorNodePrototype, ILookup<IArithmeticOperator, INodeExpression>>();
+            var data = new TheoryData<OperatorNode, ILookup<IArithmeticOperator, INodeExpression>>();
 
             data.Add(s_priority1OperatorNode1, s_fillPriority1_1.ToLookup(o => o.Item1, o => o.Item2));
 
             return data;
         }
     }
-    public static TheoryData<OperatorNodePrototype, IArithmeticOperator, INodeExpression, INodeExpression> GetMergeNodesData
+    public static TheoryData<OperatorNode, IArithmeticOperator, INodeExpression, INodeExpression> GetMergeNodesData
     {
         get
         {
-            var data = new TheoryData<OperatorNodePrototype, IArithmeticOperator, INodeExpression, INodeExpression>();
+            var data = new TheoryData<OperatorNode, IArithmeticOperator, INodeExpression, INodeExpression>();
 
             //merge with entity
 
@@ -130,11 +129,11 @@ internal class OperatorNodePrototypeTestsData
             return data;
         }
     }
-    public static TheoryData<OperatorNodePrototype, IArithmeticOperator, INodeExpression> GetMergeNodesWithNullData
+    public static TheoryData<OperatorNode, IArithmeticOperator, INodeExpression> GetMergeNodesWithNullData
     {
         get
         {
-            var data = new TheoryData<OperatorNodePrototype, IArithmeticOperator, INodeExpression>();
+            var data = new TheoryData<OperatorNode, IArithmeticOperator, INodeExpression>();
 
             data.Add(s_priority1OperatorNode1, null!, s_entityNode2);
 
@@ -143,11 +142,11 @@ internal class OperatorNodePrototypeTestsData
             return data;
         }
     }
-    public static TheoryData<OperatorNodePrototype, IArithmeticOperator, INodeExpression, INodeExpression> GetAddOperandData
+    public static TheoryData<OperatorNode, IArithmeticOperator, INodeExpression, INodeExpression> GetAddOperandData
     {
         get
         {
-            var data = new TheoryData<OperatorNodePrototype, IArithmeticOperator, INodeExpression, INodeExpression>();
+            var data = new TheoryData<OperatorNode, IArithmeticOperator, INodeExpression, INodeExpression>();
 
             //node operator entity
 
