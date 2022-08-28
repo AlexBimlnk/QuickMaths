@@ -3,6 +3,8 @@ using System.Linq;
 
 using FluentAssertions;
 
+using Moq;
+
 using QuickMaths.General.Abstractions;
 
 using Xunit;
@@ -16,136 +18,113 @@ public class EntityNodeTests
     [Trait("Category", "Constructors")]
     public void CanBeCreated()
     {
-        //Arrange
-        var entity = "entity";
+        // Arrange
+        var entity = new FakeEntity();
+        EntityNode<FakeEntity> node = null!;
 
-        //Act
-        var exception = Record.Exception(() => new EntityNode<string>(entity));
+        // Act
+        var exception = Record.Exception(() => node = new EntityNode<FakeEntity>(entity));
 
-        //Assert
+        // Assert
         exception.Should().BeNull();
+        node.Source.Should().Be(entity);
+        node.Priority.Should().Be(ArithmeticOperator.None.Priority);
     }
 
     [Fact(DisplayName = "Cannot be created when args is null.")]
     [Trait("Category", "Constructors")]
     public void CanNotBeCreatedWhenArgumentsIsNull()
     {
-        //Arrange
-        string? nullEntity = null;
+        // Act
+        var exception = Record.Exception(() => new EntityNode<FakeEntity>(null!));
 
-        //Act
-        var exception = Record.Exception(() => new EntityNode<string>(nullEntity));
-
-        //Assert
+        // Assert
         exception.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
-    }
-
-    #endregion
-
-    #region Properties
-
-    [Fact(DisplayName = "Can get source from entity.")]
-    [Trait("Category", "Properties")]
-    public void CanGetSource()
-    {
-        //Arrange
-        var entity = "entity";
-        var entityNode = new EntityNode<string>(entity);
-
-        //Act
-        var result = entityNode.Source;
-
-        //Assert
-        result.Should().Be(entity);
-    }
-
-    [Fact(DisplayName = "Can get priority of entity node.")]
-    [Trait("Category", "Properties")]
-    public void CanGetPriority()
-    {
-        //Arrange
-        var entity = "entity";
-        var entityNode = new EntityNode<string>(entity);
-
-        //Act
-        var result = entityNode.Priority;
-
-        //Assert
-        result.Should().Be(ArithmeticOperator.None.Priority);
     }
 
     #endregion
 
     #region Methods
 
-    [Theory(DisplayName = "Can get child entities.")]
+    [Fact(DisplayName = "Can get child entities.")]
     [Trait("Category", "Methods")]
-    [MemberData(nameof(EntityNodeTestsData.GetChildEntitiesData), MemberType = typeof(EntityNodeTestsData))]
-    public void CanGetChildEntity(EntityNode<string> entityNode, ILookup<IArithmeticOperator, INodeExpression> expectedChildEntity)
+    public void CanGetChildEntity()
     {
-        //Arrange
-        var func = (INodeExpression node) => node.GetChildEntities();
-        var result = Enumerable.Empty<INodeExpression>().ToLookup(x => ArithmeticOperator.None, x => x);
+        // Arrange
+        var entity = new FakeEntity();
+        var node = new EntityNode<FakeEntity>(entity);
+        var expectedResult = Enumerable.Empty<INodeExpression>().ToLookup(x => ArithmeticOperator.None, x => x);
 
-        //Act
-        result = func(entityNode);
+        // Act
+        var result = node.GetChildEntities();
 
-        //Assert
-        result.Should().BeEquivalentTo(expectedChildEntity);
+        // Assert
+        result.Should().BeEquivalentTo(expectedResult);
     }
 
-    [Theory(DisplayName = "Can merge entity node with others.")]
+    [Fact(DisplayName = "Can merge entity node with others.")]
     [Trait("Category", "Methods")]
-    [MemberData(nameof(EntityNodeTestsData.GetMergeNodesData), MemberType = typeof(EntityNodeTestsData))]
-    public void CanMergeNodes(EntityNode<string> entityNode, IArithmeticOperator @operator, INodeExpression toMergeNode, INodeExpression epextedMergeResult)
+    public void CanMergeNodes()
     {
-        //Arrange
-        var func = (EntityNode<string> entityNode, IArithmeticOperator @operator, INodeExpression node) => entityNode.MergeNodes(@operator, node);
+        // Arrange
+        var node = new EntityNode<FakeEntity>(new FakeEntity());
+        var @operator = Mock.Of<IArithmeticOperator>(MockBehavior.Strict);
+        var toMergeNode = Mock.Of<INodeExpression>(MockBehavior.Strict);
 
-        var result = default(INodeExpression);
+        var expectedResult = new OperatorNode(@operator)
+            .AppendOperand(ArithmeticOperator.None, node)
+            .AppendOperand(@operator, toMergeNode);
 
-        try
-        {
-            //Act
-            result = func(entityNode, @operator, toMergeNode);
+        // Act
+        var result = node.MergeNodes(@operator, toMergeNode);
 
-            //Assert
-            result.Should().BeEquivalentTo(epextedMergeResult);
-            result.GetChildEntities().Should().BeEquivalentTo(epextedMergeResult.GetChildEntities());
-        }
-        catch
-        {
-            // Assert
-            Assert.Throws<ArgumentException>(() => func(entityNode, @operator, toMergeNode));
-        }
+        // Assert
+        result.Should().BeEquivalentTo(expectedResult);
     }
 
-    [Theory(DisplayName = "Cannot merge nodes with null arguments.")]
+    [Fact(DisplayName = "Cannot merge nodes without operator.")]
     [Trait("Category", "Methods")]
-    [MemberData(nameof(EntityNodeTestsData.GetMergeNodesWithNullData), MemberType = typeof(EntityNodeTestsData))]
-    public void CanNotMergeNodesWhenArgsIsNull(EntityNode<string> entityNode, IArithmeticOperator @operator, INodeExpression toMergeNode)
+    public void CanNotMergeNodesWithoutOperator()
     {
-        //Arrange
-        var func = (EntityNode<string> entityNode, IArithmeticOperator @operator, INodeExpression node) => entityNode.MergeNodes(@operator, node);
+        // Arrange
+        var node = new EntityNode<FakeEntity>(new FakeEntity());
 
-        //Act
-        var exception = Record.Exception(() => func(entityNode, @operator, toMergeNode));
+        // Act
+        var exception = Record.Exception(() => 
+            node.MergeNodes(null!, Mock.Of<INodeExpression>(MockBehavior.Strict)));
 
-        //Assert
+        // Assert
         exception.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
     }
 
-    [Fact(DisplayName = "Can to string.")]
+    [Fact(DisplayName = "Cannot merge nodes without other node.")]
     [Trait("Category", "Methods")]
-    public void CanToString()
+    public void CanNotMergeNodesWithoutOtherNode()
     {
-        var entity = "entity";
-        var entityNode = new EntityNode<string>(entity);
+        // Arrange
+        var node = new EntityNode<FakeEntity>(new FakeEntity());
+
+        // Act
+        var exception = Record.Exception(() => 
+            node.MergeNodes(Mock.Of<IArithmeticOperator>(MockBehavior.Strict), null!));
+
+        // Assert
+        exception.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
+    }
+
+    [Fact(DisplayName = "ToString works.")]
+    [Trait("Category", "Methods")]
+    public void ToStringWorks()
+    {
+        var entity = new FakeEntity();
+        var entityNode = new EntityNode<FakeEntity>(entity);
 
         var result = entityNode.ToString();
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(entity.ToString());
     }
     #endregion
+
+    public record class FakeEntity();
 }

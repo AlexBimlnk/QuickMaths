@@ -35,7 +35,6 @@ public sealed class OperatorNode : IOperatorNode
     /// <inheritdoc/>
     public int Priority { get; private set; }
 
-
     private string GetStringView()
     {
         var stringBuilder = new System.Text.StringBuilder(string.Empty);
@@ -108,15 +107,13 @@ public sealed class OperatorNode : IOperatorNode
     /// <exception cref="ArgumentException"></exception>
     public IOperatorNode AppendOperand(IArithmeticOperator @operator, INodeExpression operand)
     {
+        ArgumentNullException.ThrowIfNull(operand, nameof(operand));
+
         if (@operator.Priority == -1)
             @operator = ArithmeticOperator.GetDefaultOperator(Priority);
 
-        ArgumentNullException.ThrowIfNull(operand, nameof(operand));
-
         if (@operator.Priority != Priority)
             throw new ArgumentException($"Incorrect {nameof(@operator.Priority)} of given {nameof(@operator)}");
-        /*if (!@operator.IsUnary && _assignedOperands.Count == 0)
-            throw new ArgumentException($"Given {nameof(@operator)} can't be unary");*/
 
         if (operand.Priority == Priority)
         {

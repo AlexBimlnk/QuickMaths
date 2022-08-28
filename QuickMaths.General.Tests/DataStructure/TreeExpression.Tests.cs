@@ -3,12 +3,12 @@
 using FluentAssertions;
 
 using QuickMaths.General.Abstractions;
-using QuickMaths.General.DataStructure.Nodes;
-using QuickMaths.General.DataStructure.Nodes.Tests;
 
 using Xunit;
 
 namespace QuickMaths.General.DataStructure.Tests;
+
+//ToDo: refactor tree expression tests
 public class TreeExpressionTests
 {
     #region Constructor
@@ -18,13 +18,13 @@ public class TreeExpressionTests
     [MemberData(nameof(TreeExpressionTestsData.CanCreateData), MemberType = typeof(TreeExpressionTestsData))]
     public void CanBeCreated(IArithmeticOperator @operator, string rootEntity)
     {
-        //Arrange
+        // Arrange
         var func = (string root, IArithmeticOperator @operator) => new TreeExpression<string>(root, @operator);
 
-        //Act
-        var exception = Record.Exception(() => func(rootEntity ,@operator));
+        // Act
+        var exception = Record.Exception(() => func(rootEntity, @operator));
 
-        //Assert
+        // Assert
         exception.Should().BeNull();
     }
 
@@ -33,13 +33,13 @@ public class TreeExpressionTests
     [MemberData(nameof(TreeExpressionTestsData.CanNotBeCreatedWithNullData), MemberType = typeof(TreeExpressionTestsData))]
     public void CanNotBeCreatedWhenArgumentsIsNull(IArithmeticOperator @operator, string rootEntity)
     {
-        //Arrange
+        // Arrange
         var func = (string root, IArithmeticOperator @operator) => new TreeExpression<string>(root, @operator);
 
-        //Act
+        // Act
         var exception = Record.Exception(() => func(rootEntity, @operator));
 
-        //Assert
+        // Assert
         exception.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
     }
 
@@ -52,19 +52,19 @@ public class TreeExpressionTests
     [Theory(DisplayName = "Can set root.")]
     [Trait("Category", "Methods")]
     [MemberData(nameof(TreeExpressionTestsData.CanSetRootData), MemberType = typeof(TreeExpressionTestsData))]
-    public void CanSetRoot(TreeExpression<string> tree ,IArithmeticOperator @operator, string rootEntity, TreeExpression<string> expectedResult)
+    public void CanSetRoot(TreeExpression<string> tree, IArithmeticOperator @operator, string rootEntity, TreeExpression<string> expectedResult)
     {
-        //Arrange
+        // Arrange
         var func = (TreeExpression<string> tree, IArithmeticOperator rootOperator, string rootEntity) => tree.SetRoot(rootEntity, rootOperator);
         var result = default(TreeExpression<string>);
 
         try
-        { 
-            //Act
+        {
+            // Act
             func(tree, @operator, rootEntity);
             result = tree;
 
-            //Assert
+            // Assert
             result.Root.Should().BeEquivalentTo(expectedResult.Root);
         }
         catch
@@ -79,13 +79,13 @@ public class TreeExpressionTests
     [MemberData(nameof(TreeExpressionTestsData.CanNotSetRootWithNullData), MemberType = typeof(TreeExpressionTestsData))]
     public void CannotSetRootWithNullArgs(TreeExpression<string> tree, IArithmeticOperator @operator, string rootEntity)
     {
-        //Arrange
+        // Arrange
         var func = (TreeExpression<string> tree, IArithmeticOperator rootOperator, string rootEntity) => tree.SetRoot(rootEntity, rootOperator);
 
-        //Act
+        // Act
         var exception = Record.Exception(() => func(tree, @operator, rootEntity));
 
-        //Assert
+        // Assert
         exception.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
     }
 
@@ -97,17 +97,17 @@ public class TreeExpressionTests
     [MemberData(nameof(TreeExpressionTestsData.CanAddEntityData), MemberType = typeof(TreeExpressionTestsData))]
     public void CanAddEntity(TreeExpression<string> tree, IArithmeticOperator @operator, string entity, TreeExpression<string> expectedResult)
     {
-        //Arrange
+        // Arrange
         var func = (TreeExpression<string> tree, IArithmeticOperator @operator, string entity) => tree.Add(@operator, entity);
         var result = default(TreeExpression<string>);
 
         try
         {
-            //Act
+            // Act
             func(tree, @operator, entity);
             result = tree;
 
-            //Assert
+            // Assert
             result.Root.Should().BeEquivalentTo(expectedResult.Root);
         }
         catch
@@ -122,13 +122,13 @@ public class TreeExpressionTests
     [MemberData(nameof(TreeExpressionTestsData.CanAddEntityWithNullData), MemberType = typeof(TreeExpressionTestsData))]
     public void CannotAddEntityWithNullArgs(TreeExpression<string> tree, IArithmeticOperator @operator, string entity)
     {
-        //Arrange
+        // Arrange
         var func = (TreeExpression<string> tree, IArithmeticOperator @operator, string entity) => tree.Add(@operator, entity);
 
-        //Act
+        // Act
         var exception = Record.Exception(() => func(tree, @operator, entity));
 
-        //Assert
+        // Assert
         exception.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
     }
 
@@ -139,17 +139,17 @@ public class TreeExpressionTests
     [MemberData(nameof(TreeExpressionTestsData.CanAddTreeData), MemberType = typeof(TreeExpressionTestsData))]
     public void CanAddTree(TreeExpression<string> tree, IArithmeticOperator @operator, TreeExpression<string> entityTree, TreeExpression<string> expectedResult)
     {
-        //Arrange
+        // Arrange
         var func = (TreeExpression<string> tree, IArithmeticOperator @operator, TreeExpression<string> entityTree) => tree.Add(@operator, entityTree);
         var result = default(TreeExpression<string>);
 
         try
         {
-            //Act
+            // Act
             func(tree, @operator, entityTree);
             result = tree;
 
-            //Assert
+            // Assert
             result.Root.Should().BeEquivalentTo(expectedResult.Root);
         }
         catch
@@ -164,13 +164,13 @@ public class TreeExpressionTests
     [MemberData(nameof(TreeExpressionTestsData.CanAddTreeWithNullData), MemberType = typeof(TreeExpressionTestsData))]
     public void CannotAddTreeWithNullArgs(TreeExpression<string> tree, IArithmeticOperator @operator, TreeExpression<string> entityTree)
     {
-        //Arrange
+        // Arrange
         var func = (TreeExpression<string> tree, IArithmeticOperator @operator, TreeExpression<string> entityTree) => tree.Add(@operator, entityTree);
 
-        //Act
+        // Act
         var exception = Record.Exception(() => func(tree, @operator, entityTree));
 
-        //Assert
+        // Assert
         exception.Should().NotBeNull().And.BeOfType<ArgumentNullException>();
     }
 
