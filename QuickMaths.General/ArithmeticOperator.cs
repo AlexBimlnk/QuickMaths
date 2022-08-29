@@ -122,29 +122,23 @@ public static class ArithmeticOperator
     /// Если переданны операторы разного приоритета или пустые или 
     /// не являющиеся стандартными математическими операторами.
     /// </exception>
-    public static IArithmeticOperator MergeOperator(IArithmeticOperator firstOperator, IArithmeticOperator secondOperator)
+    public static IArithmeticOperator MergeOperator(IArithmeticOperator firstOperator, IArithmeticOperator secondOperator) => (firstOperator, secondOperator) switch
     {
-        ArgumentNullException.ThrowIfNull(firstOperator, nameof(firstOperator));
-        ArgumentNullException.ThrowIfNull(secondOperator, nameof(secondOperator));
-
-        if (firstOperator.Priority != secondOperator.Priority)
-            throw new ArgumentException($"{nameof(firstOperator)} and {nameof(secondOperator)} has different priority");
-
-        return firstOperator switch
-        {
-            { Priority: NONE_OPERATOR_PRIORITY_VALUE } => throw new ArgumentException($"Given {nameof(firstOperator)} and {secondOperator} are {nameof(None)}"),
-            { Priority: PLUS_MINUS_OPERATORS_PRIORITY_VALUE } =>
-                firstOperator.CharView == MINUS_OPERATOR_CHAR_VIEW != (secondOperator.CharView == MINUS_OPERATOR_CHAR_VIEW)
-                    ? Minus
-                    : Plus,
-            { Priority: MULTIPLY_DIVIDE_OPERATOR_PRIORITY_VALUE } =>
-                firstOperator.CharView == MULTIPLY_OPERATOR_CHAR_VIEW != (secondOperator.CharView == MULTIPLY_OPERATOR_CHAR_VIEW)
-                    ? Divide
-                    : Multiply,
-            { Priority: POWER_OPERATOR_PRIORITY_VALUE } => Power,
-            _ => throw new ArgumentException($"Given operators with incorect {nameof(firstOperator.Priority)}"),
-        };
-    }
+        (null, _) => throw new ArgumentNullException(nameof(firstOperator)),
+        (_, null) => throw new ArgumentNullException(nameof(secondOperator)),
+        (_, _) when firstOperator.Priority != secondOperator.Priority => 
+            throw new ArgumentException($"{nameof(firstOperator)} and {nameof(secondOperator)} has different priority"),
+        ({ Priority: NONE_OPERATOR_PRIORITY_VALUE }, _) => 
+            throw new ArgumentException($"Given {nameof(firstOperator)} and {secondOperator} are {nameof(None)}"),
+        
+        ({ Priority: PLUS_MINUS_OPERATORS_PRIORITY_VALUE, CharView: MINUS_OPERATOR_CHAR_VIEW }, { CharView: MINUS_OPERATOR_CHAR_VIEW }) => Plus,
+        ({ Priority: PLUS_MINUS_OPERATORS_PRIORITY_VALUE, }, _) => Minus,
+        ({ Priority: MULTIPLY_DIVIDE_OPERATOR_PRIORITY_VALUE, CharView: MULTIPLY_OPERATOR_CHAR_VIEW}, { CharView: MULTIPLY_OPERATOR_CHAR_VIEW}) => Multiply,
+        ({ Priority: MULTIPLY_DIVIDE_OPERATOR_PRIORITY_VALUE, }, _) => Divide,
+        ({ Priority: POWER_OPERATOR_PRIORITY_VALUE }, _) => Power,
+        
+        _ => throw new ArgumentException($"Given operators with incorect {nameof(firstOperator.Priority)}"),
+    };
 
     /// <summary xml:lang = "ru">
     /// Получение стандартного оператора для соответвующего приоритета.
