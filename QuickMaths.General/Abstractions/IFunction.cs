@@ -11,8 +11,8 @@ public interface IFunction : IEquatable<IFunction>, IArithmeticable
     /// <returns xml:lang = "ru"> 
     /// Результат типа <see cref="double"/>. 
     /// </returns>
-    /// <exception cref="InvalidOperationException"></exception>
     public double Calculate();
+
     /// <summary xml:lang = "ru">
     /// Возвращает производную данной функции.
     /// </summary>

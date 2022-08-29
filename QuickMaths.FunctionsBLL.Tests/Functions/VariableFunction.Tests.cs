@@ -1,56 +1,16 @@
 ﻿using System;
 
 using FluentAssertions;
-using Xunit;
 
 using QuickMaths.FunctionsBLL.Functions;
 using QuickMaths.General.Abstractions;
+
+using Xunit;
 
 namespace QuickMaths.FunctionsBLL.Tests.Functions;
 
 public class VariableFunctionTests
 {
-    public static TheoryData<VariableFunction, IFunction, bool> EqualsVFAndOtherFunctionData
-    {
-        get
-        {
-            var data = new TheoryData<VariableFunction, IFunction, bool>();
-
-            data.Add(new VariableFunction("x"), new VariableFunction("x"), true);
-            data.Add(new VariableFunction("x", 14.2), new VariableFunction("x", 14.2), true);
-            data.Add(new VariableFunction("x", 14d), new VariableFunction("x", 14.2), false);
-            data.Add(new VariableFunction("x", 14d), new VariableFunction("x1", 14d), false);
-            data.Add(new VariableFunction("x", 14d), new NumberFunction(14d), false);
-            data.Add(new VariableFunction("x", 14d), new LinearFunction(new VariableFunction("x1"), new NumberFunction(14d)), false);
-            data.Add(new VariableFunction("x1"), new LinearFunction(new VariableFunction("x1")), false);
-            data.Add(new VariableFunction("x1", 14d), new LinearFunction(new VariableFunction("x1")), false);
-
-            return data;
-        }
-    }
-
-    public static TheoryData<VariableFunction, object, bool> EqualsVFAndObjectData
-    {
-        get
-        {
-            var data = new TheoryData<VariableFunction, object, bool>();
-
-            data.Add(new VariableFunction("x"), new VariableFunction("x"), true);
-            data.Add(new VariableFunction("x", 14.2), new VariableFunction("x", 14.2), true);
-            data.Add(new VariableFunction("x", 14d), new VariableFunction("x", 14.2), false);
-            data.Add(new VariableFunction("x", 14d), new VariableFunction("x1", 14d), false);
-            data.Add(new VariableFunction("x", 14d), new NumberFunction(14d), false);
-            data.Add(new VariableFunction("x", 14d), new LinearFunction(new VariableFunction("x1"), new NumberFunction(14d)), false);
-            data.Add(new VariableFunction("x1"), new LinearFunction(new VariableFunction("x1")), false);
-            data.Add(new VariableFunction("x1", 14d), new LinearFunction(new VariableFunction("x1")), false);
-            data.Add(new VariableFunction("x"), null!, false);
-            data.Add(new VariableFunction("x"), "123", false);
-
-            return data;
-        }
-    }
-
-
     #region Конструкторы
 
     [Fact(DisplayName = "Can be created.")]
@@ -60,73 +20,46 @@ public class VariableFunctionTests
         // Arrange
         var name = "x1";
         var value = 24.17;
+        VariableFunction func = null!;
 
         // Act
-        var exception1 = Record.Exception(() => new VariableFunction(name));
-        var exception2 = Record.Exception(() => new VariableFunction(name, value));
+        var exception = Record.Exception(() => func = new VariableFunction(name, value));
 
         // Assert
-        exception1.Should().BeNull();
-        exception2.Should().BeNull();
+        exception.Should().BeNull();
+        func.Name.Should().Be(name);
+        func.Value.Should().Be(value);
     }
 
-    [Fact(DisplayName = "Cannot be created when name is null or empty.")]
+    [Fact(DisplayName = "Can be created without value.")]
     [Trait("Category", "Constructors")]
-    public void CanNotBeCreatedWhenStringIsNullOrEmpty()
+    public void CanBeCreatedWithoutValue()
     {
         // Arrange
-        var value = 14.17;
+        var name = "x1";
+        VariableFunction func = null!;
 
         // Act
-        var exception1 = Record.Exception(() => new VariableFunction(string.Empty));
-        var exception2 = Record.Exception(() => new VariableFunction(null!));
-        var exception3 = Record.Exception(() => new VariableFunction(string.Empty, value));
-        var exception4 = Record.Exception(() => new VariableFunction(null!, value));
+        var exception = Record.Exception(() => func = new VariableFunction(name));
 
         // Assert
-        new Exception[] { exception1, exception2, exception3, exception4 }.Should().AllBeOfType<ArgumentNullException>();
-    }
-    #endregion
-
-    #region Свойства
-
-    [Fact(DisplayName = "Can get value.")]
-    [Trait("Category", "Properties")]
-    public void CanGetValue()
-    {
-        // Arrange
-        var expectedValue = 144;
-
-        // Act
-        double? result = new VariableFunction("name", 144).Value;
-
-        // Assert
-        result.Should().Be(expectedValue);
+        exception.Should().BeNull();
+        func.Name.Should().Be(name);
+        func.Value.Should().Be(null);
     }
 
-    [Fact(DisplayName = "Value propertie return null when value is missing.")]
-    [Trait("Category", "Properties")]
-    public void ValueReturnNullWhenValueIsMissing()
+    [Theory(DisplayName = "Cannot be created when name is null or empty.")]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData(" \r  \n")]
+    [Trait("Category", "Constructors")]
+    public void CanNotBeCreatedWhenStringIsNullOrEmpty(string name)
     {
         // Act
-        double? result = new VariableFunction("name").Value;
+        var exception = Record.Exception(() => new VariableFunction(name));
 
         // Assert
-        result.Should().BeNull();
-    }
-
-    [Fact(DisplayName = "Can get name.")]
-    [Trait("Category", "Properties")]
-    public void CanGetName()
-    {
-        // Arrange
-        var expectedValue = "x3";
-
-        // Act
-        string result = new VariableFunction("x3").Name;
-
-        // Assert
-        result.Should().Be(expectedValue);
+        exception.Should().BeOfType<ArgumentException>();
     }
     #endregion
 
@@ -162,31 +95,19 @@ public class VariableFunctionTests
     public void CanGetDerivative()
     {
         // Act
-        IFunction result = new VariableFunction("name").Derivative();
+        var result = new VariableFunction("name").Derivative();
 
         // Assert
         result.Should().Be(new NumberFunction(1));
     }
 
-    [Theory(DisplayName = "Equals VF and object works.")]
-    [Trait("Category", "Methods")]
-    [MemberData(nameof(EqualsVFAndObjectData), MemberType = typeof(VariableFunctionTests))]
-    public void EqualsVFAndObjectFunctionWork(VariableFunction function, object other, bool expectedValue)
-    {
-        // Act
-        bool result = function.Equals(other);
-
-        // Assert
-        result.Should().Be(expectedValue);
-    }
-
     [Theory(DisplayName = "Equals VF and other function works.")]
     [Trait("Category", "Methods")]
-    [MemberData(nameof(EqualsVFAndOtherFunctionData), MemberType = typeof(VariableFunctionTests))]
+    [MemberData(nameof(VariableFunctionTestsData.EqualsVFAndOtherFunctionData), MemberType = typeof(VariableFunctionTestsData))]
     public void EqualsVFAndOtherFunctionWork(VariableFunction function, IFunction other, bool expectedValue)
     {
         // Act
-        bool result = function.Equals(other);
+        var result = function.Equals(other);
 
         // Assert
         result.Should().Be(expectedValue);
