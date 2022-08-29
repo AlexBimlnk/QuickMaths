@@ -116,9 +116,11 @@ public class EntityNodeTests
     [Trait("Category", "Methods")]
     public void ToStringWorks()
     {
+        // Arrange
         var entity = new FakeEntity();
         var entityNode = new EntityNode<FakeEntity>(entity);
 
+        // Act
         var result = entityNode.ToString();
 
         // Assert
