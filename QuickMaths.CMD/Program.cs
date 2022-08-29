@@ -102,9 +102,6 @@ internal class Program
 
         tree2.Add(ArithmeticOperator.Plus, tree21);
 
-        Console.WriteLine(tree2.GetStringView());
-
-
         tree1.Add(ArithmeticOperator.Plus, tree3);
         tree3.Add(ArithmeticOperator.Plus, a);
         tree3.Add(ArithmeticOperator.Plus, b);
@@ -114,22 +111,8 @@ internal class Program
         Console.WriteLine(tree3);
         Console.WriteLine(tree1);
 
-        Console.WriteLine(tree3.GetStringView());
-        Console.WriteLine(tree1.GetStringView());
 
         Console.ReadLine();
-
-        var list = new List<IFunction>()
-        {
-            new NumberFunction(1),
-            new CompositeFunction("4*x")
-        };
-
-        //NumberFunction numberFunction = new NumberFunction(1);
-        //numberFunction.Derivative() -> Ошибка, метод скрыт.
-        //Но так метод вызвать можно
-        foreach (var i in list)
-            Console.WriteLine($"Deravative {i} = {i.Derivative()}");
 
 
         //CompositeFunction sm1 = new CompositeFunction("15*x^2+4*x+x");

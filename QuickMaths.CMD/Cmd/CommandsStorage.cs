@@ -42,14 +42,14 @@ internal static class CommandsStorage
     private static void CreateFunction()
     {
         Console.Write("\tWrite function: ");
-        string functionString = Console.ReadLine();
+        var functionString = Console.ReadLine();
 
         Console.Write($"\tWrite name for function: ");
-        string functionName = Console.ReadLine();
+        var functionName = Console.ReadLine();
 
         try
         {
-            ConsoleHelper.Functions.Add(functionName, new CompositeFunction(functionString));
+            //ConsoleHelper.Functions.Add(functionName, new CompositeFunction(functionString));
         }
         catch (ArgumentException ex)
         {
