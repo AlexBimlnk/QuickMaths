@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-using QuickMaths.Functions.Functions;
+using QuickMaths.Matrices;
 
 namespace QuickMaths.CMD;
 
@@ -11,6 +10,7 @@ internal class Program
     {
         Console.WriteLine("Hello World!");
 
+        var a = new Matrix(3, 3);
 
         Console.ReadKey();
     }

@@ -1,23 +1,36 @@
 ﻿using QuickMaths.General.Abstractions;
 
-namespace QuickMaths.Matrix;
+namespace QuickMaths.Matrices;
 
 /// <summary>
 /// Класс реализует представление математической матрицы.
 /// </summary>
-public struct Matrix : IEquatable<Matrix>, IArithmeticable
+public sealed class Matrix : IEquatable<Matrix>, IArithmeticable
 {
-    public Matrix()
+    private readonly List<List<double>> _table;
+
+    public Matrix(IReadOnlyCollection<IReadOnlyCollection<double>> table)
     {
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(table, nameof(table));
+
+        //_table = new List<List<double>>(table);
     }
 
-    public Matrix(long rows, long columns)
+    public Matrix(int rows, int columns)
     {
-        if (rows < 0 || columns < 0)
-            throw new ArgumentException(null, $"{nameof(rows)} or {nameof(columns)}");
+        if (rows <= 0 || columns <= 0)
+            throw new ArgumentOutOfRangeException($"{nameof(rows)} or {nameof(columns)}");
 
-        Table = new decimal[rows, columns];
+        var column = new double[columns];
+        _table = new List<List<double>>(rows);
+        _table.AddRange(Enumerable.Range(0, rows)
+            .Select(x =>
+            {
+                var columnList = new List<double>(columns);
+                columnList.AddRange(column);
+
+                return columnList;
+            }));
     }
     public Matrix(decimal[,] table)
     {
@@ -25,11 +38,12 @@ public struct Matrix : IEquatable<Matrix>, IArithmeticable
     }
 
     public decimal[,] Table { get; init; }
-    public long RowsCount => Table.GetLength(0);
-    public long ColumnsCount => Table.GetLength(1);
+    public int RowsCount => Table.GetLength(0);
+    public int ColumnsCount => Table.GetLength(1);
 
+    
 
-    public Matrix GetRow(long indexRow)
+    public Matrix GetRow(int indexRow)
     {
         if (indexRow < 0 || indexRow >= RowsCount)
             throw new IndexOutOfRangeException($"Индекс {nameof(indexRow)} находится вне границ.");
@@ -43,7 +57,7 @@ public struct Matrix : IEquatable<Matrix>, IArithmeticable
 
         return matrix;
     }
-    public Matrix GetColumn(long indexColumn)
+    public Matrix GetColumn(int indexColumn)
     {
         if (indexColumn < 0 || indexColumn >= ColumnsCount)
             throw new IndexOutOfRangeException($"Индекс {nameof(indexColumn)} находится вне границ.");
