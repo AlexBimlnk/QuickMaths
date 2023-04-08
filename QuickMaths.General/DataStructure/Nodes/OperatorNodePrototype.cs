@@ -3,7 +3,7 @@ using QuickMaths.General.Enums;
 
 namespace QuickMaths.General.DataStructure.Nodes;
 
-/// <summary xml:lang = "ru">
+/// <summary>
 /// Узел, представляющий математический оператор.
 /// </summary>
 public sealed class OperatorNodePrototype : IOperatorNode
@@ -11,16 +11,16 @@ public sealed class OperatorNodePrototype : IOperatorNode
     private INodeExpression _firstNode;
     private INodeExpression _secondNode;
 
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Создает новый экземпляр типа <see cref="OperatorNodePrototype"/>.
     /// </summary>
-    /// <param name="operator" xml:lang = "ru">
+    /// <param name="operator">
     /// Арифметический оператор.
     /// </param>
-    /// <param name="firstNode" xml:lang = "ru">
+    /// <param name="firstNode">
     /// Первый узел, связанный арифметическим оператором.
     /// </param>
-    /// <param name="secondNode" xml:lang = "ru">
+    /// <param name="secondNode">
     /// Второй узел, связанный арифметическим оператором.
     /// </param>
     /// <exception cref="ArgumentNullException"/>

@@ -3,18 +3,18 @@ using QuickMaths.General.Enums;
 
 namespace QuickMaths.General.DataStructure.Nodes;
 
-/// <summary xml:lang = "ru">
+/// <summary>
 /// Узел дерева выражений, содержащий сущность.
 /// </summary>
-/// <typeparam name="TEntity" xml:lang = "ru">
+/// <typeparam name="TEntity">
 /// Тип сущности, который будет содержать данный узел.
 /// </typeparam>
 public sealed class EntityNode<TEntity> : IEntityNode<TEntity>
 {
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Создает новый экземпляр типа <see cref="EntityNode{TEntity}"/>.
     /// </summary>
-    /// <param name="entity" xml:lang = "ru">
+    /// <param name="entity">
     /// Сущность типа <typeparamref name="TEntity"/>, которую будет хранить в себе узел.
     /// </param>
     /// <exception cref="ArgumentNullException"/>

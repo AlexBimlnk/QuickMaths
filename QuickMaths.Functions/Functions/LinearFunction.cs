@@ -1,29 +1,29 @@
-﻿using System.Text;
+﻿namespace QuickMaths.Functions.Functions;
 
-using QuickMaths.General.Abstractions;
-
-namespace QuickMaths.FunctionsBLL.Functions;
-
-/// <summary xml:lang = "ru">
+/// <summary>
 /// Представляет линейную функцию.
 /// </summary>
 public class LinearFunction : IFunction
 {
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Конструктор линейной функции.
     /// </summary>
-    /// <param name="argument" xml:lang = "ru">
+    /// <param name="argument">
     /// Аргумент в линейной функции.
     /// </param>
     /// <exception cref="ArgumentNullException"></exception>
-    public LinearFunction(IFunction argument) => Argument = argument ?? throw new ArgumentNullException(nameof(argument));
-    /// <summary xml:lang = "ru">
+    public LinearFunction(IFunction argument)
+    {
+        Argument = argument ?? throw new ArgumentNullException(nameof(argument));
+    }
+
+    /// <summary>
     /// Конструктор линейной функции.
     /// </summary>
-    /// <param name="argument" xml:lang = "ru">
+    /// <param name="argument">
     /// Аргумент в линейной функции.
     /// </param>
-    /// <param name="koef" xml:lang = "ru">
+    /// <param name="koef">
     /// Коэффициент в линейной функции.
     /// </param>
     /// <exception cref="ArgumentNullException"></exception>
@@ -34,11 +34,12 @@ public class LinearFunction : IFunction
     }
 
 
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Коэффициент линейной функции.
     /// </summary>
     public IFunction Koef { get; } = new NumberFunction(1);
-    /// <summary xml:lang = "ru">
+
+    /// <summary>
     /// Аргумент линейной функции.
     /// </summary>
     public IFunction Argument { get; }
@@ -57,7 +58,7 @@ public class LinearFunction : IFunction
         return false;
     }
     /// <inheritdoc/>
-    public bool Equals(IFunction? other) => other is LinearFunction linearFunction && 
+    public bool Equals(IFunction? other) => other is LinearFunction linearFunction &&
         Koef.Equals(linearFunction.Koef) && Argument.Equals(linearFunction.Argument);
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Koef, Argument, nameof(LinearFunction));

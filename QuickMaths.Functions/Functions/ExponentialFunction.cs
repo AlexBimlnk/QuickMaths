@@ -1,21 +1,19 @@
-﻿using QuickMaths.General.Abstractions;
-
-namespace QuickMaths.FunctionsBLL.Functions;
+﻿namespace QuickMaths.Functions.Functions;
 
 /// <summary>
-/// Степенная функция.
+/// Показательная функция.
 /// <list type="bullet">
 ///     <item>
-///         <term>x^2</term>
-///         <description>Является степенной функцией.</description>
+///         <term>e^x</term>
+///         <description>Является показательной функцией.</description>
 ///     </item>
 ///     <item>
-///         <term>y^4</term>
-///         <description>Является степенной функцией.</description>
+///         <term>2^y</term>
+///         <description>Является показательной функцией.</description>
 ///     </item>
 /// </list>
 /// </summary>
-public class PowerFunction : IFunction
+public class ExponentialFunction : IFunction
 {
     public double Calculate() => throw new NotImplementedException();
 

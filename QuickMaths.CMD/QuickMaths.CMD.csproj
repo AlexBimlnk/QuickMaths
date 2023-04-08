@@ -2,15 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuickMaths.FunctionsBLL\QuickMaths.FunctionsBLL.csproj" />
-    <ProjectReference Include="..\QuickMaths.General\QuickMaths.General.csproj" />
-    <ProjectReference Include="..\QuickMaths.MatrixBLL\QuickMaths.MatrixBLL.csproj" />
+    <ProjectReference Include="..\QuickMaths.Functions\QuickMaths.Functions.csproj" />
+    <ProjectReference Include="..\QuickMaths.Matrices\QuickMaths.Matrices.csproj" />
   </ItemGroup>
 
 </Project>

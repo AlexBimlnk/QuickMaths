@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuickMaths.FunctionsBLL\QuickMaths.FunctionsBLL.csproj" />
     <ProjectReference Include="..\QuickMaths.General\QuickMaths.General.csproj" />
+    <ProjectReference Include="..\QuickMaths.Matrices\QuickMaths.Matrices.csproj" />
   </ItemGroup>
 
 </Project>

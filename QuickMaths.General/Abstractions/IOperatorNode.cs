@@ -2,12 +2,12 @@
 
 namespace QuickMaths.General.Abstractions;
 
-/// <summary xml:lang = "ru">
+/// <summary>
 /// Интерфейс, описывающий узлы-операторы в дереве выражений.
 /// </summary>
 public interface IOperatorNode : INodeExpression
 {
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Арифметический оператор.
     /// </summary>
     public ArithmeticOperator Operator { get; }
