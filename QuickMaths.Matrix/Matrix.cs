@@ -1,6 +1,6 @@
 ﻿using QuickMaths.General.Abstractions;
 
-namespace QuickMaths.MatrixBLL;
+namespace QuickMaths.Matrix;
 
 /// <summary>
 /// Класс реализует представление математической матрицы.

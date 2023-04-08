@@ -4,9 +4,9 @@ using Xunit;
 using FluentAssertions;
 
 using QuickMaths.General.Abstractions;
-using QuickMaths.FunctionsBLL.Functions;
+using QuickMaths.Functions.Functions;
 
-namespace QuickMaths.FunctionsBLL.Parser.Tests;
+namespace QuickMaths.Functions.Parser.Tests;
 
 public class FunctionParserTests
 {

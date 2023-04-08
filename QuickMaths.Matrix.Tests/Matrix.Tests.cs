@@ -1,9 +1,10 @@
 ﻿using System;
 
 using FluentAssertions;
+
 using Xunit;
 
-namespace QuickMaths.MatrixBLL.Tests;
+namespace QuickMaths.Matrix.Tests;
 
 public class MatrixTests
 {

@@ -2,12 +2,12 @@
 
 namespace QuickMaths.General.Abstractions;
 
-/// <summary xml:lang = "ru">
+/// <summary>
 /// Интерфейс, определяющий контракт поведения всех узлов в дереве выражений.
 /// </summary>
 public interface INodeExpression
 {
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Приоритет узла.
     /// </summary>
     public Priority Priority { get; }

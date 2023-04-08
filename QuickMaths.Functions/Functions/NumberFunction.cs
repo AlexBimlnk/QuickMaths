@@ -1,16 +1,16 @@
 ﻿using QuickMaths.General.Abstractions;
 
-namespace QuickMaths.FunctionsBLL.Functions;
+namespace QuickMaths.Functions.Functions;
 
-/// <summary xml:lang = "ru">
+/// <summary>
 /// Представляет числовую функцию.
 /// </summary>
 public sealed class NumberFunction : IFunction
 {
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Конструктор числовой функции.
     /// </summary>
-    /// <param name="stringFunction" xml:lang = "ru"> 
+    /// <param name="stringFunction"> 
     /// Представление функции в виде строки. 
     /// </param>
     /// <exception cref="ArgumentNullException"></exception>
@@ -25,16 +25,16 @@ public sealed class NumberFunction : IFunction
 
         Value = number;
     }
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Конструктор числовой функции.
     /// </summary>
-    /// <param name="value" xml:lang = "ru">
+    /// <param name="value">
     /// Число, представляющее функцию.
     /// </param>
     public NumberFunction(double value) => Value = value;
 
 
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Значение числовой функции.
     /// </summary>
     public double Value { get; }

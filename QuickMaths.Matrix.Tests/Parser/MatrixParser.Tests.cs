@@ -5,7 +5,7 @@ using FluentAssertions;
 
 using QuickMaths.General.Abstractions;
 
-namespace QuickMaths.MatrixBLL.Parser.Tests;
+namespace QuickMaths.Matrix.Parser.Tests;
 
 public class FunctionParserTests
 {

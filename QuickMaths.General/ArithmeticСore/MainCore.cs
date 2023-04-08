@@ -1,9 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿namespace QuickMaths.General.ArithmeticСore;
 
-[assembly: InternalsVisibleTo("QuickMaths.General.Tests")]
-namespace QuickMaths.General.ArithmeticСore;
-
-internal static class MainCore
+public static class MainCore
 {
 
 }

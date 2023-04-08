@@ -1,12 +1,13 @@
 ﻿using System;
 
 using FluentAssertions;
-using Xunit;
 
-using QuickMaths.FunctionsBLL.Functions;
+using QuickMaths.Functions.Functions;
 using QuickMaths.General.Abstractions;
 
-namespace QuickMaths.FunctionsBLL.Tests.Functions;
+using Xunit;
+
+namespace QuickMaths.Functions.Tests.Functions;
 
 public class LinearFunctionTests
 {
@@ -78,13 +79,13 @@ public class LinearFunctionTests
     public void CanCalculate()
     {
         // Arrange
-        
+
 
         // Act
-        
+
 
         // Assert
-        
+
     }
 
     [Fact(DisplayName = "Cannot calulate when value in argument or koef is missing.")]
@@ -94,7 +95,7 @@ public class LinearFunctionTests
         // Act
 
         // Assert
-        
+
     }
 
     [Fact(DisplayName = "Can get derivative.")]
@@ -102,10 +103,10 @@ public class LinearFunctionTests
     public void CanGetDerivative()
     {
         // Act
-        
+
 
         // Assert
-        
+
     }
 
     [Theory(DisplayName = "Equals LF and object works.")]

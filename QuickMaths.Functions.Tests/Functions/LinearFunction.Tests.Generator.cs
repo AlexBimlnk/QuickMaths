@@ -1,9 +1,9 @@
 ﻿using Xunit;
 
-using QuickMaths.FunctionsBLL.Functions;
+using QuickMaths.Functions.Functions;
 using QuickMaths.General.Abstractions;
 
-namespace QuickMaths.FunctionsBLL.Tests.Functions;
+namespace QuickMaths.Functions.Tests.Functions;
 
 internal class LinearFunctionTestsData
 {

@@ -1,8 +1,8 @@
 ﻿using QuickMaths.General.Abstractions;
 
-namespace QuickMaths.MatrixBLL.Parser;
+namespace QuickMaths.Matrix.Parser;
 
-/// <summary xml:lang = "ru">
+/// <summary>
 /// Парсер для матриц.
 /// </summary>
 public class MatrixParser : ParserBase<Matrix>

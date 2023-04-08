@@ -1,16 +1,16 @@
 ﻿using QuickMaths.General.Abstractions;
 
-namespace QuickMaths.FunctionsBLL.Functions;
+namespace QuickMaths.Functions.Functions;
 
 /// <summary>
 /// Представляет функцию, являющейся переменной.
 /// </summary>
 public sealed class VariableFunction : IFunction
 {
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Конструктор функции-переменной.
     /// </summary>
-    /// <param name="name" xml:lang = "ru">
+    /// <param name="name">
     /// Имя переменной.
     /// </param>
     /// <exception cref="ArgumentNullException"></exception>
@@ -21,13 +21,13 @@ public sealed class VariableFunction : IFunction
 
         Name = name;
     }
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Конструктор функции-переменной.
     /// </summary>
-    /// <param name="name" xml:lang = "ru">
+    /// <param name="name">
     /// Имя переменной.
     /// </param>
-    /// <param name="value" xml:lang = "ru">
+    /// <param name="value">
     /// Значение переменной.
     /// </param>
     /// <exception cref="ArgumentNullException"></exception>
@@ -41,11 +41,11 @@ public sealed class VariableFunction : IFunction
     }
 
 
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Имя функции-переменной.
     /// </summary>
     public string Name { get; }
-    /// <summary xml:lang = "ru">
+    /// <summary>
     /// Значение функции-переменной.
     /// </summary>
     public double? Value { get; set; }
