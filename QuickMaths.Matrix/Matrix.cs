@@ -7,7 +7,11 @@ namespace QuickMaths.Matrix;
 /// </summary>
 public struct Matrix : IEquatable<Matrix>, IArithmeticable
 {
-    public Matrix() => throw new NotImplementedException();
+    public Matrix()
+    {
+        throw new NotImplementedException();
+    }
+
     public Matrix(long rows, long columns)
     {
         if (rows < 0 || columns < 0)
@@ -15,8 +19,10 @@ public struct Matrix : IEquatable<Matrix>, IArithmeticable
 
         Table = new decimal[rows, columns];
     }
-    public Matrix(decimal[,] table) => Table = table?.Clone() as decimal[,] ?? throw new ArgumentNullException(nameof(table));
-
+    public Matrix(decimal[,] table)
+    {
+        Table = table?.Clone() as decimal[,] ?? throw new ArgumentNullException(nameof(table));
+    }
 
     public decimal[,] Table { get; init; }
     public long RowsCount => Table.GetLength(0);
@@ -30,7 +36,7 @@ public struct Matrix : IEquatable<Matrix>, IArithmeticable
 
         var matrix = new Matrix(1, ColumnsCount);
 
-        for (int i = 0; i < ColumnsCount; i++)
+        for (var i = 0; i < ColumnsCount; i++)
         {
             matrix[0, i] = Table[indexRow, i];
         }
@@ -44,7 +50,7 @@ public struct Matrix : IEquatable<Matrix>, IArithmeticable
 
         var matrix = new Matrix(RowsCount, 1);
 
-        for (int i = 0; i < RowsCount; i++)
+        for (var i = 0; i < RowsCount; i++)
         {
             matrix[i, 0] = Table[i, indexColumn];
         }
@@ -64,11 +70,11 @@ public struct Matrix : IEquatable<Matrix>, IArithmeticable
         if (other.ColumnsCount == ColumnsCount &&
             other.RowsCount == RowsCount)
         {
-            for (int i = 0; i < RowsCount; i++)
+            for (var i = 0; i < RowsCount; i++)
             {
-                for (int j = 0; j < ColumnsCount; j++)
+                for (var j = 0; j < ColumnsCount; j++)
                 {
-                    bool isEqualsElement = this[i, j] == other[i, j];
+                    var isEqualsElement = this[i, j] == other[i, j];
 
                     if (!isEqualsElement)
                         return false;
@@ -103,10 +109,10 @@ public struct Matrix : IEquatable<Matrix>, IArithmeticable
         }
 
 
-        decimal[,] table = new decimal[matrix1.RowsCount, matrix1.ColumnsCount];
+        var table = new decimal[matrix1.RowsCount, matrix1.ColumnsCount];
 
-        for (int i = 0; i < matrix1.RowsCount; i++)
-            for (int j = 0; j < matrix1.ColumnsCount; j++)
+        for (var i = 0; i < matrix1.RowsCount; i++)
+            for (var j = 0; j < matrix1.ColumnsCount; j++)
                 table[i, j] = matrix1.Table[i, j] + matrix2.Table[i, j];
 
         return new Matrix(table);
@@ -123,10 +129,10 @@ public struct Matrix : IEquatable<Matrix>, IArithmeticable
         }
 
 
-        decimal[,] table = new decimal[matrix1.RowsCount, matrix1.ColumnsCount];
+        var table = new decimal[matrix1.RowsCount, matrix1.ColumnsCount];
 
-        for (int i = 0; i < matrix1.RowsCount; i++)
-            for (int j = 0; j < matrix1.ColumnsCount; j++)
+        for (var i = 0; i < matrix1.RowsCount; i++)
+            for (var j = 0; j < matrix1.ColumnsCount; j++)
                 table[i, j] = matrix1.Table[i, j] - matrix2.Table[i, j];
 
         return new Matrix(table);
@@ -134,36 +140,33 @@ public struct Matrix : IEquatable<Matrix>, IArithmeticable
 
     public static Matrix operator *(Matrix matrix, decimal k)
     {
-        decimal[,] table = new decimal[matrix.RowsCount, matrix.ColumnsCount];
+        var table = new decimal[matrix.RowsCount, matrix.ColumnsCount];
 
-        for (int i = 0; i < matrix.RowsCount; i++)
-            for (int j = 0; j < matrix.ColumnsCount; j++)
+        for (var i = 0; i < matrix.RowsCount; i++)
+            for (var j = 0; j < matrix.ColumnsCount; j++)
                 table[i, j] = matrix.Table[i, j] * k;
 
         return new Matrix(table);
     }
-    public static Matrix operator *(decimal k, Matrix matrix)
-    {
-        return matrix * k;
-    }
+    public static Matrix operator *(decimal k, Matrix matrix) => matrix * k;
 
     public static Matrix operator *(Matrix matrix1, Matrix matrix2)
     {
-        long column1 = matrix1.ColumnsCount;
-        long row2 = matrix2.RowsCount;
+        var column1 = matrix1.ColumnsCount;
+        var row2 = matrix2.RowsCount;
 
         if (column1 != row2)
             throw new ArithmeticException("Количество столбцов первой матрицы " +
                                           "не равно количеству строк второй матрицы.");
 
-        long row1 = matrix1.RowsCount;
-        long column2 = matrix2.ColumnsCount;
+        var row1 = matrix1.RowsCount;
+        var column2 = matrix2.ColumnsCount;
 
-        decimal[,] table = new decimal[row1, column2];
+        var table = new decimal[row1, column2];
 
-        for (int i = 0; i < row1; i++)
-            for (int j = 0; j < column2; j++)
-                for (int k = 0; k < column1; k++)
+        for (var i = 0; i < row1; i++)
+            for (var j = 0; j < column2; j++)
+                for (var k = 0; k < column1; k++)
                     table[i, j] += matrix1.Table[i, k] * matrix2.Table[k, j];
 
         return new Matrix(table);

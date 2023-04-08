@@ -1,60 +1,57 @@
-﻿using QuickMaths.General.Abstractions;
-
-namespace QuickMaths.Functions.Functions;
+﻿namespace QuickMaths.Functions.Functions;
 
 /// <summary>
 /// Представляет числовую функцию.
 /// </summary>
-public sealed class NumberFunction : IFunction
+public readonly record struct NumberFunction : IFunction
 {
     /// <summary>
-    /// Конструктор числовой функции.
-    /// </summary>
-    /// <param name="stringFunction"> 
-    /// Представление функции в виде строки. 
-    /// </param>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="FormatException"></exception>
-    public NumberFunction(string stringFunction)
-    {
-        if (string.IsNullOrEmpty(stringFunction))
-            throw new ArgumentNullException(nameof(stringFunction));
-
-        if (!double.TryParse(stringFunction, out double number))
-            throw new FormatException($"Input string has invalid format");
-
-        Value = number;
-    }
-    /// <summary>
-    /// Конструктор числовой функции.
+    /// Создает новый объект типа <see cref="NumberFunction"/>.
     /// </summary>
     /// <param name="value">
     /// Число, представляющее функцию.
     /// </param>
-    public NumberFunction(double value) => Value = value;
+    public NumberFunction(double value)
+    {
+        Value = value;
+    }
 
+    /// <summary>
+    /// Возвращает числовую функцию с нулевым значением.
+    /// </summary>
+    public static NumberFunction Zero => new();
 
     /// <summary>
     /// Значение числовой функции.
     /// </summary>
-    public double Value { get; }
+    public double Value { get; } = 0;
 
+    #region Operators
+
+    public static NumberFunction operator +(NumberFunction other) => other;
+    public static NumberFunction operator -(NumberFunction other) => new(-other.Value);
+    public static NumberFunction operator +(NumberFunction first, NumberFunction second) => 
+        new(first.Value + second.Value);
+    public static NumberFunction operator -(NumberFunction first, NumberFunction second) =>
+        new(first.Value - second.Value);
+    public static NumberFunction operator *(NumberFunction first, NumberFunction second) =>
+        new(first.Value * second.Value);
+    public static NumberFunction operator /(NumberFunction first, NumberFunction second) =>
+        new(first.Value / second.Value);
+    
+    #endregion
 
     /// <inheritdoc/>
     public double Calculate() => Value;
+
     /// <inheritdoc/>
-    IFunction IFunction.Derivative() => null!;
+    IFunction IFunction.Derivative() => Zero;
+
     /// <inheritdoc/>
-    public override bool Equals(object? obj)
-    {
-        if (obj is IFunction function)
-            return Equals(function);
-        return false;
-    }
-    /// <inheritdoc/>
-    public bool Equals(IFunction? other) => other is NumberFunction numberFunction && numberFunction.Value == Value;
+    public bool Equals(IFunction? other) => 
+        other is NumberFunction numberFunction &&
+        numberFunction.Value == Value;
+    
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Value, nameof(NumberFunction));
-    /// <inheritdoc/>
-    public override string ToString() => Value.ToString();
 }

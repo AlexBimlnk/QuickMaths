@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using QuickMaths.General.Abstractions;
+using QuickMaths.Functions.Functions;
 
 namespace QuickMaths.CMD.Cmd;
 

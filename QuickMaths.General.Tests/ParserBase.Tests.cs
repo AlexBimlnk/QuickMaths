@@ -14,7 +14,7 @@ public class ParserBaseTests
     #region Методы
 
     [Fact(DisplayName = "Can not parse when token was canceled.")]
-    [Trait("Category", "Methods")]
+    [Trait("Category", "Unit")]
     public async void CanNotParseAsyncWhenTokenWasCanceledAsync()
     {
         // Arrange
@@ -33,7 +33,7 @@ public class ParserBaseTests
     }
 
     [Fact(DisplayName = "Can call parse async.")]
-    [Trait("Category", "Methods")]
+    [Trait("Category", "Unit")]
     public async void CanParseAsync()
     {
         // Arrange

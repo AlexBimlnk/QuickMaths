@@ -1,8 +1,4 @@
-﻿using System.Text;
-
-using QuickMaths.General.Abstractions;
-
-namespace QuickMaths.Functions.Functions;
+﻿namespace QuickMaths.Functions.Functions;
 
 /// <summary>
 /// Представляет линейную функцию.
@@ -16,7 +12,11 @@ public class LinearFunction : IFunction
     /// Аргумент в линейной функции.
     /// </param>
     /// <exception cref="ArgumentNullException"></exception>
-    public LinearFunction(IFunction argument) => Argument = argument ?? throw new ArgumentNullException(nameof(argument));
+    public LinearFunction(IFunction argument)
+    {
+        Argument = argument ?? throw new ArgumentNullException(nameof(argument));
+    }
+
     /// <summary>
     /// Конструктор линейной функции.
     /// </summary>
@@ -38,6 +38,7 @@ public class LinearFunction : IFunction
     /// Коэффициент линейной функции.
     /// </summary>
     public IFunction Koef { get; } = new NumberFunction(1);
+
     /// <summary>
     /// Аргумент линейной функции.
     /// </summary>
@@ -57,7 +58,7 @@ public class LinearFunction : IFunction
         return false;
     }
     /// <inheritdoc/>
-    public bool Equals(IFunction? other) => other is LinearFunction linearFunction && 
+    public bool Equals(IFunction? other) => other is LinearFunction linearFunction &&
         Koef.Equals(linearFunction.Koef) && Argument.Equals(linearFunction.Argument);
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Koef, Argument, nameof(LinearFunction));

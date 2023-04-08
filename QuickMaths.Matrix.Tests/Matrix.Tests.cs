@@ -11,7 +11,7 @@ public class MatrixTests
     #region Конструкторы
 
     [Fact(DisplayName = "Can be created.")]
-    [Trait("Category", "Constructors")]
+    [Trait("Category", "Unit")]
     public void CanBeCreated()
     {
         // Arrange
@@ -28,7 +28,7 @@ public class MatrixTests
     }
 
     [Fact(DisplayName = "Cannot be created when size is incorrect.")]
-    [Trait("Category", "Constructors")]
+    [Trait("Category", "Unit")]
     public void CanNotBeCreatedWhenSizeIsIncorrect()
     {
         // Arrange
@@ -47,7 +47,7 @@ public class MatrixTests
     }
 
     [Fact(DisplayName = "Cannot be created when table is missing.")]
-    [Trait("Category", "Constructors")]
+    [Trait("Category", "Unit")]
     public void CanNotBeCreatedWhenTableIsMissing()
     {
         // Act
@@ -96,7 +96,7 @@ public class MatrixTests
     #region Методы
 
     [Theory(DisplayName = "Can get row as matrix if index is valid.")]
-    [Trait("Category", "Methods")]
+    [Trait("Category", "Unit")]
     [MemberData(nameof(MatrixTestsData.GetRowFromMatrixData), MemberType = typeof(MatrixTestsData))]
     public void CanGetRowAsMatrix(Matrix matrix, long index, Matrix expectedMatrix)
     {
@@ -119,7 +119,7 @@ public class MatrixTests
     }
 
     [Theory(DisplayName = "Can get column as matrix if index is valid.")]
-    [Trait("Category", "Methods")]
+    [Trait("Category", "Unit")]
     [MemberData(nameof(MatrixTestsData.GetColumnFromMatrixData), MemberType = typeof(MatrixTestsData))]
     public void CanGetColumnAsMatrix(Matrix matrix, long index, Matrix expectedMatrix)
     {
@@ -142,7 +142,7 @@ public class MatrixTests
     }
 
     [Theory(DisplayName = "Equals matrix and object works.")]
-    [Trait("Category", "Methods")]
+    [Trait("Category", "Unit")]
     [MemberData(nameof(MatrixTestsData.EqualsMatrixAndObjectData), MemberType = typeof(MatrixTestsData))]
     public void EqualsMatrixAndObjectWork(Matrix firstMatrix, object other, bool expectedResult)
     {
@@ -154,7 +154,7 @@ public class MatrixTests
     }
 
     [Theory(DisplayName = "Equals two matrixs works.")]
-    [Trait("Category", "Methods")]
+    [Trait("Category", "Unit")]
     [MemberData(nameof(MatrixTestsData.EqualsTwoMatrixData), MemberType = typeof(MatrixTestsData))]
     public void EqualsTwoMatrixWork(Matrix firstMatrix, Matrix other, bool expectedResult)
     {

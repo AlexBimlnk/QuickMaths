@@ -10,7 +10,7 @@ public class MainCoreTests
     #region Методы
 
     [Fact(DisplayName = "Can be created.")]
-    [Trait("Category", "Methods")]
+    [Trait("Category", "Unit")]
     public void SomeMethod()
     {
         // Arrange

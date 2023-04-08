@@ -1,7 +1,9 @@
-﻿namespace QuickMaths.General.Abstractions;
+﻿using QuickMaths.General.Abstractions;
+
+namespace QuickMaths.Functions.Functions;
 
 /// <summary>
-/// Интерфейс функции.
+/// Описывает функцию.
 /// </summary>
 public interface IFunction : IEquatable<IFunction>, IArithmeticable
 {
@@ -13,6 +15,7 @@ public interface IFunction : IEquatable<IFunction>, IArithmeticable
     /// </returns>
     /// <exception cref="InvalidOperationException"></exception>
     public double Calculate();
+
     /// <summary>
     /// Возвращает производную данной функции.
     /// </summary>

@@ -1,6 +1,4 @@
-﻿using QuickMaths.General.Abstractions;
-
-namespace QuickMaths.Functions.Functions;
+﻿namespace QuickMaths.Functions.Functions;
 
 //TODO: Класс "Функция"
 /// <summary>

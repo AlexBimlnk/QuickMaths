@@ -10,7 +10,7 @@ public class NodeTests
     #region Конструкторы
 
     [Fact(DisplayName = "Can be created.")]
-    [Trait("Category", "Constructors")]
+    [Trait("Category", "Unit")]
     public void CanBeCreated()
     {
         // Arrange
